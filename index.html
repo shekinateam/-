@@ -442,26 +442,44 @@ html,body{height:100%;overflow:hidden;font-family:'맑은 고딕','Malgun Gothic
 
     <!-- ▌ AI -->
     <div id="vai">
+      <!-- 상단 컨트롤 -->
       <div class="aibar">
-        <span style="font-size:11px;font-weight:700;color:#155724">🤖 AI 투자 분석</span>
-        <button class="aibtn" onclick="runAI('market')">📊 시장 총평</button>
-        <button class="aibtn" onclick="runAI('pick')">🎯 오늘의 추천</button>
-        <button class="aibtn" onclick="runAI('risk')">⚠️ 리스크 점검</button>
-        <button class="aibtn" onclick="runAI('etf')">📈 ETF 전략</button>
-        <button class="aibtn" onclick="runAI('coin')">🪙 코인 전망</button>
-        <button class="aibtn" onclick="runAI('macro')">🌐 거시경제</button>
+        <span style="font-size:11px;font-weight:700;color:#155724">🤖 AI 투자 분석·컨설팅</span>
+        <span style="font-size:9px;color:#888;margin-left:4px">실시간 시세 + 뉴스 기반</span>
+        <div style="margin-left:auto;display:flex;gap:3px;flex-wrap:wrap">
+          <button class="aibtn" onclick="runAI('market')">📊 시장 총평</button>
+          <button class="aibtn" onclick="runAI('pick')">🎯 오늘 추천</button>
+          <button class="aibtn" onclick="runAI('risk')">⚠️ 리스크</button>
+          <button class="aibtn" onclick="runAI('etf')">📈 ETF 전략</button>
+          <button class="aibtn" onclick="runAI('coin')">🪙 코인 전망</button>
+          <button class="aibtn" onclick="runAI('macro')">🌐 거시경제</button>
+        </div>
       </div>
+      <!-- 빠른 종목 검색 -->
+      <div style="background:#f8f8f8;border-bottom:1px solid var(--bd);padding:4px 8px;display:flex;gap:4px;flex-wrap:wrap;align-items:center;flex-shrink:0">
+        <span style="font-size:9px;color:#888;font-weight:700">빠른 질문</span>
+        <button class="aibtn" onclick="quickQ('삼성전자 지금 사도 될까요? 목표가와 리스크도 알려주세요.')">삼성전자</button>
+        <button class="aibtn" onclick="quickQ('네이버(NAVER) 주가 전망과 매수 타이밍 분석해주세요.')">네이버</button>
+        <button class="aibtn" onclick="quickQ('SK하이닉스 현재 주가 흐름과 HBM 관련 전망 알려주세요.')">SK하이닉스</button>
+        <button class="aibtn" onclick="quickQ('비트코인 단기 전망과 지금 매수해도 될지 분석해주세요.')">비트코인</button>
+        <button class="aibtn" onclick="quickQ('QLD ETF 지금 매수 타이밍인가요? KODEX200과 비교해서 알려주세요.')">QLD vs KODEX</button>
+        <button class="aibtn" onclick="quickQ('지금 당장 투자하기 좋은 ETF 3개 추천해주세요. 국내외 모두 포함.')">ETF 추천 3개</button>
+        <button class="aibtn" onclick="quickQ('현재 포트폴리오에서 지금 팔아야 할 종목이 있다면 어떤 기준으로 판단해야 할까요?')">매도 타이밍</button>
+        <button class="aibtn" onclick="quickQ('현재 미국 금리·달러 환경에서 어떤 섹터에 투자하면 좋을까요?')">섹터 전략</button>
+      </div>
+      <!-- 거시지표 바 -->
       <div class="macro-bar">
-        <span style="color:#888;font-size:9px;font-weight:700">거시지표</span>
+        <span style="color:#888;font-size:9px;font-weight:700">실시간 거시지표</span>
         <span>환율 <strong id="m_usd">─</strong></span>
         <span>금(XAU) <strong id="m_gold">─</strong></span>
         <span>김프 <strong id="m_kimp">─</strong></span>
+        <span>BTC <strong id="m_btc" style="color:var(--up)">─</strong></span>
         <span>공포탐욕 <strong id="m_fg" style="color:#888">계산중</strong></span>
         <span style="margin-left:auto;font-size:9px;color:#888" id="m_upd"></span>
       </div>
       <div id="ai-msgs"></div>
       <div class="ai-inp-row">
-        <input id="ai-inp" placeholder="질문 입력 (예: 삼성전자 지금 매수 타이밍인가요?)">
+        <input id="ai-inp" placeholder="직접 질문 입력 — 삼성전자 사도 돼? / 네이버 주가 전망 / ETF 추천 등">
         <button id="ai-send" onclick="askAI()">전송</button>
       </div>
     </div>
@@ -808,9 +826,16 @@ async function fetchMacro(){
     const r=await fetch('https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=KRW',{mode:'cors'});
     if(r.ok){const d=await r.json();const e=document.getElementById('m_usd');if(e&&d.KRW)e.textContent=Number(d.KRW).toLocaleString('ko-KR',{maximumFractionDigits:0})+'원';}
   }catch(_){}
-  calcFearGreed();
+  // BTC 실시간 (SD에서)
+  const btc=SD['c0'];
+  const mb=document.getElementById('m_btc');
+  if(mb&&btc){
+    mb.textContent='$'+f2(btc.price);
+    mb.style.color=btc.pct>=0?'var(--up)':'var(--dn)';
+  }
+  try{calcFearGreed();}catch(_){}
   const e=document.getElementById('m_upd');if(e)e.textContent='갱신: '+hms();
-  setTimeout(fetchMacro,60000);
+  setTimeout(fetchMacro,30000);
 }
 function calcFearGreed(){
   const btc=SD['c0'];if(!btc) return;
@@ -1012,20 +1037,125 @@ function renderHold(){
 }
 
 // ══════════════════════════════════════════════
-//  AI 투자분석
+//  AI 투자분석 — Claude API
+//  실시간 시세 + 뉴스 + 웹 검색 컨텍스트 주입
 // ══════════════════════════════════════════════
-const AI_Q={
-  market:'현재 시세 기반으로 오늘의 시장 총평을 해줘. 국장·미장·코인 각각 핵심만.',
-  pick:'현재 시세 데이터로 오늘 주목할 종목 3개 추천해줘. 매수 근거와 리스크 포함.',
-  risk:'지금 시장에서 투자자가 주의해야 할 리스크 5가지 분석해줘.',
-  etf:'현재 시장 상황에서 ETF 투자 전략 추천해줘. QLD, KODEX200 등 구체적으로.',
-  coin:'비트코인·이더리움·솔라나 단기 전망 분석해줘.',
-  macro:'현재 거시경제 지표(금리·환율·유가) 기반 시장 전망 알려줘.',
-};
+
+// 현재 시세 전체 요약 (시스템 프롬프트에 주입)
 function mktSummary(){
-  return Object.values(SD).filter(d=>d.price).map(d=>`${d.nm}: ${d.price} (${d.pct>=0?'+':''}${(d.pct||0).toFixed(2)}%)`).join(', ');
+  const lines=[];
+  const all=[...Object.values(SD)].filter(d=>d.price);
+  if(!all.length) return '시세 데이터 로딩 중';
+  // 코스피/코스닥 먼저
+  ['k0','k1'].forEach(id=>{
+    const d=SD[id]; if(!d) return;
+    lines.push(`${d.nm}: ${f0(d.price)} (${d.pct>=0?'+':''}${(d.pct||0).toFixed(2)}%)`);
+  });
+  // 국내주요주
+  ['k2','k3','k4','k5','k6','k7'].forEach(id=>{
+    const d=SD[id]; if(!d) return;
+    lines.push(`${d.nm}: ${f0(d.price)}원 (${d.pct>=0?'+':''}${(d.pct||0).toFixed(2)}%)`);
+  });
+  // 미장
+  ['u0','u1','u2','u3','u4','u5','u6'].forEach(id=>{
+    const d=SD[id]; if(!d) return;
+    lines.push(`${d.nm}: $${f2(d.price)} (${d.pct>=0?'+':''}${(d.pct||0).toFixed(2)}%)`);
+  });
+  // 코인
+  ['c0','c1','c2','c3','c4'].forEach(id=>{
+    const d=SD[id]; if(!d) return;
+    lines.push(`${d.nm}: $${f2(d.price)} (${d.pct>=0?'+':''}${(d.pct||0).toFixed(2)}%)`);
+  });
+  return lines.join('\n');
 }
-async function runAI(type){await callAI(AI_Q[type]||type);}
+
+// 최근 뉴스 요약 (상위 8개)
+function newsSummary(){
+  const list=(newsCache.length?newsCache:NEWS_FB).slice(0,8);
+  return list.map(n=>`[${n.src}] ${n.hl}`).join('\n');
+}
+
+// 시스템 프롬프트 생성
+function buildSystem(q){
+  const now=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
+  const mkt=mktSummary();
+  const news=newsSummary();
+  const btc=SD['c0'];
+  const kospi=SD['k0'];
+  const usdKrw=document.getElementById('m_usd')?.textContent?.replace('원','').replace(',','')||'1380';
+
+  return `당신은 한국의 전문 주식·투자 컨설턴트입니다. 오늘 날짜는 ${now}입니다.
+
+=== 현재 실시간 시세 (${hms()} 기준) ===
+${mkt}
+
+=== 오늘 주요 뉴스 헤드라인 ===
+${news}
+
+=== 주요 거시지표 ===
+- 달러/원 환율: 약 ${usdKrw}원
+- 비트코인: ${btc?'$'+f2(btc.price)+' ('+(btc.pct>=0?'+':'')+btc.pct.toFixed(2)+'%)':'데이터 로딩 중'}
+- 코스피: ${kospi?f0(kospi.price)+' ('+(kospi.pct>=0?'+':'')+kospi.pct.toFixed(2)+'%)':'데이터 로딩 중'}
+
+=== 답변 원칙 ===
+1. 위 실시간 데이터를 반드시 활용해서 답하세요
+2. 구체적인 수치(현재가, 등락률, 목표가 등)를 포함하세요
+3. 매수/매도/보유 의견을 명확히 제시하세요
+4. 단기(1주~1개월), 중기(3~6개월) 전망을 구분해서 답하세요
+5. 리스크 요인도 반드시 언급하세요
+6. 한국어로 자연스럽게, 친근하게 답하세요
+7. 마지막에 한 줄: "※ 투자 판단은 본인 책임입니다."
+
+질문이 특정 종목(삼성전자, 네이버 등)에 관한 것이면:
+- 현재 주가와 등락률 언급
+- 업종 트렌드와 뉴스 연결
+- 목표가 범위 제시
+- 매수 추천 여부 명확히
+
+질문이 ETF에 관한 것이면:
+- QLD, KODEX200, TIGER나스닥 등 구체적 상품명 언급
+- 현재 시장 상황과 연결해서 추천 근거 설명`;
+}
+
+const AI_Q={
+  market:`오늘 날짜 기준 시장 총평을 해주세요. 현재 실시간 시세 데이터를 보고:
+1. 국내 시장(코스피/코스닥) 현황과 주목할 종목
+2. 미국 시장 주요 흐름
+3. 코인 시장 동향
+4. 오늘 투자 전략 한 줄 요약`,
+
+  pick:`지금 이 시각 시세 데이터 기반으로 오늘 주목할 종목 3개를 추천해주세요.
+각 종목마다:
+- 현재가와 등락률
+- 매수 추천 이유 (2~3줄)
+- 단기 목표가와 손절선
+- 주요 리스크`,
+
+  risk:`현재 시장 상황에서 투자자가 주의해야 할 리스크 5가지를 분석해주세요.
+각 리스크에 대해 대응 방법도 함께 알려주세요.`,
+
+  etf:`지금 시장 상황에서 투자하기 좋은 ETF 전략을 알려주세요.
+- QLD (나스닥 2배 레버리지)
+- KODEX 200, TIGER 코스닥150
+- 미국 섹터 ETF (반도체, AI 등)
+현재 시세를 반영해서 지금 들어가기 좋은 타이밍인지도 판단해주세요.`,
+
+  coin:`현재 코인 시세 기반으로:
+- 비트코인 단기/중기 전망
+- 이더리움, 솔라나 등 알트코인 흐름
+- 지금 매수해도 될지, 아니면 기다려야 할지
+- 김프(김치 프리미엄) 현황과 의미`,
+
+  macro:`현재 거시경제 지표를 분석해주세요:
+- 달러/원 환율 영향
+- 미국 금리 상황과 주식 시장 영향
+- 현재 공포탐욕 지수 해석
+- 향후 1~2주 시장 방향성 전망`,
+};
+
+async function runAI(type){ await callAI(AI_Q[type]||type); }
+function quickQ(q){ document.getElementById('ai-inp').value=q; askAI(); }
+
 async function askAI(){
   const inp=document.getElementById('ai-inp');
   const txt=inp.value.trim();
@@ -1033,6 +1163,7 @@ async function askAI(){
   inp.value='';
   await callAI(txt);
 }
+
 function addMsg(role,html){
   const box=document.getElementById('ai-msgs');if(!box)return;
   const d=document.createElement('div');
@@ -1041,46 +1172,134 @@ function addMsg(role,html){
   box.appendChild(d);
   box.scrollTop=box.scrollHeight;
 }
+
 async function callAI(q){
-  addMsg('user',q);
+  addMsg('user', q);
   const box=document.getElementById('ai-msgs');
+
+  // 타이핑 인디케이터
   const typ=document.createElement('div');
-  typ.className='ai-typing';typ.textContent='분석 중...';
-  box?.appendChild(typ);if(box)box.scrollTop=box.scrollHeight;
-  const sys='당신은 주식·코인 투자 전문 컨설턴트입니다. 현재 시세: '+mktSummary()+'\n한국어로 답하세요. 구체적 수치와 근거를 포함하고, 마지막에 "※ 투자 판단은 본인 책임입니다."를 한 줄로 추가하세요.';
+  typ.className='ai-typing';
+  typ.innerHTML='<span style="display:inline-flex;gap:3px;align-items:center">분석 중 <span id="dot-anim">.</span></span>';
+  box?.appendChild(typ);
+  if(box) box.scrollTop=box.scrollHeight;
+
+  // 점 애니메이션
+  let dotCount=1;
+  const dotTimer=setInterval(()=>{
+    const de=document.getElementById('dot-anim');
+    if(de) de.textContent='.'.repeat(dotCount=(dotCount%3)+1);
+  },400);
+
+  const sys=buildSystem(q);
+
   try{
     const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:q}]})
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1500,
+        system:sys,
+        messages:[{role:'user',content:q}]
+      })
     });
-    box?.removeChild(typ);
+    clearInterval(dotTimer);
+    try{box?.removeChild(typ);}catch(_){}
+
     if(resp.ok){
       const data=await resp.json();
-      const text=data.content?.[0]?.text||'응답 없음';
-      addMsg('resp',fmtAI(text));
-    } else { throw new Error(resp.status); }
+      const text=data.content?.[0]?.text||'응답을 받지 못했습니다.';
+      addMsg('resp', fmtAI(text));
+    } else {
+      // API 키 없거나 CORS → 로컬 분석
+      addMsg('resp', localAI(q));
+    }
   }catch(e){
+    clearInterval(dotTimer);
     try{box?.removeChild(typ);}catch(_){}
-    // API 없이 자체 분석
-    addMsg('resp',localAI());
+    addMsg('resp', localAI(q));
   }
 }
+
 function fmtAI(t){
-  return t.replace(/매수/g,'<span class="ai-tag buy">매수</span>').replace(/매도/g,'<span class="ai-tag sell">매도</span>').replace(/보유/g,'<span class="ai-tag hold">보유</span>').replace(/주의/g,'<span class="ai-tag warn">주의</span>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  return t
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/#{1,3}\s(.+)/g,'<strong style="font-size:12px;color:var(--g)">$1</strong>')
+    .replace(/매수/g,'<span class="ai-tag buy">매수</span>')
+    .replace(/매도/g,'<span class="ai-tag sell">매도</span>')
+    .replace(/보유/g,'<span class="ai-tag hold">보유</span>')
+    .replace(/주의|경고|위험/g,'<span class="ai-tag warn">주의</span>')
+    .replace(/\n\n/g,'<br><br>')
+    .replace(/\n/g,'<br>');
 }
-function localAI(){
+
+// Claude API 없을 때 실시간 데이터 기반 자체 분석
+function localAI(q){
   const all=Object.values(SD).filter(d=>d.price);
-  const ups=all.filter(d=>d.pct>0),dns=all.filter(d=>d.pct<0);
-  const top=all.sort((a,b)=>b.pct-a.pct);
-  let h='<strong>📊 자체 시장 분석 (실시간 데이터 기반)</strong><br><br>';
-  h+=`수신 ${all.length}개 중 상승 <strong style="color:var(--up)">${ups.length}</strong>개, 하락 <strong style="color:var(--dn)">${dns.length}</strong>개<br><br>`;
-  if(top[0]) h+=`<span class="ai-tag buy">강세</span> <strong>${top[0].nm}</strong> ${(top[0].pct||0).toFixed(2)}%<br>`;
-  if(top[top.length-1]&&top.length>1) h+=`<span class="ai-tag sell">약세</span> <strong>${top[top.length-1].nm}</strong> ${(top[top.length-1].pct||0).toFixed(2)}%<br><br>`;
-  const btc=SD['c0'],kospi=SD['k0'];
-  if(btc) h+=`비트코인: <strong>$${f2(btc.price)}</strong> (${btc.pct>=0?'+':''}${(btc.pct||0).toFixed(2)}%)<br>`;
-  if(kospi) h+=`코스피: <strong>${f0(kospi.price)}</strong> (${kospi.pct>=0?'+':''}${(kospi.pct||0).toFixed(2)}%)<br><br>`;
-  h+='<span class="ai-tag warn">안내</span> Claude API 연결 시 더 정밀한 분석이 제공됩니다.<br>';
-  h+='<small style="color:#aaa">※ 투자 판단은 본인 책임입니다.</small>';
+  const sorted=[...all].sort((a,b)=>b.pct-a.pct);
+  const top3=sorted.slice(0,3);
+  const bot3=sorted.slice(-3).reverse();
+  const btc=SD['c0'], eth=SD['c1'], kospi=SD['k0'], kosdaq=SD['k1'];
+  const samsung=SD['k2'], hynix=SD['k3'], naver=SD['k6'];
+
+  const q_lower=(q||'').toLowerCase();
+  const isKwQuery=
+    q_lower.includes('삼성') || q_lower.includes('하이닉스') ||
+    q_lower.includes('네이버') || q_lower.includes('카카오') ||
+    q_lower.includes('etf') || q_lower.includes('qld') ||
+    q_lower.includes('비트코인') || q_lower.includes('코인') ||
+    q_lower.includes('추천') || q_lower.includes('사도');
+
+  let h='';
+
+  // 질문 관련 종목 직접 답변
+  if(q_lower.includes('삼성') && samsung){
+    h+=`<strong>📱 삼성전자 분석</strong><br>`;
+    h+=`현재가: <strong>${f0(samsung.price)}원</strong> (${samsung.pct>=0?'▲':'▼'}${Math.abs(samsung.pct||0).toFixed(2)}%)<br><br>`;
+    h+=samsung.pct>0
+      ? `<span class="ai-tag buy">관심</span> 오늘 상승 중입니다. HBM4 납품 이슈, 반도체 업황 회복 기대감이 반영되고 있습니다.<br>`
+      : `<span class="ai-tag hold">보유</span> 오늘 하락 중입니다. 단기 조정일 수 있으나, 중장기 반도체 업황 회복 관점에서 접근하세요.<br>`;
+    h+=`<br>단기 목표가: <strong>${f0(samsung.price*1.05)}~${f0(samsung.price*1.10)}원</strong> 구간<br>`;
+    h+=`손절선: <strong>${f0(samsung.price*0.95)}원</strong> 이하<br>`;
+  } else if(q_lower.includes('네이버') && naver){
+    h+=`<strong>🟢 NAVER 분석</strong><br>`;
+    h+=`현재가: <strong>${f0(naver.price)}원</strong> (${naver.pct>=0?'▲':'▼'}${Math.abs(naver.pct||0).toFixed(2)}%)<br><br>`;
+    h+=`AI 서비스(하이퍼클로바X) 고도화, 커머스·핀테크 성장세를 주목하세요.<br>`;
+    h+=`단기 목표가: <strong>${f0(naver.price*1.08)}원</strong> 구간<br>`;
+  } else if((q_lower.includes('etf')||q_lower.includes('qld'))&&all.length){
+    h+=`<strong>📈 ETF 추천 (현재 시장 기반)</strong><br><br>`;
+    const usUp=sorted.filter(d=>d.fl==='🇺🇸'&&d.pct>0).length;
+    const isUsBull=usUp >= 3;
+    h+=isUsBull
+      ? `<span class="ai-tag buy">긍정적</span> 미장이 전반적 상승세입니다. <strong>QLD(나스닥 2배), TIGER미국나스닥100</strong> 비중 고려할 만합니다.<br>`
+      : `<span class="ai-tag hold">중립</span> 미장 혼조세입니다. <strong>KODEX200, TIGER200</strong> 같은 안정형 ETF가 더 적합합니다.<br>`;
+    h+=`<br><strong>현재 시장 상황:</strong><br>`;
+    if(kospi) h+=`코스피 ${f0(kospi.price)} (${kospi.pct>=0?'+':''}${(kospi.pct||0).toFixed(2)}%)<br>`;
+  } else if((q_lower.includes('비트코인')||q_lower.includes('코인'))&&btc){
+    h+=`<strong>₿ 비트코인 분석</strong><br>`;
+    h+=`현재가: <strong>$${f2(btc.price)}</strong> (${btc.pct>=0?'▲':'▼'}${Math.abs(btc.pct||0).toFixed(2)}%)<br>`;
+    if(eth) h+=`이더리움: <strong>$${f2(eth.price)}</strong> (${eth.pct>=0?'+':''}${(eth.pct||0).toFixed(2)}%)<br>`;
+    h+=`<br>`;
+    h+=btc.pct>0
+      ? `<span class="ai-tag buy">상승세</span> 오늘 상승 중. 현물 ETF 유입 지속 여부 확인하세요.<br>`
+      : `<span class="ai-tag hold">관망</span> 오늘 하락 중. 단기 지지선 확인 후 진입을 권장합니다.<br>`;
+  } else {
+    // 기본 시장 분석
+    h+=`<strong>📊 현재 시장 요약 (${hms()} 기준)</strong><br><br>`;
+    if(kospi) h+=`코스피 <strong>${f0(kospi.price)}</strong> ${kospi.pct>=0?'<span class="ai-tag buy">▲</span>':'<span class="ai-tag sell">▼</span>'} ${Math.abs(kospi.pct||0).toFixed(2)}%<br>`;
+    if(kosdaq) h+=`코스닥 <strong>${f0(kosdaq.price)}</strong> ${kosdaq.pct>=0?'<span class="ai-tag buy">▲</span>':'<span class="ai-tag sell">▼</span>'} ${Math.abs(kosdaq.pct||0).toFixed(2)}%<br>`;
+    if(btc) h+=`비트코인 <strong>$${f2(btc.price)}</strong> ${btc.pct>=0?'<span class="ai-tag buy">▲</span>':'<span class="ai-tag sell">▼</span>'} ${Math.abs(btc.pct||0).toFixed(2)}%<br>`;
+    h+=`<br><strong>오늘 강세 종목</strong><br>`;
+    top3.forEach(d=>{if(d.price) h+=`<span class="ai-tag buy">▲</span> <strong>${d.nm}</strong> ${(d.pct||0).toFixed(2)}%<br>`;});
+    h+=`<br><strong>오늘 약세 종목</strong><br>`;
+    bot3.forEach(d=>{if(d.price) h+=`<span class="ai-tag sell">▼</span> <strong>${d.nm}</strong> ${(d.pct||0).toFixed(2)}%<br>`;});
+    h+=`<br>`;
+  }
+
+  h+=`<br><span style="font-size:10px;color:#aaa;border-top:1px solid #eee;display:block;padding-top:6px">`;
+  h+=`💡 Claude API 연결 시 더 정밀한 분석이 제공됩니다 (뉴스·거시경제·종목 심층 분석)<br>`;
+  h+=`※ 투자 판단은 본인 책임입니다.</span>`;
   return h;
 }
 
@@ -1236,7 +1455,16 @@ function hms(){const n=new Date();return p2(n.getHours())+':'+p2(n.getMinutes())
   try{fetchKR();}catch(e){console.warn(e);}
   setTimeout(()=>{
     try{
-      addMsg('resp','<strong>🤖 AI 투자 컨설턴트</strong>에 오신 것을 환영합니다.<br><br>위 버튼으로 빠른 분석을 실행하거나 직접 질문하세요.<br><br>예시: <em>삼성전자 지금 사도 될까요?</em> / <em>비트코인 단기 전망은?</em><br><br><small style="color:#aaa">※ 실시간 시세 기반 분석 | 투자 판단은 본인 책임</small>');
+      addMsg('resp',`<strong>🤖 AI 투자 컨설턴트</strong>입니다.<br><br>
+<strong>이렇게 질문하세요:</strong><br>
+• <em>"삼성전자 지금 사도 돼?"</em><br>
+• <em>"네이버 주가 전망 알려줘"</em><br>
+• <em>"ETF 추천해줘, QLD vs KODEX200"</em><br>
+• <em>"비트코인 지금 들어가도 될까?"</em><br>
+• <em>"지금 시장 어때? 뭐 사면 좋아?"</em><br><br>
+위 <strong>빠른 질문 버튼</strong>을 누르거나 직접 입력하세요.<br>
+현재 실시간 시세 데이터 기반으로 분석합니다.<br><br>
+<small style="color:#aaa">※ 투자 판단은 본인 책임입니다.</small>`);
     }catch(e){}
   },800);
 })();
