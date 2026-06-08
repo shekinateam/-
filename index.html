@@ -264,6 +264,11 @@ canvas{width:100%!important;}
   .vs-box{grid-template-columns:1fr 1fr;}
 }
 @media(min-width:1100px){.wrap{max-width:1100px;}}
+
+.sub-tabs{display:flex;gap:3px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:14px;}
+.sub-tab{flex:1;padding:9px 6px;border:none;background:transparent;color:var(--muted2);font-family:'Noto Sans KR',sans-serif;font-size:0.76rem;font-weight:500;border-radius:7px;cursor:pointer;transition:all .2s;}
+.sub-tab.on{background:var(--accent);color:#fff;font-weight:700;}
+@media(min-width:768px){.sub-tabs{display:none;}}
 </style>
 </head>
 <body>
@@ -396,6 +401,12 @@ canvas{width:100%!important;}
 
     <!-- ===== 술 영향 (팩트 기반) ===== -->
     <div id="pane-alc" class="pane">
+      <!-- 모바일 서브탭 -->
+      <div class="sub-tabs" id="subTabs">
+        <button class="sub-tab on" id="st0" onclick="switchSub(0)">🍺 술 영향</button>
+        <button class="sub-tab" id="st1" onclick="switchSub(1)">🥗 식단 가이드</button>
+      </div>
+      <div id="sub-alc">
       <div class="section-hero" style="background:linear-gradient(135deg,rgba(255,59,59,0.08),rgba(255,59,59,0.02));border:1px solid rgba(255,59,59,0.2);">
         <h2 style="color:var(--accent)">⚠ 술이 감량에 미치는 영향</h2>
         <p>아래 모든 수치는 동료 심사 논문 기반 팩트입니다<br>소주 2병 = 이번주 감량 전부 날림</p>
@@ -533,8 +544,8 @@ canvas{width:100%!important;}
       </div>
     </div>
 
-    <!-- ===== 식단 가이드 (팩트 기반) ===== -->
-    <div id="pane-diet" class="pane">
+      </div><!-- /sub-alc -->
+      <div id="sub-diet" style="display:none">
       <div class="section-hero" style="background:linear-gradient(135deg,rgba(0,230,118,0.06),rgba(61,139,255,0.04));border:1px solid rgba(0,230,118,0.15);">
         <h2 style="color:var(--green)">🥗 과학적 다이어트 가이드</h2>
         <p>모든 내용은 동료 심사 논문 기반 팩트입니다<br>74kg → 68kg 감량에 최적화된 전략</p>
@@ -708,7 +719,8 @@ canvas{width:100%!important;}
         </div>
       </div>
 
-    </div><!-- /pane-diet -->
+      </div><!-- /sub-diet -->
+    </div><!-- /pane-alc -->
 
   </div><!-- /wrap -->
 </div><!-- /app -->
@@ -721,8 +733,7 @@ canvas{width:100%!important;}
   <button class="bnav-item" id="bn1" onclick="go('input',1)"><span class="icon">✏️</span>기록</button>
   <button class="bnav-item" id="bn2" onclick="go('hist',2)"><span class="icon">📋</span>히스토리</button>
   <button class="bnav-item" id="bn3" onclick="go('rpt',3)"><span class="icon">📈</span>리포트</button>
-  <button class="bnav-item" id="bn4" onclick="go('alc',4)"><span class="icon">🍺</span>술</button>
-  <button class="bnav-item" id="bn5" onclick="go('diet',5)"><span class="icon">🥗</span>식단</button>
+  <button class="bnav-item" id="bn4" onclick="go('alc',4)"><span class="icon">📚</span>정보</button>
 </div>
 
 <script>
@@ -845,7 +856,14 @@ function renderDash(){
   }else document.getElementById('gEst').textContent='기록필요';
   const ws=weekStart();const wdr=rs.filter(r=>r.date>=ws&&r.drink===1).length;
   const b=document.getElementById('drinkBanner');
-  if(wdr===0){b.className='drink-banner safe';b.textContent='✅ 이번주 음주 0회 — 주 1회 룰 완벽 유지';}
+  // 어제 음주 여부 체크
+  const yest=new Date();yest.setDate(yest.getDate()-1);
+  const yestStr=yest.toISOString().split('T')[0];
+  const drankYest=rs.find(r=>r.date===yestStr&&r.drink===1);
+  if(drankYest){
+    b.className='drink-banner danger';
+    b.textContent='🚨 어젯밤 음주 감지 — 오늘 식욕 강하게 옴. 물 먼저 500ml + 셀릭스 챙길 것';
+  } else if(wdr===0){b.className='drink-banner safe';b.textContent='✅ 이번주 음주 0회 — 주 1회 룰 완벽 유지';}
   else if(wdr===1){b.className='drink-banner warn';b.textContent='⚠️ 이번주 음주 1회 — 주 1회 룰 소진. 더 마시면 감량 타격';}
   else{b.className='drink-banner danger';b.textContent='🚨 이번주 음주 '+wdr+'회 — 주 1회 초과! 감량 타격 중';}
   drawChart();
@@ -991,6 +1009,13 @@ function calcAlc(){
     </div>`;
 }
 
+
+function switchSub(idx){
+  document.getElementById('sub-alc').style.display=idx===0?'block':'none';
+  document.getElementById('sub-diet').style.display=idx===1?'block':'none';
+  document.getElementById('st0').classList.toggle('on',idx===0);
+  document.getElementById('st1').classList.toggle('on',idx===1);
+}
 function weekStart(){const d=new Date();const day=d.getDay();const diff=d.getDate()-day+(day===0?-6:1);d.setDate(diff);return d.toISOString().split('T')[0];}
 function toast(msg,err=0){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(err?' err':'');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 window.addEventListener('resize',()=>{showNav();drawChart();});
