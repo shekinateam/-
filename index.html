@@ -308,7 +308,7 @@ canvas{width:100%!important;}
       <button class="pc-tab" id="pt2" onclick="go('hist',2)">📋 히스토리</button>
       <button class="pc-tab" id="pt3" onclick="go('rpt',3)">📈 리포트</button>
       <button class="pc-tab" id="pt4" onclick="go('alc',4)">🍺 술 영향</button>
-      <button class="pc-tab" id="pt5" onclick="go('diet',5)">🥗 식단 가이드</button>
+      <button class="pc-tab" id="pt5" onclick="go('alc',4);switchSub(1)">🥗 식단 가이드</button>
     </div>
 
     <!-- ===== 대시보드 ===== -->
@@ -784,12 +784,12 @@ function D(){try{return JSON.parse(localStorage.getItem(DATA_KEY))||{r:[],c:{}};
 function S(d){localStorage.setItem(DATA_KEY,JSON.stringify(d));}
 
 // 탭
-const panes=['dash','input','hist','rpt','alc','diet'];
+const panes=['dash','input','hist','rpt','alc'];
 function go(name,idx){
   panes.forEach(p=>document.getElementById('pane-'+p).classList.remove('on'));
   for(let i=0;i<6;i++){
     const bn=document.getElementById('bn'+i);if(bn)bn.classList.remove('on');
-    const pt=document.getElementById('pt'+i);if(pt){pt.classList.remove('on');}
+    const pt=document.getElementById('pt'+i);if(pt)pt.classList.remove('on');
   }
   document.getElementById('pane-'+name).classList.add('on');
   const bn=document.getElementById('bn'+idx);if(bn)bn.classList.add('on');
@@ -797,7 +797,7 @@ function go(name,idx){
   if(name==='dash'){renderDash();drawChart();}
   if(name==='hist')renderHist();
   if(name==='rpt')renderRpt();
-  if(name==='alc')calcAlc();
+  if(name==='alc'){calcAlc();switchSub(0);}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
