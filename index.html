@@ -585,32 +585,160 @@ canvas{width:100%!important;}
       </div><!-- /sub-alc -->
       <div id="sub-diet" style="display:none">
       <div class="section-hero" style="background:linear-gradient(135deg,rgba(0,230,118,0.06),rgba(61,139,255,0.04));border:1px solid rgba(0,230,118,0.15);">
-        <h2 style="color:var(--green)">🥗 과학적 다이어트 가이드</h2>
-        <p>모든 내용은 동료 심사 논문 기반 팩트입니다<br>74kg → 68kg 감량에 최적화된 전략</p>
+        <h2 style="color:var(--green)">🥗 태완님 맞춤 식단 가이드</h2>
+        <p>170cm / 74kg / 33세 남성 기준 직접 계산<br>Mifflin-St Jeor 공식 · 논문 기반 단백질 권장량</p>
+      </div>
+
+      <!-- 신체 수치 카드 -->
+      <div class="card">
+        <div class="card-ttl">📐 태완님 신체 수치 계산 결과</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--orange)">25.6</div>
+            <div style="font-size:.62rem;color:var(--muted);margin-top:2px">현재 BMI (과체중)</div>
+          </div>
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--green)">23.5</div>
+            <div style="font-size:.62rem;color:var(--muted);margin-top:2px">목표 BMI 68kg 달성 시</div>
+          </div>
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--blue)">1,642</div>
+            <div style="font-size:.62rem;color:var(--muted);margin-top:2px">기초대사량 BMR (kcal)</div>
+          </div>
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--blue)">1,970</div>
+            <div style="font-size:.62rem;color:var(--muted);margin-top:2px">유지 칼로리 TDEE (kcal)</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,59,59,0.05);border:1px solid rgba(255,59,59,0.2);border-radius:10px;padding:13px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:.78rem;font-weight:700;color:var(--text)">하루 목표 칼로리</span>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--accent)">1,470 kcal</span>
+          </div>
+          <div style="font-size:.72rem;color:var(--muted2);line-height:1.6">TDEE 1,970 - 500kcal 적자 = 1,470kcal. 이 구간 유지 시 주당 약 0.5kg 감량 가능.<br>
+          <span style="color:var(--green)">Mifflin-St Jeor 공식 기준 · 활동량 계수 1.2 (좌식 직장인) 적용</span></div>
+        </div>
+        <a class="src-badge" href="https://pubmed.ncbi.nlm.nih.gov/15883556/" target="_blank" style="margin-top:8px;display:inline-flex">📄 Mifflin et al., 1990 · PubMed</a>
+      </div>
+
+      <!-- 단백질 목표 -->
+      <div class="card">
+        <div class="card-ttl">💪 단백질 목표 — 74kg 기준</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
+          <div style="background:var(--card2);border:1px solid rgba(61,139,255,0.2);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--blue)">89g</div>
+            <div style="font-size:.6rem;color:var(--muted);margin-top:2px">최소 (×1.2g)</div>
+          </div>
+          <div style="background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.25);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--green)">100g</div>
+            <div style="font-size:.6rem;color:var(--muted);margin-top:2px">권장 목표</div>
+          </div>
+          <div style="background:var(--card2);border:1px solid rgba(61,139,255,0.2);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--blue)">111g</div>
+            <div style="font-size:.6rem;color:var(--muted);margin-top:2px">최대 (×1.5g)</div>
+          </div>
+        </div>
+        <div style="font-size:.74rem;color:var(--muted2);line-height:1.6;margin-bottom:8px">운동 없이 감량 중일 때 근손실 방지 기준 체중 1kg당 1.2~1.5g. 47개 연구 메타분석에서 이 구간 유지 시 근손실 유의미하게 예방 확인.</div>
+        <a class="src-badge" href="https://www.sciencedirect.com/science/article/pii/S0261561421004751" target="_blank">📄 ScienceDirect Meta-analysis, 2023</a>
+
+        <!-- 현재 식단 단백질 계산 -->
+        <div style="margin-top:12px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px">
+          <div style="font-size:.76rem;font-weight:700;margin-bottom:10px">현재 식단 단백질 현황</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;justify-content:space-between;font-size:.74rem;padding:5px 0;border-bottom:1px solid var(--border)">
+              <span style="color:var(--muted2)">마이비밀 도시락 × 2끼</span>
+              <span style="color:var(--text);font-weight:600">약 40~60g</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:.74rem;padding:5px 0;border-bottom:1px solid var(--border)">
+              <span style="color:var(--muted2)">셀릭스 × 2회</span>
+              <span style="color:var(--text);font-weight:600">40g</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:.74rem;padding:5px 0;border-bottom:1px solid var(--border)">
+              <span style="color:var(--muted2)">합계</span>
+              <span style="color:var(--orange);font-weight:700">약 80~100g</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:.74rem;padding:5px 0">
+              <span style="color:var(--muted2)">목표 대비</span>
+              <span style="color:var(--accent);font-weight:700">약 0~20g 부족</span>
+            </div>
+          </div>
+          <div style="margin-top:10px;background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.15);border-radius:8px;padding:10px;font-size:.74rem;color:var(--green)">
+            ✅ 달걀 2개 추가 (+12g) → 목표 충족<br>
+            ✅ 두부 100g 추가 (+8g) → 여유 있게 충족
+          </div>
+        </div>
+      </div>
+
+      <!-- 하루 식단 구성 -->
+      <div class="card">
+        <div class="card-ttl">🍱 태완님 하루 식단 구성 (최적안)</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <span style="font-size:.8rem;font-weight:700">🍱 점심 12:30</span>
+              <span style="font-size:.72rem;color:var(--muted2)">약 400~500kcal</span>
+            </div>
+            <div style="font-size:.74rem;color:var(--muted2);line-height:1.6">마이비밀 도시락 1개 + 셀릭스 20g<br>
+            <span style="color:var(--blue)">단백질 약 35~40g · 식사 전 물 300ml 필수</span></div>
+          </div>
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <span style="font-size:.8rem;font-weight:700">🥚 간식 대체 (선택)</span>
+              <span style="font-size:.72rem;color:var(--muted2)">약 150kcal</span>
+            </div>
+            <div style="font-size:.74rem;color:var(--muted2);line-height:1.6">달걀 2개 or 두부 100g<br>
+            <span style="color:var(--blue)">단백질 +8~12g · 오후 공복 대응용</span></div>
+          </div>
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <span style="font-size:.8rem;font-weight:700">🍱 저녁 18:30</span>
+              <span style="font-size:.72rem;color:var(--muted2)">약 400~500kcal</span>
+            </div>
+            <div style="font-size:.74rem;color:var(--muted2);line-height:1.6">마이비밀 도시락 1개 + 셀릭스 20g<br>
+            <span style="color:var(--blue)">단백질 약 35~40g · 이 이후 절식</span></div>
+          </div>
+          <div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:13px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <span style="font-size:.8rem;font-weight:700;color:var(--green)">📊 하루 합계</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="display:flex;justify-content:space-between;font-size:.74rem">
+                <span style="color:var(--muted2)">총 칼로리</span>
+                <span style="color:var(--green);font-weight:700">약 950~1,150kcal</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:.74rem">
+                <span style="color:var(--muted2)">목표 대비</span>
+                <span style="color:var(--orange);font-weight:700">1,470kcal 목표 · 여유 있는 구간</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:.74rem">
+                <span style="color:var(--muted2)">단백질</span>
+                <span style="color:var(--green);font-weight:700">약 88~100g ✅</span>
+              </div>
+              <div style="margin-top:6px;font-size:.72rem;color:var(--muted2)">* 도시락 제품에 따라 실제 칼로리·단백질 차이 있음. 뒷면 영양성분 확인 권장</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- 핵심 원칙 -->
       <div class="card">
         <div class="card-ttl">📌 감량의 절대 원칙 — 칼로리 적자</div>
         <div class="fact-box" style="border-color:rgba(0,230,118,0.2)">
-          <div class="fact-desc" style="font-size:.82rem;line-height:1.7">어떤 식단 방법이든 작동하는 이유는 단 하나입니다. <strong style="color:var(--green)">소비 칼로리 > 섭취 칼로리 = 체중 감소.</strong><br>NHS·미국 임상 가이드라인 기준 하루 500~600kcal 적자를 유지하면 주당 약 0.5kg 감량. 이것이 안전하고 지속 가능한 속도입니다.</div>
-          <a class="src-badge" href="https://www.boltpharmacy.co.uk/guide/high-protein-calorie-deficit-meal-plan" target="_blank">📄 NHS 가이드라인 기반</a>
+          <div class="fact-desc" style="font-size:.82rem;line-height:1.7">어떤 식단 방법이든 작동하는 이유는 단 하나입니다. <strong style="color:var(--green)">소비 칼로리 > 섭취 칼로리 = 체중 감소.</strong><br>태완님 기준 하루 500kcal 적자 = TDEE 1,970 - 1,470kcal. 주당 약 0.5kg 감량. 6kg 감량 목표 시 약 12주 소요.</div>
+          <a class="src-badge" href="https://pubmed.ncbi.nlm.nih.gov/15883556/" target="_blank">📄 Mifflin et al., 1990 · PubMed</a>
         </div>
-
-        <!-- 매크로 비율 시각화 -->
-        <div style="margin-top:14px">
-          <div style="font-size:.72rem;color:var(--muted2);margin-bottom:8px;font-weight:700">태완님 추천 매크로 비율</div>
+        <div style="margin-top:12px">
+          <div style="font-size:.72rem;color:var(--muted2);margin-bottom:8px;font-weight:700">태완님 맞춤 매크로 비율 (1,470kcal 기준)</div>
           <div style="display:flex;justify-content:space-between;font-size:.65rem;margin-bottom:4px">
-            <span style="color:var(--blue)">단백질 35%</span>
-            <span style="color:var(--orange)">탄수화물 40%</span>
-            <span style="color:var(--green)">지방 25%</span>
+            <span style="color:var(--blue)">단백질 27% · 100g</span>
+            <span style="color:var(--orange)">탄수화물 46% · 170g</span>
+            <span style="color:var(--green)">지방 27% · 44g</span>
           </div>
           <div class="macro-bar">
-            <div class="macro-seg" style="width:35%;background:var(--blue)">P</div>
-            <div class="macro-seg" style="width:40%;background:var(--orange)">C</div>
-            <div class="macro-seg" style="width:25%;background:var(--green)">F</div>
+            <div class="macro-seg" style="width:27%;background:var(--blue)">P</div>
+            <div class="macro-seg" style="width:46%;background:var(--orange)">C</div>
+            <div class="macro-seg" style="width:27%;background:var(--green)">F</div>
           </div>
-          <div style="font-size:.68rem;color:var(--muted2);margin-top:6px">총 섭취 목표: 약 1,400~1,600kcal / 단백질 90~110g</div>
         </div>
       </div>
 
