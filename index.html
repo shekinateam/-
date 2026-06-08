@@ -308,7 +308,7 @@ canvas{width:100%!important;}
       <button class="pc-tab" id="pt2" onclick="go('hist',2)">📋 히스토리</button>
       <button class="pc-tab" id="pt3" onclick="go('rpt',3)">📈 리포트</button>
       <button class="pc-tab" id="pt4" onclick="go('alc',4)">🍺 술 영향</button>
-      <button class="pc-tab" id="pt5" onclick="go('alc',4);switchSub(1)">🥗 식단 가이드</button>
+      <button class="pc-tab" id="pt5" onclick="goDiet()">🥗 식단 가이드</button>
     </div>
 
     <!-- ===== 대시보드 ===== -->
@@ -1010,6 +1010,19 @@ function calcAlc(){
 }
 
 
+function goDiet(){
+  // PC에서 식단 가이드 탭 전용 처리
+  panes.forEach(p=>document.getElementById('pane-'+p).classList.remove('on'));
+  for(let i=0;i<6;i++){
+    const bn=document.getElementById('bn'+i);if(bn)bn.classList.remove('on');
+    const pt=document.getElementById('pt'+i);if(pt)pt.classList.remove('on');
+  }
+  document.getElementById('pane-alc').classList.add('on');
+  const pt=document.getElementById('pt5');if(pt)pt.classList.add('on');
+  switchSub(1);
+  calcAlc();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 function switchSub(idx){
   document.getElementById('sub-alc').style.display=idx===0?'block':'none';
   document.getElementById('sub-diet').style.display=idx===1?'block':'none';
