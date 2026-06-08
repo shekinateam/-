@@ -504,43 +504,81 @@ canvas{width:100%!important;}
 
       <!-- 계산기 -->
       <div class="card">
-        <div class="card-ttl">🔢 음주 타격 계산기</div>
-        <div class="calc-box">
-          <h3>오늘 마신 술의 감량 타격 계산</h3>
-          <div class="calc-row"><label>주종</label>
-            <select id="alcType" onchange="calcAlc()">
-              <option value="soju05">소주 반 병 (180ml)</option>
-              <option value="soju1">소주 1병 (360ml)</option>
-              <option value="soju15">소주 1.5병</option>
-              <option value="soju2" selected>소주 2병 🔴 기본값</option>
-              <option value="soju3">소주 3병</option>
-              <option value="soju4">소주 4병 이상 💀</option>
-              <option value="beer1">맥주 500ml 1캔</option>
-              <option value="beer2">맥주 500ml 2캔</option>
-              <option value="beer4">맥주 500ml 4캔</option>
-              <option value="sojubeer1">소맥 (소주1+맥주2캔)</option>
-              <option value="sojubeer2">소맥 폭탄 (소주2+맥주4캔)</option>
-              <option value="wine1">와인 1잔 (150ml)</option>
-              <option value="wine1b">와인 1병 (750ml)</option>
-              <option value="makgol">막걸리 1병 (750ml)</option>
-              <option value="makgol2">막걸리 2병</option>
-              <option value="whisky">위스키 2~3잔</option>
-            </select>
+        <div class="card-ttl">🌅 술 마신 다음날 — 대응 루틴</div>
+
+        <!-- 왜 힘든지 -->
+        <div style="background:rgba(255,59,59,0.06);border:1px solid rgba(255,59,59,0.2);border-radius:10px;padding:14px;margin-bottom:12px;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--accent);margin-bottom:8px">⚠️ 왜 다음날이 힘든가</div>
+          <div style="font-size:.76rem;color:var(--muted2);line-height:1.7">
+            알코올이 REM 수면을 방해해 수면 질이 저하됩니다. 이 때문에 식욕 자극 호르몬 그렐린이 평소보다 높은 상태로 아침을 맞습니다. 동시에 포만 호르몬 렙틴은 낮아져 있어 배가 불러도 더 먹고 싶은 상태가 됩니다. 여기에 알코올 이뇨 작용으로 칼륨·수분이 빠져나가 몸이 붓고 무겁습니다. 이 상태에서 아무 대응 없이 버티면 평소보다 20~30% 더 먹게 되고 식단이 무너집니다.
           </div>
-          <div class="calc-row"><label>안주</label>
-            <select id="alcSnack" onchange="calcAlc()">
-              <option value="0">안주 없음</option>
-              <option value="200">마른안주 (오징어·땅콩)</option>
-              <option value="400">가벼운 안주 (두부·야채)</option>
-              <option value="600">치킨 한 마리</option>
-              <option value="800">삼겹살·곱창</option>
-              <option value="1000">치킨+야식 세트</option>
-              <option value="1400">본격 회식 풀코스</option>
-            </select>
-          </div>
-          <div class="calc-result" id="calcResult"></div>
         </div>
-        <div class="vs-box" id="vsBox"></div>
+
+        <!-- 기상 직후 -->
+        <div style="display:flex;gap:10px;margin-bottom:8px;align-items:flex-start">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(61,139,255,0.12);border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0">🌄</div>
+          <div style="flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;">
+            <div style="font-size:.78rem;font-weight:700;color:var(--blue);margin-bottom:6px">기상 직후 — 제일 중요</div>
+            <div style="font-size:.75rem;color:var(--muted2);line-height:1.7">
+              <b style="color:var(--text)">1. 물 500ml 바로 마시기</b> — 알코올 이뇨로 빠진 수분 보충. 그렐린 일시 억제 효과. 공복감을 수분으로 먼저 채움<br>
+              <b style="color:var(--text)">2. 셀릭스 1회 (20g) 바로</b> — 공복 단백질 섭취로 근손실 방지. 포만감 확보. 식욕 폭발 억제<br>
+              <b style="color:var(--text)">3. 칼륨 영양제 챙기기</b> — 음주로 빠진 칼륨 보충. 부종 완화
+            </div>
+          </div>
+        </div>
+
+        <!-- 점심 전 -->
+        <div style="display:flex;gap:10px;margin-bottom:8px;align-items:flex-start">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,140,0,0.1);border:2px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0">🍱</div>
+          <div style="flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;">
+            <div style="font-size:.78rem;font-weight:700;color:var(--orange);margin-bottom:6px">점심 전 — 과식 방지 구간</div>
+            <div style="font-size:.75rem;color:var(--muted2);line-height:1.7">
+              <b style="color:var(--text)">물 300ml 먼저</b> — 도시락 먹기 30분 전. 위 공간 채워서 과식 방지<br>
+              <b style="color:var(--text)">도시락 천천히 15분 이상</b> — 식욕이 강한 날이라 빨리 먹으면 더 먹고 싶어짐. 의식적으로 천천히<br>
+              <b style="color:var(--text)">추가 음식 절대 금지</b> — 그렐린이 높은 상태라 먹으면 더 당김. 도시락 하나로 끊을 것
+            </div>
+          </div>
+        </div>
+
+        <!-- 오후 공복 -->
+        <div style="display:flex;gap:10px;margin-bottom:8px;align-items:flex-start">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(155,89,182,0.1);border:2px solid var(--purple);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0">⏰</div>
+          <div style="flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;">
+            <div style="font-size:.78rem;font-weight:700;color:var(--purple);margin-bottom:6px">오후 공복 구간 — 가장 위험한 시간</div>
+            <div style="font-size:.75rem;color:var(--muted2);line-height:1.7">
+              <b style="color:var(--text)">단 것·카페인 음료 충동 올 때</b> — 제로 음료나 블랙커피로 대체. 달달한 거 먹으면 혈당 롤러코스터 시작<br>
+              <b style="color:var(--text)">20분 타이머</b> — 뭔가 먹고 싶다는 충동이 오면 물 한 잔 마시고 20분 타이머. 대부분 20분 지나면 꺾임<br>
+              <b style="color:var(--text)">물 꾸준히</b> — 오후 내내 물 마시면 포만감 유지에 도움
+            </div>
+          </div>
+        </div>
+
+        <!-- 저녁 -->
+        <div style="display:flex;gap:10px;margin-bottom:8px;align-items:flex-start">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(0,230,118,0.08);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0">🌙</div>
+          <div style="flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;">
+            <div style="font-size:.78rem;font-weight:700;color:var(--green);margin-bottom:6px">저녁 — 만회 구간</div>
+            <div style="font-size:.75rem;color:var(--muted2);line-height:1.7">
+              <b style="color:var(--text)">저녁 도시락 + 셀릭스 20g 세트</b> — 단백질 확보해서 근손실 방지. 오늘 목표 단백질 채우기<br>
+              <b style="color:var(--text)">야식 절대 금지</b> — 음주 다음날 야식은 이중 타격. 그렐린 높은 상태에서 야식 먹으면 멈추기 어려움<br>
+              <b style="color:var(--text)">21시 이후 절식</b> — 오늘 하루 잘 버텼으면 내일 체중 정상 복귀 가능
+            </div>
+          </div>
+        </div>
+
+        <!-- 핵심 요약 -->
+        <div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:14px;margin-top:4px">
+          <div style="font-size:.78rem;font-weight:700;color:var(--green);margin-bottom:8px">✅ 핵심만 요약 — 이것만 지켜도 됨</div>
+          <div style="font-size:.8rem;color:var(--text);line-height:1.9">
+            기상 즉시 물 500ml<br>
+            셀릭스 아침 1회 추가<br>
+            칼륨 영양제 챙기기<br>
+            점심 전 물 300ml<br>
+            오후 단 것 참기<br>
+            저녁 도시락+셀릭스 세트<br>
+            21시 이후 절식
+          </div>
+        </div>
       </div>
     </div>
 
@@ -797,7 +835,7 @@ function go(name,idx){
   if(name==='dash'){renderDash();drawChart();}
   if(name==='hist')renderHist();
   if(name==='rpt')renderRpt();
-  if(name==='alc'){calcAlc();switchSub(0);}
+  if(name==='alc'){switchSub(0);}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -806,7 +844,7 @@ function init(){
   const now=new Date();
   document.getElementById('todayLbl').textContent=now.toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
   document.getElementById('rDate').value=now.toISOString().split('T')[0];
-  loadCk();renderDash();calcAlc();
+  loadCk();renderDash();
   document.getElementById('pt0').classList.add('on');
 }
 window.onload=function(){if(sessionStorage.getItem(SESSION_KEY)==='ok')init();};
@@ -1020,7 +1058,7 @@ function goDiet(){
   document.getElementById('pane-alc').classList.add('on');
   const pt=document.getElementById('pt5');if(pt)pt.classList.add('on');
   switchSub(1);
-  calcAlc();
+  
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function switchSub(idx){
