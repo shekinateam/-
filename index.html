@@ -98,11 +98,71 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .g-stat .v.blu{color:var(--blue);}
 .g-stat .l{font-size:0.58rem;color:var(--muted);margin-top:2px;}
 
-/* 음주 배너 */
+/* ===== 🍺 3일 회복 배너 ===== */
+.recovery-banner{
+  border-radius:12px;padding:14px 16px;margin-bottom:12px;
+  background:linear-gradient(135deg,rgba(255,0,0,0.12),rgba(255,59,59,0.06));
+  border:1.5px solid rgba(255,59,59,0.5);
+  position:relative;overflow:hidden;display:none;
+}
+.recovery-banner.show{display:block;}
+.recovery-banner::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  animation:rbscan 2s linear infinite;
+}
+@keyframes rbscan{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.rb-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.rb-title{font-size:0.85rem;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:6px;}
+.rb-dday{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--orange);letter-spacing:1px;line-height:1;}
+.rb-dday small{font-size:0.7rem;color:var(--muted2);font-family:'Noto Sans KR',sans-serif;}
+.rb-prog-bg{height:8px;background:rgba(255,59,59,0.15);border-radius:4px;overflow:hidden;margin-bottom:8px;}
+.rb-prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--orange));transition:width 1s ease;box-shadow:0 0 8px rgba(255,59,59,0.4);}
+.rb-prog-labels{display:flex;justify-content:space-between;font-size:0.6rem;color:var(--muted);margin-bottom:10px;}
+.rb-facts{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.rb-fact{background:rgba(0,0,0,0.3);border:1px solid rgba(255,59,59,0.2);border-radius:8px;padding:8px 10px;}
+.rb-fact .rf-icon{font-size:1rem;margin-bottom:3px;}
+.rb-fact .rf-title{font-size:0.68rem;font-weight:700;color:var(--text);margin-bottom:2px;}
+.rb-fact .rf-desc{font-size:0.62rem;color:var(--muted2);line-height:1.5;}
+.rb-foot{margin-top:8px;font-size:0.6rem;color:var(--muted);text-align:right;}
+
+/* 일반 음주 배너 */
 .drink-banner{border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;font-size:0.78rem;font-weight:600;border:1px solid;}
 .drink-banner.safe{background:rgba(0,230,118,0.06);border-color:rgba(0,230,118,0.2);color:var(--green);}
 .drink-banner.warn{background:rgba(255,140,0,0.06);border-color:rgba(255,140,0,0.25);color:var(--orange);}
 .drink-banner.danger{background:rgba(255,59,59,0.08);border-color:rgba(255,59,59,0.3);color:var(--accent);}
+
+/* ===== 🚨 음주 경고 팝업 ===== */
+.alc-popup{
+  position:fixed;inset:0;background:rgba(0,0,0,0.88);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  z-index:9998;display:none;align-items:center;justify-content:center;padding:20px;
+}
+.alc-popup.show{display:flex;}
+.ap-box{
+  background:var(--card);border:2px solid var(--accent);border-radius:20px;
+  padding:28px 22px;max-width:380px;width:100%;text-align:center;
+  box-shadow:0 0 80px rgba(255,59,59,0.25);
+  animation:apIn .3s cubic-bezier(.4,0,.2,1);
+}
+@keyframes apIn{from{opacity:0;transform:scale(.92) translateY(12px)}to{opacity:1;transform:none}}
+.ap-emoji{font-size:3.2rem;margin-bottom:10px;animation:apShake .5s ease .15s both;}
+@keyframes apShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+.ap-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;color:var(--accent);margin-bottom:6px;}
+.ap-sub{font-size:0.8rem;color:var(--muted2);line-height:1.65;margin-bottom:18px;}
+.ap-sub strong{color:var(--orange);}
+.ap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:16px;}
+.ap-cell{background:rgba(255,59,59,0.08);border:1px solid rgba(255,59,59,0.25);border-radius:9px;padding:10px 6px;}
+.ap-cell .av{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);}
+.ap-cell .al{font-size:0.58rem;color:var(--muted2);margin-top:1px;}
+.ap-fact-box{background:rgba(0,0,0,0.35);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:18px;text-align:left;}
+.ap-fact-box p{font-size:0.74rem;color:var(--muted2);line-height:1.65;}
+.ap-fact-box strong{color:var(--orange);}
+.ap-btns{display:flex;gap:8px;}
+.ap-btn-no{flex:2;background:var(--green);border:none;border-radius:10px;padding:13px;color:#000;font-family:'Noto Sans KR',sans-serif;font-size:0.9rem;font-weight:900;cursor:pointer;transition:all .2s;}
+.ap-btn-no:active{opacity:.8;}
+.ap-btn-yes{flex:1;background:rgba(255,59,59,0.12);border:1px solid rgba(255,59,59,0.35);border-radius:10px;padding:13px;color:var(--accent);font-family:'Noto Sans KR',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.ap-btn-yes:active{opacity:.8;}
 
 /* 입력 */
 .inp-row{display:flex;gap:7px;align-items:flex-end;}
@@ -168,11 +228,9 @@ canvas{width:100%!important;}
 .section-hero h2{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:3px;margin-bottom:6px;}
 .section-hero p{font-size:0.78rem;color:var(--muted2);line-height:1.6;}
 
-/* 출처 뱃지 */
 .src-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(61,139,255,0.1);border:1px solid rgba(61,139,255,0.2);border-radius:20px;padding:2px 8px;font-size:0.58rem;color:var(--blue);font-weight:700;margin-top:4px;cursor:pointer;text-decoration:none;}
 .src-badge:hover{background:rgba(61,139,255,0.2);}
 
-/* 팩트 박스 */
 .fact-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;}
 .fact-box.danger-low{border-color:rgba(255,140,0,0.25);}
 .fact-box.danger-mid{border-color:rgba(255,59,59,0.3);}
@@ -182,6 +240,29 @@ canvas{width:100%!important;}
 .fact-title{font-size:0.88rem;font-weight:700;margin-bottom:2px;}
 .fact-desc{font-size:0.76rem;color:var(--muted2);line-height:1.6;}
 .fact-num{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:1px;margin:6px 0 2px;}
+
+/* ===== 3일 회복 원칙 박스 ===== */
+.recovery-principle{
+  background:linear-gradient(135deg,rgba(255,0,0,0.1),rgba(255,59,59,0.04));
+  border:1.5px solid rgba(255,59,59,0.4);border-radius:12px;padding:16px;margin-bottom:10px;
+}
+.rp-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.rp-icon{font-size:1.6rem;}
+.rp-title{font-size:0.95rem;font-weight:900;color:var(--accent);}
+.rp-sub{font-size:0.68rem;color:var(--muted2);margin-top:1px;}
+.rp-days{display:flex;gap:8px;margin-bottom:12px;}
+.rp-day{flex:1;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:10px;padding:10px 8px;text-align:center;}
+.rp-day .rd-num{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:1px;}
+.rp-day .rd-lbl{font-size:0.6rem;color:var(--muted);margin-top:2px;}
+.rp-day.d1 .rd-num{color:var(--accent);}
+.rp-day.d2 .rd-num{color:var(--orange);}
+.rp-day.d3 .rd-num{color:var(--green);}
+.rp-items{display:flex;flex-direction:column;gap:6px;}
+.rp-item{display:flex;gap:8px;align-items:flex-start;background:rgba(0,0,0,0.25);border-radius:8px;padding:8px 10px;}
+.rp-item-icon{font-size:0.9rem;flex-shrink:0;margin-top:1px;}
+.rp-item-body{font-size:0.74rem;color:var(--muted2);line-height:1.5;}
+.rp-item-body strong{color:var(--text);}
+.rp-verdict{margin-top:10px;background:rgba(255,59,59,0.08);border:1px solid rgba(255,59,59,0.25);border-radius:8px;padding:10px 12px;font-size:0.78rem;font-weight:700;color:var(--accent);text-align:center;}
 
 /* 타임라인 */
 .timeline{display:flex;flex-direction:column;}
@@ -194,27 +275,7 @@ canvas{width:100%!important;}
 .tl-desc{font-size:0.75rem;color:var(--muted2);line-height:1.55;}
 .tl-tag{display:inline-block;font-size:0.58rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:5px;}
 
-/* 술 계산기 */
-.calc-box{background:rgba(255,59,59,0.05);border:1px solid rgba(255,59,59,0.2);border-radius:12px;padding:16px;}
-.calc-box h3{font-size:0.78rem;font-weight:700;margin-bottom:12px;color:var(--accent);}
-.calc-row{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
-.calc-row label{font-size:0.72rem;color:var(--muted2);width:80px;flex-shrink:0;}
-.calc-row select{flex:1;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:9px 10px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:14px;outline:none;}
-.calc-result{margin-top:12px;padding:12px;background:var(--card);border-radius:8px;border:1px solid var(--border);}
-.cr-row{display:flex;justify-content:space-between;padding:3px 0;font-size:0.76rem;}
-.cr-row span:last-child{font-weight:700;color:var(--accent);}
-.vs-box{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
-.vs-item{border-radius:12px;padding:13px;text-align:center;border:1px solid;}
-.vs-item.drink{background:rgba(255,59,59,0.05);border-color:rgba(255,59,59,0.2);}
-.vs-item.nodri{background:rgba(0,230,118,0.04);border-color:rgba(0,230,118,0.2);}
-.vs-item h4{font-size:0.72rem;font-weight:700;margin-bottom:8px;}
-.vs-item.drink h4{color:var(--accent);}
-.vs-item.nodri h4{color:var(--green);}
-.vs-row{font-size:0.7rem;color:var(--muted2);padding:2px 0;border-bottom:1px solid var(--border);}
-.vs-row:last-child{border:none;}
-
-/* ===== 다이어트 식단 탭 ===== */
-.diet-section{border-radius:14px;padding:20px;margin-bottom:12px;}
+/* 식단 가이드 */
 .diet-rule{display:flex;gap:12px;align-items:flex-start;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;}
 .diet-rule-num{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--accent);line-height:1;flex-shrink:0;width:32px;}
 .diet-rule-body .title{font-size:0.88rem;font-weight:700;margin-bottom:4px;}
@@ -238,7 +299,6 @@ canvas{width:100%!important;}
 .tip-box .tip-title{font-size:0.78rem;font-weight:700;color:var(--green);margin-bottom:6px;}
 .tip-box .tip-desc{font-size:0.75rem;color:var(--muted2);line-height:1.6;}
 
-/* 빈 상태 */
 .empty{text-align:center;padding:32px;color:var(--muted);font-size:0.8rem;}
 .empty .ei{font-size:1.8rem;margin-bottom:8px;}
 
@@ -257,13 +317,34 @@ canvas{width:100%!important;}
   .card{margin-bottom:0;}
   .goal-card{margin-bottom:0;}
   .drink-banner{margin-bottom:0;}
+  .recovery-banner{margin-bottom:0;}
   .hdr-l h1{font-size:2.8rem;}
   .chart-wrap{height:220px;}
   .rpt-grid{grid-template-columns:repeat(4,1fr);}
   .food-grid{grid-template-columns:repeat(4,1fr);}
-  .vs-box{grid-template-columns:1fr 1fr;}
 }
 @media(min-width:1100px){.wrap{max-width:1100px;}}
+
+/* 음식 검색 */
+.cat-btn{padding:5px 11px;border-radius:20px;font-size:.68rem;font-weight:600;border:1px solid var(--border);background:none;color:var(--muted2);cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;}
+.cat-btn.on{background:var(--blue);border-color:var(--blue);color:#fff;}
+.food-row{display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--card2);border:1px solid var(--border);border-radius:9px;margin-bottom:5px;cursor:pointer;transition:all .2s;}
+.food-row:hover{border-color:var(--blue);background:rgba(61,139,255,0.06);}
+.food-row.selected{border-color:var(--green);background:rgba(0,230,118,0.05);}
+.fr-name{flex:1;font-size:.82rem;font-weight:600;}
+.fr-cat{font-size:.58rem;color:var(--muted2);background:var(--card);border-radius:4px;padding:1px 5px;flex-shrink:0;}
+.fr-kcal{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--blue);letter-spacing:.5px;flex-shrink:0;min-width:52px;text-align:right;}
+.fr-macro{font-size:.6rem;color:var(--muted2);flex-shrink:0;min-width:90px;text-align:right;}
+.fr-add{width:24px;height:24px;border-radius:50%;background:var(--blue);border:none;color:#fff;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
+.food-row.selected .fr-add{background:var(--green);}
+.sel-item{display:flex;justify-content:space-between;align-items:center;font-size:.72rem;padding:3px 0;border-bottom:1px solid var(--border);}
+.sel-item:last-child{border:none;}
+.sel-name{color:var(--muted2);}
+.sel-k{color:var(--blue);font-weight:700;}
+.tot-chip{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px 4px;text-align:center;}
+.tot-chip .tv{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.5px;}
+.tot-chip .tl{font-size:.55rem;color:var(--muted);margin-top:1px;}
+.food-empty{text-align:center;padding:20px;color:var(--muted);font-size:.8rem;}
 
 .sub-tabs{display:flex;gap:3px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:14px;}
 .sub-tab{flex:1;padding:9px 6px;border:none;background:transparent;color:var(--muted2);font-family:'Noto Sans KR',sans-serif;font-size:0.76rem;font-weight:500;border-radius:7px;cursor:pointer;transition:all .2s;}
@@ -289,6 +370,29 @@ canvas{width:100%!important;}
   </div>
 </div>
 
+<!-- 🚨 음주 경고 팝업 -->
+<div class="alc-popup" id="alcPopup">
+  <div class="ap-box">
+    <div class="ap-emoji">🍺</div>
+    <div class="ap-title">3일 회복 미완료</div>
+    <div class="ap-sub" id="apSub">마지막 음주 후 아직 <strong id="apDaysLeft">?</strong>일 더 지나야 합니다.<br>지방 연소 회복이 72시간 필요합니다.</div>
+    <div class="ap-grid">
+      <div class="ap-cell"><div class="av" id="apElapsed">?</div><div class="al">경과일</div></div>
+      <div class="ap-cell"><div class="av" id="apRemain">?</div><div class="al">남은 회복일</div></div>
+      <div class="ap-cell"><div class="av" style="color:var(--orange)">3</div><div class="al">필요 회복일</div></div>
+    </div>
+    <div class="ap-fact-box">
+      <p>음주 후 지방 산화 억제가 <strong>72시간 지속</strong>됩니다.<br>
+      소주 1병 = <strong>3~4일치 감량 효과 상쇄</strong>.<br>
+      지금 또 마시면 이번 주 감량 노력이 <strong>전부 날아갑니다.</strong></p>
+    </div>
+    <div class="ap-btns">
+      <button class="ap-btn-no" onclick="closeAlcPopup(false)">🙅 안 마신다 (잘했다)</button>
+      <button class="ap-btn-yes" onclick="closeAlcPopup(true)">그래도 마심</button>
+    </div>
+  </div>
+</div>
+
 <!-- 앱 -->
 <div id="app">
   <div class="wrap">
@@ -304,7 +408,7 @@ canvas{width:100%!important;}
     <!-- PC 탭 -->
     <div id="pc-tabs">
       <button class="pc-tab on" id="pt0" onclick="go('dash',0)">📊 대시보드</button>
-      <button class="pc-tab" id="pt1" onclick="go('input',1)">✏️ 기록</button>
+      <button class="pc-tab" id="pt1" onclick="go('input',1)">💡 정보통</button>
       <button class="pc-tab" id="pt2" onclick="go('hist',2)">📋 히스토리</button>
       <button class="pc-tab" id="pt3" onclick="go('rpt',3)">📈 리포트</button>
       <button class="pc-tab" id="pt4" onclick="go('alc',4)">🍺 술 영향</button>
@@ -313,7 +417,27 @@ canvas{width:100%!important;}
 
     <!-- ===== 대시보드 ===== -->
     <div id="pane-dash" class="pane on">
-      <div id="drinkBanner" class="drink-banner safe pc-col-full">✅ 이번주 음주 0회 — 주 1회 룰 완벽 유지</div>
+
+      <!-- 3일 회복 배너 (음주 후 3일간 표시) -->
+      <div id="recoveryBanner" class="recovery-banner pc-col-full">
+        <div class="rb-top">
+          <div class="rb-title">🚨 음주 후 회복 중 — 지방 연소 억제 지속</div>
+          <div class="rb-dday" id="rbDday">D+?<small>일째</small></div>
+        </div>
+        <div class="rb-prog-bg"><div class="rb-prog-fill" id="rbProgFill" style="width:0%"></div></div>
+        <div class="rb-prog-labels"><span>음주일</span><span id="rbProgText">0/3일</span><span>회복 완료</span></div>
+        <div class="rb-facts">
+          <div class="rb-fact"><div class="rf-icon">🔥</div><div class="rf-title">지방 연소 억제</div><div class="rf-desc">지방 산화 효율 저하 72시간 지속. 식단 지켜도 감량 느림.</div></div>
+          <div class="rb-fact"><div class="rf-icon">😴</div><div class="rf-title">식욕 호르몬 교란</div><div class="rf-desc">그렐린 +28%, 렙틴 -18% 상태. 배불러도 더 먹고 싶음.</div></div>
+          <div class="rb-fact"><div class="rf-icon">💪</div><div class="rf-title">단백질 합성 억제</div><div class="rf-desc">셀릭스·도시락 단백질이 근육으로 가지 못함.</div></div>
+          <div class="rb-fact"><div class="rf-icon">🫃</div><div class="rf-title">복부지방 축적</div><div class="rf-desc">코르티솔 상승으로 내장지방 축적 촉진 중.</div></div>
+        </div>
+        <div class="rb-foot" id="rbFoot"></div>
+      </div>
+
+      <!-- 일반 음주 배너 -->
+      <div id="drinkBanner" class="drink-banner safe pc-col-full">✅ 이번주 음주 0회 — 3일 룰 완벽 유지</div>
+
       <div class="pc-grid">
         <div class="goal-card pc-col-full">
           <div class="card-ttl">목표 진행률</div>
@@ -348,7 +472,7 @@ canvas{width:100%!important;}
               <div class="chk-item" id="c2" onclick="ck(2)"><div class="chk-box">✓</div><div class="chk-lbl">저녁 도시락</div><span class="badge b-g">18:30</span></div>
               <div class="chk-item" id="c3" onclick="ck(3)"><div class="chk-box">✓</div><div class="chk-lbl">저녁 셀릭스 20g</div><span class="badge b-b">단백질</span></div>
               <div class="chk-item" id="c4" onclick="ck(4)"><div class="chk-box">✓</div><div class="chk-lbl">야식 안 먹음</div><span class="badge b-o">21:30</span></div>
-              <div class="chk-item" id="c5" onclick="ck(5)"><div class="chk-box">✓</div><div class="chk-lbl">술 주 1회 룰 지킴</div><span class="badge b-r">음주</span></div>
+              <div class="chk-item" id="c5" onclick="ck(5)"><div class="chk-box">✓</div><div class="chk-lbl">음주 후 3일 휴식 룰 지킴</div><span class="badge b-r">음주</span></div>
             </div>
             <div class="chk-progress">
               <div class="chk-p-row"><span>오늘 준수율</span><strong id="ckRate">0 / 6</strong></div>
@@ -363,18 +487,240 @@ canvas{width:100%!important;}
       </div>
     </div>
 
-    <!-- ===== 기록 ===== -->
+    <!-- ===== 💡 다이어트 생생 정보통 ===== -->
     <div id="pane-input" class="pane">
-      <div class="card">
-        <div class="card-ttl">체중 기록 입력</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div class="inp-g"><label>날짜</label><input type="date" id="rDate"></div>
-          <div class="inp-g"><label>체중 (kg)</label><input type="number" id="rWt" placeholder="73.5" step="0.1" inputmode="decimal"></div>
-          <div class="inp-g"><label>음주 여부</label><select id="rDr"><option value="0">안 마심 ✅</option><option value="1">마심 🍺</option></select></div>
-          <div class="inp-g"><label>메모 (선택)</label><input type="text" id="rMemo" placeholder="오늘 식단 잘 지킴"></div>
-          <button class="btn full" onclick="saveRec()">기록 저장</button>
+
+      <div class="section-hero" style="background:linear-gradient(135deg,rgba(61,139,255,0.08),rgba(0,230,118,0.04));border:1px solid rgba(61,139,255,0.2);margin-bottom:12px;">
+        <h2 style="color:var(--blue)">💡 생생 정보통</h2>
+        <p>음식 칼로리 검색 + 감량 꿀팁 모음</p>
+      </div>
+
+      <!-- ★ 음식 칼로리 DB 검색기 ★ -->
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-ttl">🔍 음식 칼로리 검색 — 한국 음식 DB</div>
+        <div style="position:relative;margin-bottom:10px">
+          <input type="text" id="foodSearch" placeholder="음식 이름 검색... (예: 닭가슴살, 도시락, 라면)"
+            style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 40px 12px 14px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none;transition:border-color .2s"
+            oninput="searchFood(this.value)" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+          <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none">🔍</span>
+        </div>
+        <!-- 카테고리 필터 -->
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px" id="catBtns">
+          <button class="cat-btn on" onclick="filterCat('전체')">전체</button>
+          <button class="cat-btn" onclick="filterCat('단백질')">💪 단백질</button>
+          <button class="cat-btn" onclick="filterCat('밥·면')">🍚 밥·면</button>
+          <button class="cat-btn" onclick="filterCat('채소·과일')">🥦 채소·과일</button>
+          <button class="cat-btn" onclick="filterCat('간식·음료')">🧃 간식·음료</button>
+          <button class="cat-btn" onclick="filterCat('도시락·외식')">🍱 도시락·외식</button>
+          <button class="cat-btn" onclick="filterCat('술·안주')">🍺 술·안주</button>
+        </div>
+        <!-- 결과 -->
+        <div id="foodResults"></div>
+        <!-- 선택된 음식 합산 -->
+        <div id="foodSelected" style="display:none;margin-top:10px;background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:.75rem;font-weight:700;color:var(--green)">📊 선택한 음식 합산</span>
+            <button onclick="clearSelected()" style="font-size:.65rem;color:var(--muted);background:none;border:1px solid var(--border);border-radius:5px;padding:2px 8px;cursor:pointer;font-family:'Noto Sans KR',sans-serif">초기화</button>
+          </div>
+          <div id="selectedList" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px"></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px" id="selectedTotals"></div>
         </div>
       </div>
+
+      <!-- 꿀팁 1: 체중 정체기 -->
+      <div class="card">
+        <div class="card-ttl">📌 정체기 — 왜 오고 어떻게 돌파하나</div>
+        <div class="fact-box danger-low">
+          <div class="fact-header">
+            <div class="fact-icon">📉</div>
+            <div>
+              <div class="fact-title">정체기는 몸이 고장난 게 아닙니다 — 적응입니다</div>
+              <div class="fact-desc">체중이 줄면 기초대사량(BMR)도 함께 줄어듭니다. 처음 74kg일 때 1,642kcal이던 BMR이 71kg이 되면 약 1,600kcal로 줄어듭니다. 같은 식단을 유지해도 칼로리 적자폭이 좁아지는 것이 정체기의 원인입니다.</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px">
+          <div style="display:flex;gap:8px;align-items:flex-start;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+            <span style="font-size:.9rem;flex-shrink:0">1️⃣</span>
+            <div style="font-size:.76rem;color:var(--muted2);line-height:1.6"><b style="color:var(--text)">2주 정체 시 → 셀릭스 추가 1회</b> — 단백질 섭취 증가로 TEF(열 발생 효과) 높이기. 칼로리 줄이기보다 단백질 늘리는 게 효과적.</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-start;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+            <span style="font-size:.9rem;flex-shrink:0">2️⃣</span>
+            <div style="font-size:.76rem;color:var(--muted2);line-height:1.6"><b style="color:var(--text)">리피드(refeed) 하루</b> — 탄수화물을 평소의 1.5배로 늘리는 날 1회. 렙틴 수치를 일시 회복시켜 지방 연소 재가동. 라면 먹는 날이 아니라 밥+고구마+과일 조합으로.</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-start;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+            <span style="font-size:.9rem;flex-shrink:0">3️⃣</span>
+            <div style="font-size:.76rem;color:var(--muted2);line-height:1.6"><b style="color:var(--text)">주 단위 평균으로 판단</b> — 일별 체중은 ±1kg 수분 변동이 정상. 월요일 아침 체중을 주 단위로 비교하는 게 실제 진행률 파악에 정확.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 꿀팁 2: 부기 vs 지방 -->
+      <div class="card">
+        <div class="card-ttl">📌 부기 vs 지방 — 구별하는 법</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+          <div style="background:rgba(61,139,255,0.06);border:1px solid rgba(61,139,255,0.2);border-radius:10px;padding:12px">
+            <div style="font-size:.78rem;font-weight:700;color:var(--blue);margin-bottom:8px">💧 부기 (수분)</div>
+            <div style="font-size:.72rem;color:var(--muted2);line-height:1.7">하루 이틀 새 1~2kg 오름<br>아침에 심하고 오후 나아짐<br>손발이 붓거나 눌리면 자국<br>짠 음식·음주·수면 부족 후<br><span style="color:var(--blue);font-weight:600">→ 칼륨·수분으로 빠짐</span></div>
+          </div>
+          <div style="background:rgba(255,59,59,0.05);border:1px solid rgba(255,59,59,0.2);border-radius:10px;padding:12px">
+            <div style="font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:8px">🍕 지방</div>
+            <div style="font-size:.72rem;color:var(--muted2);line-height:1.7">주 단위로 서서히 늘어남<br>아침저녁 비슷하게 유지<br>잡히는 살의 양이 늘어남<br>칼로리 초과가 지속될 때<br><span style="color:var(--accent);font-weight:600">→ 칼로리 적자만이 해결</span></div>
+          </div>
+        </div>
+        <div style="background:var(--card2);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px">
+          <div style="font-size:.78rem;font-weight:700;color:var(--green);margin-bottom:6px">✅ 부기 빼는 실전 방법</div>
+          <div style="font-size:.74rem;color:var(--muted2);line-height:1.7">
+            <b style="color:var(--text)">칼륨 보충</b> — 바나나 1개(칼륨 400mg), 고구마 150g(칼륨 550mg). 나트륨 배출 직접 촉진.<br>
+            <b style="color:var(--text)">물 2L 이상</b> — 역설적이지만 물 많이 마셔야 수분 배출됨. 이뇨 작용 활성화.<br>
+            <b style="color:var(--text)">나트륨 하루 2,000mg 이하</b> — 라면 1개 = 1,800mg. 사실상 라면 한 끼 = 하루 치.
+          </div>
+        </div>
+      </div>
+
+      <!-- 꿀팁 3: 수면과 감량 -->
+      <div class="card">
+        <div class="card-ttl">📌 수면 — 자는 동안도 지방이 탑니다</div>
+        <div class="fact-box" style="border-color:rgba(155,89,182,0.3)">
+          <div class="fact-header">
+            <div class="fact-icon">😴</div>
+            <div>
+              <div class="fact-title">수면 5.5시간 vs 8.5시간 — 지방 손실량 55% 차이</div>
+              <div class="fact-desc">동일한 칼로리 적자에서 수면이 부족한 그룹은 체중 감소의 대부분이 근육 손실이었고, 충분한 수면 그룹은 체중 감소의 대부분이 지방 손실이었습니다. 자는 동안 성장호르몬이 분비돼 지방을 에너지로 씁니다.</div>
+              <div style="display:flex;gap:10px;margin:8px 0">
+                <div style="flex:1;text-align:center;background:rgba(255,59,59,0.08);border-radius:8px;padding:8px">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--accent)">5.5h</div>
+                  <div style="font-size:.62rem;color:var(--muted2)">지방 손실 25%</div>
+                </div>
+                <div style="flex:1;text-align:center;background:rgba(0,230,118,0.06);border-radius:8px;padding:8px">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--green)">8.5h</div>
+                  <div style="font-size:.62rem;color:var(--muted2)">지방 손실 80%</div>
+                </div>
+              </div>
+              <a class="src-badge" href="https://pubmed.ncbi.nlm.nih.gov/20921542/" target="_blank">📄 Nedeltcheva et al., 2010 · PubMed</a>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:.74rem;color:var(--muted2);line-height:1.7;background:var(--card2);border-radius:10px;padding:12px">
+          <b style="color:var(--text)">실전:</b> 23시 이전 취침 + 7~8시간 확보가 목표. 수면 1시간이 운동 30분보다 감량에 더 효과적일 수 있습니다. 야식 안 먹고 일찍 자는 것 자체가 칼로리 적자 + 지방 연소 극대화의 조합.
+        </div>
+      </div>
+
+      <!-- 꿀팁 4: 체중계 숫자에 속지 않기 -->
+      <div class="card">
+        <div class="card-ttl">📌 체중계 숫자에 속지 않는 법</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;gap:10px;align-items:center;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+            <span style="font-size:1rem;flex-shrink:0">🍚</span>
+            <div style="font-size:.76rem;color:var(--muted2);line-height:1.5"><b style="color:var(--text)">밥 먹은 다음날 +0.5~1kg</b> — 탄수화물은 글리코겐으로 저장되며 물을 3~4배 함께 잡아둠. 지방이 아니라 수분+글리코겐.</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+            <span style="font-size:1rem;flex-shrink:0">💩</span>
+            <div style="font-size:.76rem;color:var(--muted2);line-height:1.5"><b style="color:var(--text)">배변 전후 최대 1~1.5kg 차이</b> — 같은 날 아침이라도 배변 전후 체중이 다름. 항상 화장실 다녀온 뒤 측정.</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+            <span style="font-size:1rem;flex-shrink:0">🏃</span>
+            <div style="font-size:.76rem;color:var(--muted2);line-height:1.5"><b style="color:var(--text)">운동 다음날 일시 증가 가능</b> — 근육 미세 손상 회복 과정에서 염증·수분이 몰려 +0.5kg 가능. 실제로는 잘 되고 있는 것.</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+            <span style="font-size:1rem;flex-shrink:0">🌙</span>
+            <div style="font-size:.76rem;color:var(--muted2);line-height:1.5"><b style="color:var(--text)">저녁 vs 아침 최대 2kg 차이</b> — 저녁에 먹은 음식·수분이 소화되는 중. 체중은 반드시 아침 기상 직후 공복에 측정.</div>
+          </div>
+          <div style="background:rgba(255,140,0,0.06);border:1px solid rgba(255,140,0,0.2);border-radius:8px;padding:10px 12px;font-size:.76rem;color:var(--orange);font-weight:600">
+            ⚡ 결론: 일별 숫자 말고 이번주 평균 vs 지난주 평균으로 판단. 일희일비 금지.
+          </div>
+        </div>
+      </div>
+
+      <!-- 꿀팁 5: NEAT (운동 없이 칼로리 소모) -->
+      <div class="card">
+        <div class="card-ttl">📌 NEAT — 운동 없이 하루 200kcal 더 태우기</div>
+        <div class="fact-box" style="border-color:rgba(0,230,118,0.25)">
+          <div class="fact-header">
+            <div class="fact-icon">🚶</div>
+            <div>
+              <div class="fact-title">NEAT(비운동성 활동 열발생)가 총 소비의 15~50%</div>
+              <div class="fact-desc">헬스장 운동보다 일상 속 움직임 총량이 감량에 더 큰 영향을 미칩니다. 좌식 직장인과 활동적인 사람의 TDEE 차이 대부분이 NEAT에서 옵니다.</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+          <div style="background:var(--card2);border:1px solid rgba(0,230,118,0.15);border-radius:8px;padding:10px">
+            <div style="font-size:.68rem;font-weight:700;color:var(--green);margin-bottom:5px">✅ 쉬운 NEAT 높이기</div>
+            <div style="font-size:.7rem;color:var(--muted2);line-height:1.7">점심 식후 10분 걷기<br>엘리베이터 대신 계단<br>전화 통화 시 서서 걷기<br>버스 한 정거장 일찍 하차<br>화장실 멀리 있는 층 이용</div>
+          </div>
+          <div style="background:var(--card2);border:1px solid rgba(61,139,255,0.15);border-radius:8px;padding:10px">
+            <div style="font-size:.68rem;font-weight:700;color:var(--blue);margin-bottom:5px">📊 대략적 칼로리</div>
+            <div style="font-size:.7rem;color:var(--muted2);line-height:1.7">10분 걷기 ≈ 40kcal<br>계단 5층 ≈ 5kcal<br>서서 일하기 1시간 ≈ 50kcal<br>가벼운 집안일 1시간 ≈ 150kcal<br>하루 총합 ≈ 200~300kcal</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 꿀팁 6: 단백질 흡수 타이밍 -->
+      <div class="card">
+        <div class="card-ttl">📌 단백질 흡수 타이밍 — 셀릭스 언제 먹나</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px">
+            <div style="font-size:.78rem;font-weight:700;color:var(--green);margin-bottom:6px">✅ 셀릭스 타이밍 최적화</div>
+            <div style="font-size:.74rem;color:var(--muted2);line-height:1.7">
+              <b style="color:var(--text)">도시락과 함께 or 직후</b> — 식사 단백질과 합쳐서 1회 총 40~50g 확보. 포만감 극대화.<br>
+              <b style="color:var(--text)">공복 시간이 길 때 (오후 3~5시)</b> — 근손실 방지 목적. 이때 셀릭스 1회 추가하면 그렐린 억제 효과도 있음.<br>
+              <b style="color:var(--text)">자기 전 X</b> — 취침 1~2시간 전 단백질은 성장호르몬 분비를 오히려 낮출 수 있어 비추천.
+            </div>
+          </div>
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:.74rem;color:var(--muted2);line-height:1.7">
+            <b style="color:var(--orange)">⚡ 한 끼에 40g 이상은 낭비?</b> — 예전 통설이고 최신 연구에서는 한 끼 40g+ 흡수 가능함이 확인. 걱정 안 해도 됨. 하루 총량 90~100g 채우는 게 중요.
+            <a class="src-badge" href="https://pubmed.ncbi.nlm.nih.gov/37358165/" target="_blank" style="margin-top:6px;display:inline-flex">📄 Trommelen et al., 2023 · IJSNEM</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 꿀팁 7: 감량 속도 현실 체크 -->
+      <div class="card">
+        <div class="card-ttl">📌 감량 속도 현실 체크 — 얼마나 빠른 게 정상인가</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px">
+          <div style="background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--green)">0.5kg</div>
+            <div style="font-size:.62rem;color:var(--muted);margin-top:3px">주당 권장</div>
+            <div style="font-size:.62rem;color:var(--green);margin-top:2px">근손실 최소</div>
+          </div>
+          <div style="background:rgba(255,140,0,0.05);border:1px solid rgba(255,140,0,0.2);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--orange)">1kg</div>
+            <div style="font-size:.62rem;color:var(--muted);margin-top:3px">최대 권장</div>
+            <div style="font-size:.62rem;color:var(--orange);margin-top:2px">근손실 일부</div>
+          </div>
+          <div style="background:rgba(255,59,59,0.05);border:1px solid rgba(255,59,59,0.2);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent)">1.5kg↑</div>
+            <div style="font-size:.62rem;color:var(--muted);margin-top:3px">초과</div>
+            <div style="font-size:.62rem;color:var(--accent);margin-top:2px">근손실·정체기</div>
+          </div>
+        </div>
+        <div style="font-size:.74rem;color:var(--muted2);line-height:1.7;background:var(--card2);border-radius:10px;padding:12px">
+          <b style="color:var(--text)">태완님 기준 (74→68kg, 6kg):</b> 주 0.5kg 감량 시 12주(약 3개월). 서두를 필요 없습니다. 너무 빨리 빼면 근육이 빠지고 정체기가 더 빨리 옵니다. <b style="color:var(--green)">느리게 확실하게가 정답.</b>
+        </div>
+      </div>
+
+      <!-- 꿀팁 8: 공복 혈당 & 인슐린 -->
+      <div class="card">
+        <div class="card-ttl">📌 혈당 스파이크 — 지방 저장 스위치 ON</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:.76rem;color:var(--muted2);line-height:1.7">
+            인슐린은 <b style="color:var(--text)">지방 저장 호르몬</b>입니다. 혈당이 급등하면 인슐린이 대량 분비되고 이 상태에서는 지방 연소가 차단됩니다. 식사 방법으로 혈당 스파이크를 줄일 수 있습니다.
+          </div>
+          <div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.15);border-radius:10px;padding:12px">
+            <div style="font-size:.76rem;font-weight:700;color:var(--green);margin-bottom:7px">✅ 혈당 관리 식사 순서 (검증됨)</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600">
+              <span style="background:rgba(0,230,118,0.15);border-radius:6px;padding:4px 10px;color:var(--green)">채소</span>
+              <span style="color:var(--muted)">→</span>
+              <span style="background:rgba(61,139,255,0.12);border-radius:6px;padding:4px 10px;color:var(--blue)">단백질</span>
+              <span style="color:var(--muted)">→</span>
+              <span style="background:rgba(255,140,0,0.12);border-radius:6px;padding:4px 10px;color:var(--orange)">탄수화물</span>
+            </div>
+            <div style="font-size:.7rem;color:var(--muted2);margin-top:8px;line-height:1.6">채소 먼저 → 식이섬유가 장에서 혈당 흡수 속도 낮춤. 단백질 → 인슐린 반응 완만. 탄수 마지막 → 혈당 스파이크 20~40% 감소 효과.</div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- ===== 히스토리 ===== -->
@@ -399,17 +745,58 @@ canvas{width:100%!important;}
       </div>
     </div>
 
-    <!-- ===== 술 영향 (팩트 기반) ===== -->
+    <!-- ===== 술 영향 ===== -->
     <div id="pane-alc" class="pane">
-      <!-- 모바일 서브탭 -->
       <div class="sub-tabs" id="subTabs">
         <button class="sub-tab on" id="st0" onclick="switchSub(0)">🍺 술 영향</button>
         <button class="sub-tab" id="st1" onclick="switchSub(1)">🥗 식단 가이드</button>
       </div>
+
+      <!-- 술 영향 서브탭 -->
       <div id="sub-alc">
       <div class="section-hero" style="background:linear-gradient(135deg,rgba(255,59,59,0.08),rgba(255,59,59,0.02));border:1px solid rgba(255,59,59,0.2);">
         <h2 style="color:var(--accent)">⚠ 술이 감량에 미치는 영향</h2>
         <p>아래 모든 수치는 동료 심사 논문 기반 팩트입니다<br>소주 2병 = 이번주 감량 전부 날림</p>
+      </div>
+
+      <!-- ★★★ 3일 회복 원칙 (새로 추가) ★★★ -->
+      <div class="recovery-principle">
+        <div class="rp-header">
+          <div class="rp-icon">⏳</div>
+          <div>
+            <div class="rp-title">음주 후 최소 3일 휴식 원칙</div>
+            <div class="rp-sub">논문 기반 · 지방 산화 완전 회복까지 72시간 필요</div>
+          </div>
+        </div>
+        <div class="rp-days">
+          <div class="rp-day d1">
+            <div class="rd-num">D+1</div>
+            <div class="rd-lbl">위험 최고조</div>
+          </div>
+          <div class="rp-day d2">
+            <div class="rd-num">D+2</div>
+            <div class="rd-lbl">회복 진행</div>
+          </div>
+          <div class="rp-day d3">
+            <div class="rd-num">D+3</div>
+            <div class="rd-lbl">회복 완료</div>
+          </div>
+        </div>
+        <div class="rp-items">
+          <div class="rp-item">
+            <div class="rp-item-icon">🔥</div>
+            <div class="rp-item-body"><strong>D+1 (음주 다음날):</strong> 지방 산화 억제가 12~24시간 지속. 식단 지켜도 감량 속도 저하. 그렐린 폭등으로 식욕 폭발 위험.</div>
+          </div>
+          <div class="rp-item">
+            <div class="rp-item-icon">😴</div>
+            <div class="rp-item-body"><strong>D+2 (이틀째):</strong> 수면 질 저하 지속. 코르티솔 리듬 교란 상태. 인슐린 민감도 아직 회복 미완. 단백질 합성 여전히 억제.</div>
+          </div>
+          <div class="rp-item">
+            <div class="rp-item-icon">✅</div>
+            <div class="rp-item-body"><strong>D+3 이후:</strong> 지방 산화 정상 궤도 복귀. 호르몬 정상화. 이 시점부터 다음 음주를 허용해도 감량 사이클 유지 가능.</div>
+          </div>
+        </div>
+        <div class="rp-verdict">🚫 3일 안에 또 마시면 = 감량 사이클 완전 붕괴</div>
       </div>
 
       <!-- 팩트 1: 지방 연소 -->
@@ -460,7 +847,7 @@ canvas{width:100%!important;}
         </div>
       </div>
 
-      <!-- 팩트 3: 코르티솔·복부지방 -->
+      <!-- 팩트 3: 코르티솔 -->
       <div class="card">
         <div class="card-ttl">📌 팩트 3 — 코르티솔 상승 → 복부지방 축적</div>
         <div class="fact-box danger-mid">
@@ -492,399 +879,119 @@ canvas{width:100%!important;}
 
       <!-- 음주 후 타임라인 -->
       <div class="card">
-        <div class="card-ttl">⏱ 음주 후 시간대별 신체 반응</div>
+        <div class="card-ttl">⏱ 음주 후 시간대별 신체 반응 (72시간 전체)</div>
         <div class="timeline">
           <div class="tl-item"><div class="tl-line"></div><div class="tl-dot" style="background:rgba(255,59,59,0.1);border-color:var(--accent);color:var(--accent)">🍺</div><div class="tl-body"><div class="tl-time" style="color:var(--accent)">0~30분</div><div class="tl-title">지방 연소 즉시 차단</div><div class="tl-desc">간이 알코올 분해 최우선 모드 진입. 지방 산화 79% 감소. 아세테이트 생성으로 지방 신생합성 증가.</div><span class="tl-tag" style="background:rgba(255,59,59,0.12);color:var(--accent)">지방 연소 0%</span></div></div>
           <div class="tl-item"><div class="tl-line"></div><div class="tl-dot" style="background:rgba(255,140,0,0.1);border-color:var(--orange);color:var(--orange)">📈</div><div class="tl-body"><div class="tl-time" style="color:var(--orange)">1~3시간</div><div class="tl-title">그렐린 폭등 + 저혈당</div><div class="tl-desc">식욕 자극 호르몬 급증. 혈당 롤러코스터. 단 것·기름진 것 강렬하게 당김. 이때 야식·안주 추가 시 칼로리 2배 타격.</div><span class="tl-tag" style="background:rgba(255,140,0,0.12);color:var(--orange)">야식 위험 최고조</span></div></div>
           <div class="tl-item"><div class="tl-line"></div><div class="tl-dot" style="background:rgba(155,89,182,0.1);border-color:var(--purple);color:var(--purple)">😴</div><div class="tl-body"><div class="tl-time" style="color:var(--purple)">수면 중</div><div class="tl-title">REM 수면 차단 + 성장호르몬 억제</div><div class="tl-desc">알코올이 REM 수면을 방해. 깊은 수면 시 분비되는 성장호르몬(지방 분해·근육 회복) 억제. 코르티솔 패턴 교란.</div><span class="tl-tag" style="background:rgba(155,89,182,0.12);color:var(--purple)">회복 불가</span></div></div>
-          <div class="tl-item"><div class="tl-line"></div><div class="tl-dot" style="background:rgba(255,59,59,0.1);border-color:var(--accent);color:var(--accent)">🌅</div><div class="tl-body"><div class="tl-time" style="color:var(--accent)">다음날</div><div class="tl-title">그렐린 추가 상승 + 렙틴 추가 하락</div><div class="tl-desc">수면 질 저하로 그렐린 +28%, 렙틴 -18% 상태 지속. 평소보다 20~30% 더 먹게 됨. 식단 무너지기 가장 쉬운 날.</div><span class="tl-tag" style="background:rgba(255,59,59,0.12);color:var(--accent)">식단 붕괴 위험</span></div></div>
-          <div class="tl-item"><div class="tl-dot" style="background:rgba(255,0,0,0.1);border-color:#ff0000;color:#ff0000">⚡</div><div class="tl-body"><div class="tl-time" style="color:#ff0000">12~24시간</div><div class="tl-title">지방 산화 효율 저하 지속</div><div class="tl-desc">음주 후 지방 산화 억제가 12~24시간 측정 가능한 수준으로 지속됨. 식단 지켜도 감량 속도 느려짐. 소주 1병 = 3일치 감량 효과 상쇄.</div><span class="tl-tag" style="background:rgba(255,0,0,0.12);color:#ff0000">3일치 타격</span></div></div>
+          <div class="tl-item"><div class="tl-line"></div><div class="tl-dot" style="background:rgba(255,59,59,0.1);border-color:var(--accent);color:var(--accent)">🌅</div><div class="tl-body"><div class="tl-time" style="color:var(--accent)">D+1 다음날</div><div class="tl-title">그렐린 추가 상승 + 렙틴 추가 하락</div><div class="tl-desc">수면 질 저하로 그렐린 +28%, 렙틴 -18% 상태 지속. 평소보다 20~30% 더 먹게 됨. 식단 무너지기 가장 쉬운 날.</div><span class="tl-tag" style="background:rgba(255,59,59,0.12);color:var(--accent)">식단 붕괴 위험</span></div></div>
+          <div class="tl-item"><div class="tl-line"></div><div class="tl-dot" style="background:rgba(255,140,0,0.1);border-color:var(--orange);color:var(--orange)">📉</div><div class="tl-body"><div class="tl-time" style="color:var(--orange)">D+2 이틀째</div><div class="tl-title">코르티솔 교란 지속 · 인슐린 저항 유지</div><div class="tl-desc">지방 산화 억제 아직 완전 회복 안 됨. 인슐린 민감도 저하 지속. 셀릭스 단백질이 근육으로 제대로 가지 못함. 복부지방 축적 가속 구간.</div><span class="tl-tag" style="background:rgba(255,140,0,0.12);color:var(--orange)">회복 진행 중</span></div></div>
+          <div class="tl-item"><div class="tl-dot" style="background:rgba(0,230,118,0.1);border-color:var(--green);color:var(--green)">✅</div><div class="tl-body"><div class="tl-time" style="color:var(--green)">D+3 사흘째</div><div class="tl-title">지방 산화 정상 복귀 · 호르몬 정상화</div><div class="tl-desc">72시간 경과 후 지방 산화 효율 정상 수준으로 회복. 그렐린·렙틴 밸런스 회복. 인슐린 민감도 정상화. <strong style="color:var(--green)">이 시점부터 다음 음주 허용 가능.</strong></div><span class="tl-tag" style="background:rgba(0,230,118,0.12);color:var(--green)">회복 완료 — 감량 정상 궤도</span></div></div>
         </div>
       </div>
 
-      <!-- 계산기 -->
+      <!-- 다음날 대응 루틴 -->
       <div class="card">
         <div class="card-ttl">🌅 술 마신 다음날 — 대응 루틴</div>
-
-        <!-- 왜 힘든지 -->
         <div style="background:rgba(255,59,59,0.06);border:1px solid rgba(255,59,59,0.2);border-radius:10px;padding:14px;margin-bottom:12px;">
           <div style="font-size:.8rem;font-weight:700;color:var(--accent);margin-bottom:8px">⚠️ 왜 다음날이 힘든가</div>
-          <div style="font-size:.76rem;color:var(--muted2);line-height:1.7">
-            알코올이 REM 수면을 방해해 수면 질이 저하됩니다. 이 때문에 식욕 자극 호르몬 그렐린이 평소보다 높은 상태로 아침을 맞습니다. 동시에 포만 호르몬 렙틴은 낮아져 있어 배가 불러도 더 먹고 싶은 상태가 됩니다. 여기에 알코올 이뇨 작용으로 칼륨·수분이 빠져나가 몸이 붓고 무겁습니다. 이 상태에서 아무 대응 없이 버티면 평소보다 20~30% 더 먹게 되고 식단이 무너집니다.
-          </div>
+          <div style="font-size:.76rem;color:var(--muted2);line-height:1.7">알코올이 REM 수면을 방해해 수면 질이 저하됩니다. 식욕 자극 호르몬 그렐린이 평소보다 높은 상태로 아침을 맞습니다. 동시에 포만 호르몬 렙틴은 낮아져 있어 배가 불러도 더 먹고 싶은 상태가 됩니다. 여기에 알코올 이뇨 작용으로 칼륨·수분이 빠져나가 몸이 붓고 무겁습니다.</div>
         </div>
-
-        <!-- 기상 직후 -->
         <div style="display:flex;gap:10px;margin-bottom:8px;align-items:flex-start">
           <div style="width:36px;height:36px;border-radius:50%;background:rgba(61,139,255,0.12);border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0">🌄</div>
           <div style="flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;">
             <div style="font-size:.78rem;font-weight:700;color:var(--blue);margin-bottom:6px">기상 직후 — 제일 중요</div>
             <div style="font-size:.75rem;color:var(--muted2);line-height:1.7">
-              <b style="color:var(--text)">1. 물 500ml 바로 마시기</b> — 알코올 이뇨로 빠진 수분 보충. 그렐린 일시 억제 효과. 공복감을 수분으로 먼저 채움<br>
-              <b style="color:var(--text)">2. 셀릭스 1회 (20g) 바로</b> — 공복 단백질 섭취로 근손실 방지. 포만감 확보. 식욕 폭발 억제<br>
+              <b style="color:var(--text)">1. 물 500ml 바로 마시기</b> — 알코올 이뇨로 빠진 수분 보충. 그렐린 일시 억제 효과<br>
+              <b style="color:var(--text)">2. 셀릭스 1회 (20g) 바로</b> — 공복 단백질 섭취로 근손실 방지. 포만감 확보<br>
               <b style="color:var(--text)">3. 칼륨 영양제 챙기기</b> — 음주로 빠진 칼륨 보충. 부종 완화
             </div>
           </div>
         </div>
-
-        <!-- 점심 전 -->
         <div style="display:flex;gap:10px;margin-bottom:8px;align-items:flex-start">
           <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,140,0,0.1);border:2px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0">🍱</div>
           <div style="flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;">
             <div style="font-size:.78rem;font-weight:700;color:var(--orange);margin-bottom:6px">점심 전 — 과식 방지 구간</div>
             <div style="font-size:.75rem;color:var(--muted2);line-height:1.7">
               <b style="color:var(--text)">물 300ml 먼저</b> — 도시락 먹기 30분 전. 위 공간 채워서 과식 방지<br>
-              <b style="color:var(--text)">도시락 천천히 15분 이상</b> — 식욕이 강한 날이라 빨리 먹으면 더 먹고 싶어짐. 의식적으로 천천히<br>
-              <b style="color:var(--text)">추가 음식 절대 금지</b> — 그렐린이 높은 상태라 먹으면 더 당김. 도시락 하나로 끊을 것
+              <b style="color:var(--text)">도시락 천천히 15분 이상</b> — 식욕이 강한 날이라 빨리 먹으면 더 먹고 싶어짐<br>
+              <b style="color:var(--text)">추가 음식 절대 금지</b> — 그렐린이 높은 상태라 먹으면 더 당김
             </div>
           </div>
         </div>
-
-        <!-- 오후 공복 -->
-        <div style="display:flex;gap:10px;margin-bottom:8px;align-items:flex-start">
-          <div style="width:36px;height:36px;border-radius:50%;background:rgba(155,89,182,0.1);border:2px solid var(--purple);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0">⏰</div>
-          <div style="flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;">
-            <div style="font-size:.78rem;font-weight:700;color:var(--purple);margin-bottom:6px">오후 공복 구간 — 가장 위험한 시간</div>
-            <div style="font-size:.75rem;color:var(--muted2);line-height:1.7">
-              <b style="color:var(--text)">단 것·카페인 음료 충동 올 때</b> — 제로 음료나 블랙커피로 대체. 달달한 거 먹으면 혈당 롤러코스터 시작<br>
-              <b style="color:var(--text)">20분 타이머</b> — 뭔가 먹고 싶다는 충동이 오면 물 한 잔 마시고 20분 타이머. 대부분 20분 지나면 꺾임<br>
-              <b style="color:var(--text)">물 꾸준히</b> — 오후 내내 물 마시면 포만감 유지에 도움
-            </div>
-          </div>
-        </div>
-
-        <!-- 저녁 -->
         <div style="display:flex;gap:10px;margin-bottom:8px;align-items:flex-start">
           <div style="width:36px;height:36px;border-radius:50%;background:rgba(0,230,118,0.08);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0">🌙</div>
           <div style="flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;">
             <div style="font-size:.78rem;font-weight:700;color:var(--green);margin-bottom:6px">저녁 — 만회 구간</div>
             <div style="font-size:.75rem;color:var(--muted2);line-height:1.7">
-              <b style="color:var(--text)">저녁 도시락 + 셀릭스 20g 세트</b> — 단백질 확보해서 근손실 방지. 오늘 목표 단백질 채우기<br>
-              <b style="color:var(--text)">야식 절대 금지</b> — 음주 다음날 야식은 이중 타격. 그렐린 높은 상태에서 야식 먹으면 멈추기 어려움<br>
+              <b style="color:var(--text)">저녁 도시락 + 셀릭스 20g 세트</b> — 단백질 확보해서 근손실 방지<br>
+              <b style="color:var(--text)">야식 절대 금지</b> — 음주 다음날 야식은 이중 타격<br>
               <b style="color:var(--text)">21시 이후 절식</b> — 오늘 하루 잘 버텼으면 내일 체중 정상 복귀 가능
             </div>
           </div>
         </div>
-
-        <!-- 핵심 요약 -->
-        <div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:14px;margin-top:4px">
+        <div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:14px;">
           <div style="font-size:.78rem;font-weight:700;color:var(--green);margin-bottom:8px">✅ 핵심만 요약 — 이것만 지켜도 됨</div>
-          <div style="font-size:.8rem;color:var(--text);line-height:1.9">
-            기상 즉시 물 500ml<br>
-            셀릭스 아침 1회 추가<br>
-            칼륨 영양제 챙기기<br>
-            점심 전 물 300ml<br>
-            오후 단 것 참기<br>
-            저녁 도시락+셀릭스 세트<br>
-            21시 이후 절식
-          </div>
+          <div style="font-size:.8rem;color:var(--text);line-height:1.9">기상 즉시 물 500ml<br>셀릭스 아침 1회 추가<br>칼륨 영양제 챙기기<br>점심 전 물 300ml<br>오후 단 것 참기<br>저녁 도시락+셀릭스 세트<br>21시 이후 절식</div>
         </div>
       </div>
-    </div>
-
       </div><!-- /sub-alc -->
+
+      <!-- 식단 가이드 서브탭 -->
       <div id="sub-diet" style="display:none">
       <div class="section-hero" style="background:linear-gradient(135deg,rgba(0,230,118,0.06),rgba(61,139,255,0.04));border:1px solid rgba(0,230,118,0.15);">
         <h2 style="color:var(--green)">🥗 태완님 맞춤 식단 가이드</h2>
         <p>170cm / 74kg / 33세 남성 기준 직접 계산<br>Mifflin-St Jeor 공식 · 논문 기반 단백질 권장량</p>
       </div>
-
-      <!-- 신체 수치 카드 -->
       <div class="card">
         <div class="card-ttl">📐 태완님 신체 수치 계산 결과</div>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--orange)">25.6</div>
-            <div style="font-size:.62rem;color:var(--muted);margin-top:2px">현재 BMI (과체중)</div>
-          </div>
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--green)">23.5</div>
-            <div style="font-size:.62rem;color:var(--muted);margin-top:2px">목표 BMI 68kg 달성 시</div>
-          </div>
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--blue)">1,642</div>
-            <div style="font-size:.62rem;color:var(--muted);margin-top:2px">기초대사량 BMR (kcal)</div>
-          </div>
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--blue)">1,970</div>
-            <div style="font-size:.62rem;color:var(--muted);margin-top:2px">유지 칼로리 TDEE (kcal)</div>
-          </div>
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--orange)">25.6</div><div style="font-size:.62rem;color:var(--muted);margin-top:2px">현재 BMI (과체중)</div></div>
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--green)">23.5</div><div style="font-size:.62rem;color:var(--muted);margin-top:2px">목표 BMI 68kg 달성 시</div></div>
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--blue)">1,642</div><div style="font-size:.62rem;color:var(--muted);margin-top:2px">기초대사량 BMR (kcal)</div></div>
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--blue)">1,970</div><div style="font-size:.62rem;color:var(--muted);margin-top:2px">유지 칼로리 TDEE (kcal)</div></div>
         </div>
         <div style="background:rgba(255,59,59,0.05);border:1px solid rgba(255,59,59,0.2);border-radius:10px;padding:13px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <span style="font-size:.78rem;font-weight:700;color:var(--text)">하루 목표 칼로리</span>
-            <span style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--accent)">1,470 kcal</span>
-          </div>
-          <div style="font-size:.72rem;color:var(--muted2);line-height:1.6">TDEE 1,970 - 500kcal 적자 = 1,470kcal. 이 구간 유지 시 주당 약 0.5kg 감량 가능.<br>
-          <span style="color:var(--green)">Mifflin-St Jeor 공식 기준 · 활동량 계수 1.2 (좌식 직장인) 적용</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:.78rem;font-weight:700;color:var(--text)">하루 목표 칼로리</span><span style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--accent)">1,470 kcal</span></div>
+          <div style="font-size:.72rem;color:var(--muted2);line-height:1.6">TDEE 1,970 - 500kcal 적자 = 1,470kcal. 이 구간 유지 시 주당 약 0.5kg 감량 가능.</div>
         </div>
         <a class="src-badge" href="https://pubmed.ncbi.nlm.nih.gov/15883556/" target="_blank" style="margin-top:8px;display:inline-flex">📄 Mifflin et al., 1990 · PubMed</a>
       </div>
-
-      <!-- 단백질 목표 -->
       <div class="card">
         <div class="card-ttl">💪 단백질 목표 — 74kg 기준</div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
-          <div style="background:var(--card2);border:1px solid rgba(61,139,255,0.2);border-radius:10px;padding:12px;text-align:center">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--blue)">89g</div>
-            <div style="font-size:.6rem;color:var(--muted);margin-top:2px">최소 (×1.2g)</div>
-          </div>
-          <div style="background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.25);border-radius:10px;padding:12px;text-align:center">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--green)">100g</div>
-            <div style="font-size:.6rem;color:var(--muted);margin-top:2px">권장 목표</div>
-          </div>
-          <div style="background:var(--card2);border:1px solid rgba(61,139,255,0.2);border-radius:10px;padding:12px;text-align:center">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--blue)">111g</div>
-            <div style="font-size:.6rem;color:var(--muted);margin-top:2px">최대 (×1.5g)</div>
-          </div>
+          <div style="background:var(--card2);border:1px solid rgba(61,139,255,0.2);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--blue)">89g</div><div style="font-size:.6rem;color:var(--muted);margin-top:2px">최소 (×1.2g)</div></div>
+          <div style="background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.25);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--green)">100g</div><div style="font-size:.6rem;color:var(--muted);margin-top:2px">권장 목표</div></div>
+          <div style="background:var(--card2);border:1px solid rgba(61,139,255,0.2);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--blue)">111g</div><div style="font-size:.6rem;color:var(--muted);margin-top:2px">최대 (×1.5g)</div></div>
         </div>
-        <div style="font-size:.74rem;color:var(--muted2);line-height:1.6;margin-bottom:8px">운동 없이 감량 중일 때 근손실 방지 기준 체중 1kg당 1.2~1.5g. 47개 연구 메타분석에서 이 구간 유지 시 근손실 유의미하게 예방 확인.</div>
+        <div style="font-size:.74rem;color:var(--muted2);line-height:1.6;margin-bottom:8px">체중 1kg당 1.2~1.5g. 47개 연구 메타분석에서 이 구간 유지 시 근손실 유의미하게 예방.</div>
         <a class="src-badge" href="https://www.sciencedirect.com/science/article/pii/S0261561421004751" target="_blank">📄 ScienceDirect Meta-analysis, 2023</a>
-
-        <!-- 현재 식단 단백질 계산 -->
-        <div style="margin-top:12px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px">
-          <div style="font-size:.76rem;font-weight:700;margin-bottom:10px">현재 식단 단백질 현황</div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <div style="display:flex;justify-content:space-between;font-size:.74rem;padding:5px 0;border-bottom:1px solid var(--border)">
-              <span style="color:var(--muted2)">마이비밀 도시락 × 2끼</span>
-              <span style="color:var(--text);font-weight:600">약 40~60g</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.74rem;padding:5px 0;border-bottom:1px solid var(--border)">
-              <span style="color:var(--muted2)">셀릭스 × 2회</span>
-              <span style="color:var(--text);font-weight:600">40g</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.74rem;padding:5px 0;border-bottom:1px solid var(--border)">
-              <span style="color:var(--muted2)">합계</span>
-              <span style="color:var(--orange);font-weight:700">약 80~100g</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.74rem;padding:5px 0">
-              <span style="color:var(--muted2)">목표 대비</span>
-              <span style="color:var(--accent);font-weight:700">약 0~20g 부족</span>
-            </div>
-          </div>
-          <div style="margin-top:10px;background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.15);border-radius:8px;padding:10px;font-size:.74rem;color:var(--green)">
-            ✅ 달걀 2개 추가 (+12g) → 목표 충족<br>
-            ✅ 두부 100g 추가 (+8g) → 여유 있게 충족
-          </div>
-        </div>
       </div>
-
-      <!-- 하루 식단 구성 -->
-      <div class="card">
-        <div class="card-ttl">🍱 태완님 하루 식단 구성 (최적안)</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-              <span style="font-size:.8rem;font-weight:700">🍱 점심 12:30</span>
-              <span style="font-size:.72rem;color:var(--muted2)">약 400~500kcal</span>
-            </div>
-            <div style="font-size:.74rem;color:var(--muted2);line-height:1.6">마이비밀 도시락 1개 + 셀릭스 20g<br>
-            <span style="color:var(--blue)">단백질 약 35~40g · 식사 전 물 300ml 필수</span></div>
-          </div>
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-              <span style="font-size:.8rem;font-weight:700">🥚 간식 대체 (선택)</span>
-              <span style="font-size:.72rem;color:var(--muted2)">약 150kcal</span>
-            </div>
-            <div style="font-size:.74rem;color:var(--muted2);line-height:1.6">달걀 2개 or 두부 100g<br>
-            <span style="color:var(--blue)">단백질 +8~12g · 오후 공복 대응용</span></div>
-          </div>
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-              <span style="font-size:.8rem;font-weight:700">🍱 저녁 18:30</span>
-              <span style="font-size:.72rem;color:var(--muted2)">약 400~500kcal</span>
-            </div>
-            <div style="font-size:.74rem;color:var(--muted2);line-height:1.6">마이비밀 도시락 1개 + 셀릭스 20g<br>
-            <span style="color:var(--blue)">단백질 약 35~40g · 이 이후 절식</span></div>
-          </div>
-          <div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:13px">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-              <span style="font-size:.8rem;font-weight:700;color:var(--green)">📊 하루 합계</span>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:4px">
-              <div style="display:flex;justify-content:space-between;font-size:.74rem">
-                <span style="color:var(--muted2)">총 칼로리</span>
-                <span style="color:var(--green);font-weight:700">약 950~1,150kcal</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;font-size:.74rem">
-                <span style="color:var(--muted2)">목표 대비</span>
-                <span style="color:var(--orange);font-weight:700">1,470kcal 목표 · 여유 있는 구간</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;font-size:.74rem">
-                <span style="color:var(--muted2)">단백질</span>
-                <span style="color:var(--green);font-weight:700">약 88~100g ✅</span>
-              </div>
-              <div style="margin-top:6px;font-size:.72rem;color:var(--muted2)">* 도시락 제품에 따라 실제 칼로리·단백질 차이 있음. 뒷면 영양성분 확인 권장</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 핵심 원칙 -->
-      <div class="card">
-        <div class="card-ttl">📌 감량의 절대 원칙 — 칼로리 적자</div>
-        <div class="fact-box" style="border-color:rgba(0,230,118,0.2)">
-          <div class="fact-desc" style="font-size:.82rem;line-height:1.7">어떤 식단 방법이든 작동하는 이유는 단 하나입니다. <strong style="color:var(--green)">소비 칼로리 > 섭취 칼로리 = 체중 감소.</strong><br>태완님 기준 하루 500kcal 적자 = TDEE 1,970 - 1,470kcal. 주당 약 0.5kg 감량. 6kg 감량 목표 시 약 12주 소요.</div>
-          <a class="src-badge" href="https://pubmed.ncbi.nlm.nih.gov/15883556/" target="_blank">📄 Mifflin et al., 1990 · PubMed</a>
-        </div>
-        <div style="margin-top:12px">
-          <div style="font-size:.72rem;color:var(--muted2);margin-bottom:8px;font-weight:700">태완님 맞춤 매크로 비율 (1,470kcal 기준)</div>
-          <div style="display:flex;justify-content:space-between;font-size:.65rem;margin-bottom:4px">
-            <span style="color:var(--blue)">단백질 27% · 100g</span>
-            <span style="color:var(--orange)">탄수화물 46% · 170g</span>
-            <span style="color:var(--green)">지방 27% · 44g</span>
-          </div>
-          <div class="macro-bar">
-            <div class="macro-seg" style="width:27%;background:var(--blue)">P</div>
-            <div class="macro-seg" style="width:46%;background:var(--orange)">C</div>
-            <div class="macro-seg" style="width:27%;background:var(--green)">F</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 고단백 식단 팩트 -->
-      <div class="card">
-        <div class="card-ttl">📌 왜 고단백이어야 하는가</div>
-        <div class="fact-box" style="border-color:rgba(61,139,255,0.25)">
-          <div class="fact-header">
-            <div class="fact-icon">💪</div>
-            <div>
-              <div class="fact-title">고단백 그룹: 고단백 10.5파운드 감량 vs 저단백 8파운드 감량</div>
-              <div class="fact-desc">칼로리 적자 + 고단백 조합이 일반 저단백 식단보다 체지방 감량량이 더 많았습니다. 단백질은 근육을 보존하면서 지방만 선택적으로 빼는 역할을 합니다.</div>
-              <a class="src-badge" href="https://www.sciencedaily.com/releases/2016/01/160127132741.htm" target="_blank">📄 ScienceDaily, 2023</a>
-            </div>
-          </div>
-        </div>
-        <div class="fact-box" style="border-color:rgba(61,139,255,0.25)">
-          <div class="fact-header">
-            <div class="fact-icon">🔥</div>
-            <div>
-              <div class="fact-title">고단백 식사 → 대사율(TDEE) 유의미하게 증가</div>
-              <div class="fact-desc">단백질의 열 발생 효과(TEF)는 지방(2~3%)·탄수화물(5~10%)보다 높은 20~30%입니다. 같은 칼로리를 먹어도 단백질로 먹으면 소화 과정에서 더 많은 에너지를 소비합니다. 52개 연구 메타분석에서 고단백 식사 그룹의 TDEE가 유의미하게 높았습니다.</div>
-              <a class="src-badge" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11625215/" target="_blank">📄 NCBI Meta-analysis, 2024</a>
-            </div>
-          </div>
-        </div>
-        <div class="fact-box" style="border-color:rgba(61,139,255,0.25)">
-          <div class="fact-header">
-            <div class="fact-icon">🛡️</div>
-            <div>
-              <div class="fact-title">단백질 증가 → 근육 손실 유의미하게 방지</div>
-              <div class="fact-desc">47개 연구(3,218명) 메타분석: 체중 감량 중 단백질 섭취 증가 시 근육량 손실을 유의미하게 예방함. 체중이 줄 때 근육이 빠지는 게 아니라 지방이 빠지도록 유도합니다.</div>
-              <a class="src-badge" href="https://www.sciencedirect.com/science/article/pii/S0261561421004751" target="_blank">📄 ScienceDirect Meta, 2023</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5대 식단 원칙 -->
       <div class="card">
         <div class="card-ttl">🎯 태완님 맞춤 5대 식단 원칙</div>
-        <div class="diet-rule">
-          <div class="diet-rule-num">01</div>
-          <div class="diet-rule-body">
-            <div class="title">단백질 90g 이상 반드시 채우기</div>
-            <div class="desc">체중 74kg × 1.2~1.5g = 하루 89~110g. 운동 없어도 감량 중엔 근손실 방지를 위해 이 수치를 지켜야 합니다. 도시락(약 20~30g) + 셀릭스 2회(40g) + 달걀 2개(12g) = 약 72~82g. 부족하면 두부나 닭가슴살로 보완.</div>
-            <div class="tip">✅ 도시락 + 셀릭스 2회 + 달걀 2개 = 기본 충족</div>
-          </div>
-        </div>
-        <div class="diet-rule">
-          <div class="diet-rule-num">02</div>
-          <div class="diet-rule-body">
-            <div class="title">하루 총 칼로리 1,400~1,600kcal 범위 내</div>
-            <div class="desc">74kg 남성 기준 기초대사량 약 1,750~1,850kcal. 활동량 포함 TDEE 약 2,100~2,300kcal. 여기서 500~600kcal 빼면 1,400~1,600kcal. 이 구간에서 주 0.5kg 감량 가능.</div>
-            <div class="tip">✅ 도시락 2끼 + 셀릭스 2회 = 약 1,200~1,400kcal. 딱 맞는 구간</div>
-          </div>
-        </div>
-        <div class="diet-rule">
-          <div class="diet-rule-num">03</div>
-          <div class="diet-rule-body">
-            <div class="title">식사 전 물 300ml 먼저</div>
-            <div class="desc">물은 위 공간을 채워 포만감을 높이고 과식을 방지합니다. 식사 30분 전 300~500ml 마시면 식사량 자연스럽게 줄어듭니다. 하루 총 2L 이상 목표.</div>
-            <div class="tip">✅ 알림 12:00 / 18:00에 이미 설정되어 있음</div>
-          </div>
-        </div>
-        <div class="diet-rule">
-          <div class="diet-rule-num">04</div>
-          <div class="diet-rule-body">
-            <div class="title">천천히 15분 이상 먹기</div>
-            <div class="desc">포만감 신호가 뇌에 전달되는 데 약 15~20분 소요됩니다. 빨리 먹으면 포만감 오기 전에 과식하게 됩니다. 도시락을 천천히 먹는 것만으로 1끼당 100~200kcal 자연 감소 효과.</div>
-            <div class="tip">✅ 휴대폰 내려놓고 집중해서 천천히</div>
-          </div>
-        </div>
-        <div class="diet-rule">
-          <div class="diet-rule-num">05</div>
-          <div class="diet-rule-body">
-            <div class="title">21시 이후 절식 (야식 금지)</div>
-            <div class="desc">야간 인슐린 민감도 저하로 같은 칼로리도 밤에 먹으면 지방으로 더 잘 저장됩니다. 야식 1번 = 하루 식단 노력 상당 부분 무효화. 특히 술 마신 날 야식은 이중 타격.</div>
-            <div class="tip">✅ 알림 21:30에 경고 설정되어 있음</div>
-          </div>
-        </div>
+        <div class="diet-rule"><div class="diet-rule-num">01</div><div class="diet-rule-body"><div class="title">단백질 90g 이상 반드시 채우기</div><div class="desc">도시락(약 20~30g) + 셀릭스 2회(40g) + 달걀 2개(12g) = 약 72~82g. 부족하면 두부나 닭가슴살로 보완.</div><div class="tip">✅ 도시락 + 셀릭스 2회 + 달걀 2개 = 기본 충족</div></div></div>
+        <div class="diet-rule"><div class="diet-rule-num">02</div><div class="diet-rule-body"><div class="title">하루 총 칼로리 1,400~1,600kcal 범위 내</div><div class="desc">TDEE 1,970에서 500~600kcal 빼면 1,400~1,600kcal. 이 구간에서 주 0.5kg 감량 가능.</div><div class="tip">✅ 도시락 2끼 + 셀릭스 2회 = 약 1,200~1,400kcal. 딱 맞는 구간</div></div></div>
+        <div class="diet-rule"><div class="diet-rule-num">03</div><div class="diet-rule-body"><div class="title">식사 전 물 300ml 먼저</div><div class="desc">물은 위 공간을 채워 포만감을 높이고 과식을 방지합니다. 하루 총 2L 이상 목표.</div><div class="tip">✅ 알림 12:00 / 18:00에 이미 설정되어 있음</div></div></div>
+        <div class="diet-rule"><div class="diet-rule-num">04</div><div class="diet-rule-body"><div class="title">천천히 15분 이상 먹기</div><div class="desc">포만감 신호가 뇌에 전달되는 데 약 15~20분 소요. 빨리 먹으면 포만감 오기 전에 과식.</div><div class="tip">✅ 휴대폰 내려놓고 집중해서 천천히</div></div></div>
+        <div class="diet-rule"><div class="diet-rule-num">05</div><div class="diet-rule-body"><div class="title">21시 이후 절식 (야식 금지)</div><div class="desc">야간 인슐린 민감도 저하로 같은 칼로리도 밤에 먹으면 지방으로 더 잘 저장됩니다.</div><div class="tip">✅ 알림 21:30에 경고 설정되어 있음</div></div></div>
       </div>
-
-      <!-- 먹어야 할 것 / 피해야 할 것 -->
       <div class="card">
         <div class="card-ttl">✅ 먹어야 할 것 vs ❌ 피해야 할 것</div>
         <div style="font-size:.72rem;color:var(--green);font-weight:700;margin-bottom:8px">✅ 적극 섭취</div>
         <div class="food-grid">
-          <div class="food-item good"><div class="fi-icon">🥚</div><div class="fi-name">달걀</div><div class="fi-desc">단백질 6g/개. 포만감 높음. 가격 저렴. 셀릭스 보완용으로 최적.</div></div>
-          <div class="food-item good"><div class="fi-icon">🍗</div><div class="fi-name">닭가슴살</div><div class="fi-desc">단백질 30g/100g. 지방 낮음. 고단백 식단의 핵심 식품.</div></div>
-          <div class="food-item good"><div class="fi-icon">🫘</div><div class="fi-name">두부</div><div class="fi-desc">단백질 8g/100g. 포만감 높음. 안주 대체로도 활용 가능.</div></div>
-          <div class="food-item good"><div class="fi-icon">🥦</div><div class="fi-name">채소류</div><div class="fi-desc">칼로리 낮고 포만감 높음. 식이섬유로 혈당 스파이크 완화.</div></div>
+          <div class="food-item good"><div class="fi-icon">🥚</div><div class="fi-name">달걀</div><div class="fi-desc">단백질 6g/개. 포만감 높음. 셀릭스 보완용으로 최적.</div></div>
+          <div class="food-item good"><div class="fi-icon">🍗</div><div class="fi-name">닭가슴살</div><div class="fi-desc">단백질 30g/100g. 지방 낮음. 고단백 식단의 핵심.</div></div>
+          <div class="food-item good"><div class="fi-icon">🫘</div><div class="fi-name">두부</div><div class="fi-desc">단백질 8g/100g. 포만감 높음. 안주 대체로도 활용.</div></div>
+          <div class="food-item good"><div class="fi-icon">🥦</div><div class="fi-name">채소류</div><div class="fi-desc">칼로리 낮고 포만감 높음. 혈당 스파이크 완화.</div></div>
         </div>
         <div style="font-size:.72rem;color:var(--accent);font-weight:700;margin:12px 0 8px">❌ 최대한 피하기</div>
         <div class="food-grid">
-          <div class="food-item bad"><div class="fi-icon">🍜</div><div class="fi-name">라면·면류</div><div class="fi-desc">정제 탄수화물. 혈당 급등→급락→식욕 재폭발 사이클 유발.</div></div>
-          <div class="food-item bad"><div class="fi-icon">🍟</div><div class="fi-name">튀김·치킨</div><div class="fi-desc">특히 술 안주로 먹을 때 칼로리 폭발. 지방+탄수 조합이 최악.</div></div>
-          <div class="food-item bad"><div class="fi-icon">🧃</div><div class="fi-name">달달한 음료</div><div class="fi-desc">액상과당이 간에서 직접 지방으로 전환. 포만감은 0.</div></div>
-          <div class="food-item bad"><div class="fi-icon">🍕</div><div class="fi-name">야식류</div><div class="fi-desc">야간 인슐린 저항성 구간에 먹는 고칼로리. 감량 직격탄.</div></div>
+          <div class="food-item bad"><div class="fi-icon">🍜</div><div class="fi-name">라면·면류</div><div class="fi-desc">정제 탄수화물. 혈당 급등→급락→식욕 재폭발.</div></div>
+          <div class="food-item bad"><div class="fi-icon">🍟</div><div class="fi-name">튀김·치킨</div><div class="fi-desc">술 안주로 먹을 때 칼로리 폭발. 지방+탄수 조합이 최악.</div></div>
+          <div class="food-item bad"><div class="fi-icon">🧃</div><div class="fi-name">달달한 음료</div><div class="fi-desc">액상과당이 간에서 직접 지방으로 전환.</div></div>
+          <div class="food-item bad"><div class="fi-icon">🍕</div><div class="fi-name">야식류</div><div class="fi-desc">야간 인슐린 저항성 구간 고칼로리. 감량 직격탄.</div></div>
         </div>
       </div>
-
-      <!-- 꿀팁 모음 -->
-      <div class="card">
-        <div class="card-ttl">💡 감량 가속 꿀팁</div>
-        <div class="tip-box">
-          <div class="tip-title">💧 물 하루 2L 이상 — 지방 연소 직접 가속</div>
-          <div class="tip-desc">수분이 충분해야 지방 대사 산물이 원활히 배출됩니다. 또한 갈증을 허기로 착각하는 경우가 많아 물 마시는 것만으로 불필요한 간식 섭취를 줄일 수 있습니다.</div>
-        </div>
-        <div class="tip-box">
-          <div class="tip-title">☀️ 아침 공복 체중 측정 — 매일 같은 조건</div>
-          <div class="tip-desc">아침 기상 직후 화장실 다녀온 뒤 측정. 일별 변동(±0.5~1kg)은 정상입니다. 주 단위 평균으로 판단하세요. 일별 숫자에 일희일비하면 동기부여만 떨어집니다.</div>
-        </div>
-        <div class="tip-box">
-          <div class="tip-title">🍱 도시락 단백질 보강 — 셀릭스 외 추가</div>
-          <div class="tip-desc">마이비밀 도시락은 칼로리 조절 중심이라 단백질이 20~30g 수준일 수 있습니다. 셀릭스 하루 2회(40g) + 달걀 2개(12g)를 추가하면 하루 목표 90g에 근접합니다.</div>
-        </div>
-        <div class="tip-box">
-          <div class="tip-title">⏰ 간헐적 단식 자연 활용 — 12~16시간 공복</div>
-          <div class="tip-desc">저녁 18:30 식사 → 다음날 점심 12:30 식사 = 18시간 공복. 이 구간 동안 인슐린이 낮아지고 지방 산화가 활성화됩니다. 현재 식사 패턴이 간헐적 단식과 동일하게 작동하고 있습니다.</div>
-        </div>
-        <div class="tip-box" style="border-color:rgba(255,59,59,0.15);background:rgba(255,59,59,0.03)">
-          <div class="tip-title" style="color:var(--accent)">🍺 음주일 다음날 대응 전략</div>
-          <div class="tip-desc">술 마신 다음날은 그렐린이 높아 식욕이 강합니다. 기상 직후 물 500ml 먼저 마시고, 셀릭스 아침에 1회 추가, 점심 도시락 전 물 한 잔 더 마시기. 이 루틴을 지키면 식욕 폭발을 상당 부분 억제할 수 있습니다.</div>
-        </div>
-      </div>
-
-      <!-- 저탄고단 vs 일반 식단 비교 -->
-      <div class="card">
-        <div class="card-ttl">📊 식단 방법 비교 — 태완님 상황 기준</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:13px">
-            <div style="font-size:.8rem;font-weight:700;color:var(--green);margin-bottom:6px">✅ 현재 방식 (칼로리 적자 + 고단백) — 추천</div>
-            <div style="font-size:.75rem;color:var(--muted2);line-height:1.6">도시락 2끼 + 셀릭스 2회 = 1,200~1,400kcal. 단백질 60~80g. 지속 가능성 높음. 근손실 최소화. 주 0.5kg 감량 목표에 적합. 현재 올바른 방향으로 가고 있습니다.</div>
-          </div>
-          <div style="background:rgba(255,140,0,0.04);border:1px solid rgba(255,140,0,0.2);border-radius:10px;padding:13px">
-            <div style="font-size:.8rem;font-weight:700;color:var(--orange);margin-bottom:6px">⚡ 저탄고단 (케토) — 보완으로는 가능</div>
-            <div style="font-size:.75rem;color:var(--muted2);line-height:1.6">탄수화물을 하루 50g 이하로 제한. 지방을 주 에너지원으로 전환(케토시스). 초반 빠른 체중 감소(수분) 효과 있음. 단, 식단 구성이 까다롭고 술 마시면 케토시스 즉시 탈출. 도시락 식단과 병행 어려움.</div>
-          </div>
-          <div style="background:rgba(61,139,255,0.04);border:1px solid rgba(61,139,255,0.2);border-radius:10px;padding:13px">
-            <div style="font-size:.8rem;font-weight:700;color:var(--blue);margin-bottom:6px">📌 간헐적 단식 — 현재 자연스럽게 진행 중</div>
-            <div style="font-size:.75rem;color:var(--muted2);line-height:1.6">저녁 18:30 → 점심 12:30 = 약 18시간 공복. 이미 간헐적 단식 16:8 이상을 실천 중입니다. 공복 중 인슐린 저하 → 지방 산화 활성화. 현재 식단 패턴이 가장 좋은 방법 중 하나입니다.</div>
-          </div>
-        </div>
-      </div>
-
       </div><!-- /sub-diet -->
     </div><!-- /pane-alc -->
 
@@ -896,7 +1003,7 @@ canvas{width:100%!important;}
 <!-- 하단 탭바 (모바일) -->
 <div class="bottom-nav" id="bottomNav" style="display:none">
   <button class="bnav-item on" id="bn0" onclick="go('dash',0)"><span class="icon">📊</span>대시보드</button>
-  <button class="bnav-item" id="bn1" onclick="go('input',1)"><span class="icon">✏️</span>기록</button>
+  <button class="bnav-item" id="bn1" onclick="go('input',1)"><span class="icon">💡</span>정보통</button>
   <button class="bnav-item" id="bn2" onclick="go('hist',2)"><span class="icon">📋</span>히스토리</button>
   <button class="bnav-item" id="bn3" onclick="go('rpt',3)"><span class="icon">📈</span>리포트</button>
   <button class="bnav-item" id="bn4" onclick="go('alc',4)"><span class="icon">📚</span>정보</button>
@@ -904,8 +1011,9 @@ canvas{width:100%!important;}
 
 <script>
 const PW='8928', SESSION_KEY='tw_auth', DATA_KEY='tw_diet_v6', SW=74, TW=68;
+const RECOVERY_DAYS = 3; // 🍺 회복 기간 (일)
 
-// 로그인
+// ─── 로그인 ──────────────────────────────────────────────────
 function onPwInput(){
   const v=document.getElementById('pwInput').value;
   for(let i=0;i<4;i++)document.getElementById('d'+i).classList.toggle('filled',i<v.length);
@@ -945,11 +1053,101 @@ if(sessionStorage.getItem(SESSION_KEY)==='ok'){
   showNav();
 }
 
-// 데이터
+// ─── 데이터 ──────────────────────────────────────────────────
 function D(){try{return JSON.parse(localStorage.getItem(DATA_KEY))||{r:[],c:{}};}catch{return{r:[],c:{}};}}
 function S(d){localStorage.setItem(DATA_KEY,JSON.stringify(d));}
 
-// 탭
+// ─── 🍺 3일 회복 시스템 ──────────────────────────────────────
+function dateStr(d){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function daysBetween(fromStr, toStr){
+  const a=new Date(fromStr+'T00:00:00');
+  const b=new Date(toStr+'T00:00:00');
+  return Math.round((b-a)/86400000);
+}
+function getLastDrinkDate(){
+  const d=D(); const rs=d.r;
+  // 최신순 탐색
+  for(let i=rs.length-1;i>=0;i--){
+    if(rs[i].drink===1) return rs[i].date;
+  }
+  return null;
+}
+function getRecoveryInfo(){
+  const last=getLastDrinkDate();
+  if(!last) return null;
+  const today=dateStr(new Date());
+  const elapsed=daysBetween(last,today);
+  if(elapsed>=RECOVERY_DAYS) return null; // 이미 회복 완료
+  return {
+    last,
+    elapsed,
+    remaining: RECOVERY_DAYS-elapsed,
+    pct: Math.min(elapsed/RECOVERY_DAYS*100,100)
+  };
+}
+
+// 음주 저장 전 3일 체크
+let _pendingSaveData = null;
+function checkAndSave(date, weight, drink, memo, fromQuick){
+  if(drink===1){
+    const info=getRecoveryInfo();
+    if(info){
+      // 3일 회복 미완료 → 팝업
+      _pendingSaveData={date,weight,drink,memo,fromQuick};
+      const lastD=new Date(info.last+'T00:00:00');
+      document.getElementById('apElapsed').textContent=info.elapsed+'일';
+      document.getElementById('apRemain').textContent=info.remaining+'일';
+      document.getElementById('apDaysLeft').textContent=info.remaining;
+      document.getElementById('alcPopup').classList.add('show');
+      return;
+    }
+  }
+  doSave(date,weight,drink,memo,fromQuick);
+}
+function closeAlcPopup(confirm){
+  document.getElementById('alcPopup').classList.remove('show');
+  if(confirm && _pendingSaveData){
+    const p=_pendingSaveData;
+    doSave(p.date,p.weight,p.drink,p.memo,p.fromQuick);
+  } else {
+    // 안 마신다 → drink=0으로 저장 제안
+    if(_pendingSaveData){
+      toast('🙅 잘 참았습니다! 3일 룰 유지 중');
+    }
+  }
+  _pendingSaveData=null;
+}
+function doSave(date,weight,drink,memo,fromQuick){
+  const d=D();
+  const i=d.r.findIndex(r=>r.date===date);
+  const rec={date,weight,drink,memo:memo||''};
+  if(i>=0)d.r[i]=rec;else d.r.push(rec);
+  d.r.sort((a,b)=>a.date.localeCompare(b.date));
+  S(d);
+  if(fromQuick){document.getElementById('qWt').value='';}
+  toast(drink===1?'🍺 음주 기록됨 — 3일 회복 시작':'✅ 기록 저장 완료!');
+  renderDash();
+}
+
+// 회복 배너 렌더
+function renderRecoveryBanner(){
+  const info=getRecoveryInfo();
+  const banner=document.getElementById('recoveryBanner');
+  if(!info){banner.classList.remove('show');return;}
+  banner.classList.add('show');
+  document.getElementById('rbDday').innerHTML=`D+${info.elapsed}<small>일째</small>`;
+  document.getElementById('rbProgFill').style.width=info.pct+'%';
+  document.getElementById('rbProgText').textContent=`${info.elapsed}/${RECOVERY_DAYS}일`;
+  const recoverDate=new Date(info.last+'T00:00:00');
+  recoverDate.setDate(recoverDate.getDate()+RECOVERY_DAYS);
+  const ld=new Date(info.last+'T00:00:00');
+  document.getElementById('rbFoot').textContent=
+    `음주일: ${ld.getMonth()+1}/${ld.getDate()} · 회복 완료: ${recoverDate.getMonth()+1}/${recoverDate.getDate()} · 남은 회복일 ${info.remaining}일`;
+}
+
+// ─── 탭 ──────────────────────────────────────────────────────
 const panes=['dash','input','hist','rpt','alc'];
 function go(name,idx){
   panes.forEach(p=>document.getElementById('pane-'+p).classList.remove('on'));
@@ -961,50 +1159,53 @@ function go(name,idx){
   const bn=document.getElementById('bn'+idx);if(bn)bn.classList.add('on');
   const pt=document.getElementById('pt'+idx);if(pt)pt.classList.add('on');
   if(name==='dash'){renderDash();drawChart();}
+  if(name==='input'){renderFoodResults();}
   if(name==='hist')renderHist();
   if(name==='rpt')renderRpt();
   if(name==='alc'){switchSub(0);}
   window.scrollTo({top:0,behavior:'smooth'});
 }
+function goDiet(){
+  panes.forEach(p=>document.getElementById('pane-'+p).classList.remove('on'));
+  for(let i=0;i<6;i++){
+    const bn=document.getElementById('bn'+i);if(bn)bn.classList.remove('on');
+    const pt=document.getElementById('pt'+i);if(pt)pt.classList.remove('on');
+  }
+  document.getElementById('pane-alc').classList.add('on');
+  const pt=document.getElementById('pt5');if(pt)pt.classList.add('on');
+  switchSub(1);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function switchSub(idx){
+  document.getElementById('sub-alc').style.display=idx===0?'block':'none';
+  document.getElementById('sub-diet').style.display=idx===1?'block':'none';
+  document.getElementById('st0').classList.toggle('on',idx===0);
+  document.getElementById('st1').classList.toggle('on',idx===1);
+}
 
-// 초기화
+// ─── 초기화 ──────────────────────────────────────────────────
 function init(){
   const now=new Date();
   document.getElementById('todayLbl').textContent=now.toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
-  document.getElementById('rDate').value=now.toISOString().split('T')[0];
   loadCk();renderDash();
   document.getElementById('pt0').classList.add('on');
 }
 window.onload=function(){if(sessionStorage.getItem(SESSION_KEY)==='ok')init();};
 
-// 저장
+// ─── 빠른 저장 (대시보드) ────────────────────────────────────
 function qSave(){
   const w=parseFloat(document.getElementById('qWt').value);
   const dr=parseInt(document.getElementById('qDr').value);
   if(!w||w<50||w>120){toast('체중을 올바르게 입력해주세요',1);return;}
-  const today=new Date().toISOString().split('T')[0];
-  const d=D();const i=d.r.findIndex(r=>r.date===today);
-  const rec={date:today,weight:w,drink:dr,memo:''};
-  if(i>=0)d.r[i]=rec;else d.r.push(rec);
-  d.r.sort((a,b)=>a.date.localeCompare(b.date));
-  S(d);document.getElementById('qWt').value='';
-  toast('✅ 오늘 체중 저장!');renderDash();
-}
-function saveRec(){
-  const date=document.getElementById('rDate').value;
-  const w=parseFloat(document.getElementById('rWt').value);
-  const dr=parseInt(document.getElementById('rDr').value);
-  const memo=document.getElementById('rMemo').value;
-  if(!date||!w||w<50||w>120){toast('날짜와 체중을 입력해주세요',1);return;}
-  const d=D();const i=d.r.findIndex(r=>r.date===date);
-  if(i>=0)d.r[i]={date,weight:w,drink:dr,memo};else d.r.push({date,weight:w,drink:dr,memo});
-  d.r.sort((a,b)=>a.date.localeCompare(b.date));
-  S(d);document.getElementById('rWt').value='';document.getElementById('rMemo').value='';
-  toast('✅ 기록 저장 완료!');renderDash();
+  const today=dateStr(new Date());
+  checkAndSave(today,w,dr,'',true);
 }
 
-// 대시보드
+// ─── 기록 저장 (기록 탭 → 삭제됨, 정보통으로 교체) ─────────
+
+// ─── 대시보드 렌더 ──────────────────────────────────────────
 function renderDash(){
+  renderRecoveryBanner(); // 3일 회복 배너 먼저
   const d=D();const rs=d.r;const latest=rs.length?rs[rs.length-1]:null;const cur=latest?latest.weight:SW;
   document.getElementById('hdrWt').innerHTML=cur+'<span>kg</span>';
   document.getElementById('curWtBig').innerHTML=cur+'<small>kg</small>';
@@ -1020,22 +1221,24 @@ function renderDash(){
     if(rate>0){const dl=Math.ceil(remain/rate);const ed=new Date();ed.setDate(ed.getDate()+dl);document.getElementById('gEst').textContent=ed.toLocaleDateString('ko-KR',{month:'short',day:'numeric'});}
     else document.getElementById('gEst').textContent='유지중';
   }else document.getElementById('gEst').textContent='기록필요';
-  const ws=weekStart();const wdr=rs.filter(r=>r.date>=ws&&r.drink===1).length;
+
+  // 음주 배너 — 3일 회복 기준으로 강화
   const b=document.getElementById('drinkBanner');
-  // 어제 음주 여부 체크
-  const yest=new Date();yest.setDate(yest.getDate()-1);
-  const yestStr=yest.toISOString().split('T')[0];
-  const drankYest=rs.find(r=>r.date===yestStr&&r.drink===1);
-  if(drankYest){
-    b.className='drink-banner danger';
-    b.textContent='🚨 어젯밤 음주 감지 — 오늘 식욕 강하게 옴. 물 먼저 500ml + 셀릭스 챙길 것';
-  } else if(wdr===0){b.className='drink-banner safe';b.textContent='✅ 이번주 음주 0회 — 주 1회 룰 완벽 유지';}
-  else if(wdr===1){b.className='drink-banner warn';b.textContent='⚠️ 이번주 음주 1회 — 주 1회 룰 소진. 더 마시면 감량 타격';}
-  else{b.className='drink-banner danger';b.textContent='🚨 이번주 음주 '+wdr+'회 — 주 1회 초과! 감량 타격 중';}
+  const info=getRecoveryInfo();
+  if(info){
+    // 3일 회복 중이면 아래 배너는 숨김 (위 recovery 배너가 대신)
+    b.style.display='none';
+  } else {
+    b.style.display='';
+    const ws=weekStart();const wdr=rs.filter(r=>r.date>=ws&&r.drink===1).length;
+    if(wdr===0){b.className='drink-banner safe';b.textContent='✅ 이번주 음주 0회 — 3일 룰 완벽 유지';}
+    else if(wdr===1){b.className='drink-banner warn';b.textContent='⚠️ 이번주 음주 1회 — 회복 완료 후 다음 허용';}
+    else{b.className='drink-banner danger';b.textContent='🚨 이번주 음주 '+wdr+'회 — 3일 룰 초과! 감량 타격 중';}
+  }
   drawChart();
 }
 
-// 그래프
+// ─── 그래프 ──────────────────────────────────────────────────
 function drawChart(){
   const d=D();const rs=d.r.slice(-14);
   const cv=document.getElementById('wChart');const ctx=cv.getContext('2d');
@@ -1063,15 +1266,15 @@ function drawChart(){
   ctx.textAlign='right';[Math.ceil(minW),Math.round((minW+maxW)/2),Math.floor(maxW)].forEach(w=>{ctx.fillText(w,pad.l-4,yp(w)+4);});
 }
 
-// 체크
+// ─── 체크리스트 ──────────────────────────────────────────────
 function loadCk(){
-  const today=new Date().toISOString().split('T')[0];const d=D();
+  const today=dateStr(new Date());const d=D();
   const cks=(d.c&&d.c[today])||[];
   cks.forEach(i=>{const el=document.getElementById('c'+i);if(el)el.classList.add('on');});updCk();
 }
 function ck(i){
   document.getElementById('c'+i).classList.toggle('on');
-  const today=new Date().toISOString().split('T')[0];const d=D();if(!d.c)d.c={};
+  const today=dateStr(new Date());const d=D();if(!d.c)d.c={};
   const arr=[];for(let j=0;j<6;j++){if(document.getElementById('c'+j).classList.contains('on'))arr.push(j);}
   d.c[today]=arr;S(d);updCk();
 }
@@ -1081,7 +1284,7 @@ function updCk(){
   document.getElementById('ckBar').style.width=(n/6*100)+'%';
 }
 
-// 히스토리
+// ─── 히스토리 ────────────────────────────────────────────────
 function renderHist(){
   const d=D();const rs=[...d.r].reverse();const el=document.getElementById('recList');
   if(!rs.length){el.innerHTML='<div class="empty"><div class="ei">📋</div>아직 기록이 없습니다</div>';return;}
@@ -1102,7 +1305,7 @@ function delRec(date){
   const d=D();d.r=d.r.filter(r=>r.date!==date);S(d);renderHist();renderDash();toast('삭제 완료');
 }
 
-// 리포트
+// ─── 리포트 ──────────────────────────────────────────────────
 function renderRpt(){
   const d=D();const ws=weekStart();const wr=d.r.filter(r=>r.date>=ws);
   if(!wr.length){['rAvg','rChg','rDr','rDays'].forEach(id=>document.getElementById(id).textContent='--');document.getElementById('rMsg').textContent='이번주 기록이 없습니다.';return;}
@@ -1114,87 +1317,177 @@ function renderRpt(){
   document.getElementById('rDays').textContent=wr.length+'일';
   let msg='';
   if(chg<0)msg+=`이번주 ${Math.abs(chg)}kg 감량. `;else if(chg===0)msg+='이번주 체중 변화 없음. ';else msg+=`이번주 ${chg}kg 증가. `;
-  if(drs===0)msg+='음주 없이 완벽한 한 주. ';else if(drs===1)msg+='주 1회 룰 지킴. ';else msg+=`음주 ${drs}회 — 주 1회 초과. `;
+  if(drs===0)msg+='음주 없이 완벽한 한 주. ';
+  else if(drs===1){
+    const info=getRecoveryInfo();
+    if(info)msg+=`음주 1회 — 회복 ${info.elapsed}일째. ${info.remaining}일 후 다음 허용. `;
+    else msg+='음주 1회 — 회복 완료. ';
+  }
+  else msg+=`음주 ${drs}회 — 3일 룰 초과. 감량 타격 발생. `;
   const rem=Math.max(0,parseFloat(avg)-TW);if(rem>0)msg+=`목표까지 ${rem.toFixed(1)}kg 남음.`;
   document.getElementById('rMsg').textContent=msg;
 }
 
-// 계산기
-function calcAlc(){
-  const tm={
-    soju05:{name:'소주 반 병',kcal:200,h:2.5},soju1:{name:'소주 1병',kcal:400,h:4},
-    soju15:{name:'소주 1.5병',kcal:600,h:6},soju2:{name:'소주 2병',kcal:800,h:8},
-    soju3:{name:'소주 3병',kcal:1200,h:12},soju4:{name:'소주 4병 이상',kcal:1600,h:18},
-    beer1:{name:'맥주 500ml',kcal:200,h:2},beer2:{name:'맥주 2캔',kcal:400,h:4},beer4:{name:'맥주 4캔',kcal:800,h:8},
-    sojubeer1:{name:'소맥',kcal:800,h:8},sojubeer2:{name:'소맥 폭탄',kcal:1600,h:18},
-    wine1:{name:'와인 1잔',kcal:120,h:1.5},wine1b:{name:'와인 1병',kcal:600,h:6},
-    makgol:{name:'막걸리 1병',kcal:380,h:4},makgol2:{name:'막걸리 2병',kcal:760,h:8},
-    whisky:{name:'위스키 2~3잔',kcal:300,h:3},
-  };
-  const alcEl=document.getElementById('alcType');const snEl=document.getElementById('alcSnack');
-  if(!alcEl||!snEl)return;
-  const t=alcEl.value;const sn=parseInt(snEl.value)||0;
-  const info=tm[t];const total=info.kcal+sn;const fl=+(total/7700).toFixed(3);
-  const daysLost=Math.round(total/500*10)/10;const delayDays=Math.round(info.h/24*2+daysLost);
-  const alcKcal=info.kcal;
-  let dangerLevel=0,dangerMsg='',dangerColor='var(--green)',dangerBg='rgba(0,230,118,0.06)',dangerBorder='rgba(0,230,118,0.2)';
-  if(alcKcal<=200){dangerLevel=1;dangerMsg='⚠️ 주의 — 감량 소폭 지연';dangerColor='var(--orange)';dangerBg='rgba(255,140,0,0.06)';dangerBorder='rgba(255,140,0,0.25)';}
-  else if(alcKcal<=400){dangerLevel=2;dangerMsg='🚨 경고 — 이번주 감량 절반 날림';dangerColor='var(--accent)';dangerBg='rgba(255,59,59,0.08)';dangerBorder='rgba(255,59,59,0.3)';}
-  else if(alcKcal<=800){dangerLevel=3;dangerMsg='🔴 위험 — 이번주 감량 전부 날림';dangerColor='var(--accent)';dangerBg='rgba(255,59,59,0.1)';dangerBorder='rgba(255,59,59,0.4)';}
-  else if(alcKcal<=1200){dangerLevel=4;dangerMsg='💀 심각 — 지난주 감량까지 되돌림';dangerColor='#ff0000';dangerBg='rgba(255,0,0,0.12)';dangerBorder='rgba(255,0,0,0.5)';}
-  else{dangerLevel=5;dangerMsg='☠️ 최악 — 68kg 달성 불가능한 날';dangerColor='#ff0000';dangerBg='rgba(255,0,0,0.15)';dangerBorder='rgba(255,0,0,0.6)';}
-  const dangerBar=Math.min(100,Math.round(alcKcal/16));
-  document.getElementById('calcResult').innerHTML=`
-    <div style="background:${dangerBg};border:1px solid ${dangerBorder};border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:.82rem;font-weight:700;color:${dangerColor}">${dangerMsg}</div>
-    <div style="margin-bottom:8px">
-      <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted2);margin-bottom:4px"><span>경각심 레벨</span><span style="color:${dangerColor};font-weight:700">${dangerLevel} / 5</span></div>
-      <div style="height:7px;background:var(--card2);border-radius:4px;overflow:hidden"><div style="height:100%;width:${dangerBar}%;background:linear-gradient(90deg,var(--orange),#ff0000);border-radius:4px;transition:width .5s"></div></div>
-    </div>
-    <div class="cr-row"><span>알코올 칼로리</span><span>${info.kcal}kcal</span></div>
-    <div class="cr-row"><span>안주 칼로리</span><span>${sn>0?sn+'kcal':'없음'}</span></div>
-    <div class="cr-row"><span>총 칼로리 타격</span><span>${total}kcal</span></div>
-    <div class="cr-row"><span>체지방 직접 축적</span><span>+${(fl*1000).toFixed(0)}g</span></div>
-    <div class="cr-row"><span>지방 연소 중단</span><span style="color:var(--accent)">${info.h}시간</span></div>
-    <div class="cr-row"><span>68kg 달성 지연</span><span style="color:var(--accent)">약 ${delayDays}일</span></div>
-    <div style="border-top:1px solid var(--border);margin-top:6px;padding-top:8px;display:flex;justify-content:space-between;align-items:center">
-      <span style="font-size:.78rem;font-weight:700">총 감량 손실</span>
-      <span style="color:#ff0000;font-size:1.1rem;font-weight:900">약 ${(fl*1000+200).toFixed(0)}g</span>
-    </div>`;
-  document.getElementById('vsBox').innerHTML=`
-    <div class="vs-item drink"><h4>🍺 오늘 ${info.name}</h4>
-      <div class="vs-row">지방 연소 ${info.h}시간 중단</div>
-      <div class="vs-row">내일 식욕 +20~30%</div>
-      <div class="vs-row">68kg 달성 ${delayDays}일 지연</div>
-      <div class="vs-row" style="color:#ff0000;font-weight:700">${(fl*1000+200).toFixed(0)}g 손실</div>
-    </div>
-    <div class="vs-item nodri"><h4>✅ 오늘 안 마시면</h4>
-      <div class="vs-row">지방 연소 24시간 풀가동</div>
-      <div class="vs-row">내일 식욕 정상</div>
-      <div class="vs-row">68kg 하루 앞당김</div>
-      <div class="vs-row" style="color:var(--green);font-weight:700">200~300g 감량 기대</div>
-    </div>`;
+// ─── 유틸 ────────────────────────────────────────────────────
+// ─── 🔍 음식 칼로리 DB ────────────────────────────────────────
+const FOOD_DB = [
+  // ── 단백질 ──
+  {n:'닭가슴살 100g',       cat:'단백질',   kcal:165, carb:0,   prot:31,  fat:3.6,  sod:74},
+  {n:'닭가슴살 200g',       cat:'단백질',   kcal:330, carb:0,   prot:62,  fat:7,    sod:148},
+  {n:'삶은 달걀 1개',       cat:'단백질',   kcal:78,  carb:0.6, prot:6.3, fat:5.3,  sod:62},
+  {n:'삶은 달걀 2개',       cat:'단백질',   kcal:156, carb:1.2, prot:12.6,fat:10.6, sod:124},
+  {n:'셀릭스 20g (1회)',    cat:'단백질',   kcal:76,  carb:3,   prot:20,  fat:0.5,  sod:95},
+  {n:'셀릭스 40g (2회)',    cat:'단백질',   kcal:152, carb:6,   prot:40,  fat:1,    sod:190},
+  {n:'두부 100g',           cat:'단백질',   kcal:76,  carb:2,   prot:8,   fat:4,    sod:7},
+  {n:'두부 200g',           cat:'단백질',   kcal:152, carb:4,   prot:16,  fat:8,    sod:14},
+  {n:'두유 200ml',          cat:'단백질',   kcal:90,  carb:8,   prot:6,   fat:3,    sod:100},
+  {n:'연어 100g',           cat:'단백질',   kcal:208, carb:0,   prot:20,  fat:13,   sod:59},
+  {n:'참치캔 100g (물)',    cat:'단백질',   kcal:108, carb:0,   prot:25,  fat:0.5,  sod:320},
+  {n:'소고기 불고기 100g',  cat:'단백질',   kcal:211, carb:6,   prot:17,  fat:13,   sod:680},
+  {n:'돼지 삼겹살 100g',   cat:'단백질',   kcal:395, carb:0,   prot:16,  fat:36,   sod:55},
+  {n:'닭볶음탕 100g',       cat:'단백질',   kcal:165, carb:6,   prot:16,  fat:8,    sod:580},
+  {n:'계란후라이 1개',      cat:'단백질',   kcal:90,  carb:0.4, prot:6,   fat:7,    sod:65},
+  {n:'스크램블에그 2개분',  cat:'단백질',   kcal:200, carb:1,   prot:12,  fat:16,   sod:200},
+  {n:'단백질바 1개',        cat:'단백질',   kcal:200, carb:20,  prot:20,  fat:7,    sod:150},
+  {n:'아몬드 20개(25g)',    cat:'단백질',   kcal:146, carb:5,   prot:5,   fat:13,   sod:0},
+  // ── 밥·면 ──
+  {n:'흰쌀밥 200g (1공기)', cat:'밥·면',    kcal:260, carb:57,  prot:4,   fat:0.4,  sod:2},
+  {n:'흰쌀밥 100g (반공기)',cat:'밥·면',    kcal:130, carb:28,  prot:2,   fat:0.2,  sod:1},
+  {n:'현미밥 200g',         cat:'밥·면',    kcal:232, carb:50,  prot:5,   fat:1.4,  sod:4},
+  {n:'잡곡밥 200g',         cat:'밥·면',    kcal:248, carb:52,  prot:5.5, fat:1.5,  sod:3},
+  {n:'오트밀 40g (건)',      cat:'밥·면',    kcal:148, carb:26,  prot:5,   fat:2.5,  sod:2},
+  {n:'신라면 1봉지',        cat:'밥·면',    kcal:500, carb:81,  prot:11,  fat:16,   sod:1790},
+  {n:'진라면 1봉지',        cat:'밥·면',    kcal:485, carb:80,  prot:10,  fat:15,   sod:1820},
+  {n:'짜파게티 1봉지',      cat:'밥·면',    kcal:545, carb:87,  prot:12,  fat:17,   sod:1670},
+  {n:'쫄면 1인분',          cat:'밥·면',    kcal:410, carb:80,  prot:12,  fat:5,    sod:1200},
+  {n:'냉면 1인분',          cat:'밥·면',    kcal:450, carb:85,  prot:14,  fat:4,    sod:1500},
+  {n:'우동 1인분',          cat:'밥·면',    kcal:380, carb:70,  prot:12,  fat:5,    sod:1800},
+  {n:'떡볶이 1인분(200g)',  cat:'밥·면',    kcal:330, carb:65,  prot:7,   fat:5,    sod:1200},
+  {n:'식빵 1장(30g)',       cat:'밥·면',    kcal:79,  carb:15,  prot:2.5, fat:1,    sod:130},
+  {n:'통밀식빵 1장(30g)',   cat:'밥·면',    kcal:72,  carb:13,  prot:3,   fat:1,    sod:140},
+  {n:'고구마 150g',         cat:'밥·면',    kcal:129, carb:30,  prot:2,   fat:0.1,  sod:41},
+  // ── 채소·과일 ──
+  {n:'바나나 1개(중)',       cat:'채소·과일',kcal:89,  carb:23,  prot:1.1, fat:0.3,  sod:1},
+  {n:'사과 1개(중)',         cat:'채소·과일',kcal:95,  carb:25,  prot:0.5, fat:0.3,  sod:2},
+  {n:'방울토마토 10개',     cat:'채소·과일',kcal:30,  carb:6,   prot:1.5, fat:0.3,  sod:10},
+  {n:'오이 1개',            cat:'채소·과일',kcal:16,  carb:3.6, prot:0.7, fat:0.1,  sod:2},
+  {n:'브로콜리 100g',       cat:'채소·과일',kcal:34,  carb:7,   prot:2.8, fat:0.4,  sod:33},
+  {n:'샐러드(드레싱없음) 150g',cat:'채소·과일',kcal:25,carb:4,  prot:2,   fat:0.3,  sod:20},
+  {n:'김치 100g',           cat:'채소·과일',kcal:15,  carb:2.4, prot:1,   fat:0.5,  sod:498},
+  {n:'김치 50g',            cat:'채소·과일',kcal:8,   carb:1.2, prot:0.5, fat:0.3,  sod:249},
+  {n:'시금치나물 100g',     cat:'채소·과일',kcal:28,  carb:4,   prot:3,   fat:0.5,  sod:380},
+  {n:'콩나물무침 100g',     cat:'채소·과일',kcal:35,  carb:3,   prot:3.5, fat:1.2,  sod:430},
+  // ── 간식·음료 ──
+  {n:'아메리카노 (무가당)',  cat:'간식·음료',kcal:5,   carb:0.5, prot:0.3, fat:0.1,  sod:5},
+  {n:'카페라테 (기본)',      cat:'간식·음료',kcal:130, carb:12,  prot:6,   fat:6,    sod:100},
+  {n:'제로콜라 355ml',      cat:'간식·음료',kcal:1,   carb:0,   prot:0,   fat:0,    sod:40},
+  {n:'포카리스웨트 500ml',  cat:'간식·음료',kcal:115, carb:28,  prot:0,   fat:0,    sod:210},
+  {n:'오렌지주스 200ml',    cat:'간식·음료',kcal:88,  carb:21,  prot:1,   fat:0.2,  sod:5},
+  {n:'바나나우유 240ml',    cat:'간식·음료',kcal:150, carb:28,  prot:4,   fat:3,    sod:85},
+  {n:'그릭요거트 100g',     cat:'간식·음료',kcal:59,  carb:3.6, prot:10,  fat:0.4,  sod:36},
+  {n:'과자(포카칩) 60g',   cat:'간식·음료',kcal:315, carb:39,  prot:3,   fat:17,   sod:280},
+  {n:'초콜릿 30g',          cat:'간식·음료',kcal:160, carb:17,  prot:2,   fat:10,   sod:20},
+  {n:'아이스크림 1개(100g)',cat:'간식·음료',kcal:200, carb:28,  prot:3,   fat:9,    sod:80},
+  // ── 도시락·외식 ──
+  {n:'마이비밀 도시락 (평균)',cat:'도시락·외식',kcal:450,carb:55,prot:25, fat:15,   sod:900},
+  {n:'편의점 도시락 (평균)',cat:'도시락·외식',kcal:520,carb:70, prot:18,  fat:18,   sod:1100},
+  {n:'김밥 1줄',            cat:'도시락·외식',kcal:310,carb:55, prot:9,   fat:6,    sod:780},
+  {n:'삼각김밥 1개',        cat:'도시락·외식',kcal:175,carb:33, prot:5,   fat:3,    sod:450},
+  {n:'치킨 1조각(100g)',    cat:'도시락·외식',kcal:290,carb:10, prot:22,  fat:18,   sod:500},
+  {n:'치킨 반마리',         cat:'도시락·외식',kcal:750,carb:25, prot:55,  fat:45,   sod:1250},
+  {n:'피자 1조각(130g)',    cat:'도시락·외식',kcal:285,carb:34, prot:12,  fat:11,   sod:680},
+  {n:'햄버거 1개(빅맥)',    cat:'도시락·외식',kcal:550,carb:45, prot:26,  fat:29,   sod:940},
+  {n:'된장찌개 1인분',      cat:'도시락·외식',kcal:90, carb:8,  prot:8,   fat:3,    sod:1400},
+  {n:'순두부찌개 1인분',    cat:'도시락·외식',kcal:120,carb:6,  prot:11,  fat:6,    sod:1600},
+  {n:'비빔밥 1인분',        cat:'도시락·외식',kcal:570,carb:90, prot:18,  fat:12,   sod:1100},
+  {n:'짜장면 1인분',        cat:'도시락·외식',kcal:620,carb:100,prot:18,  fat:15,   sod:1700},
+  {n:'짬뽕 1인분',          cat:'도시락·외식',kcal:540,carb:80, prot:22,  fat:14,   sod:2800},
+  {n:'삼겹살 1인분(200g)', cat:'도시락·외식',kcal:790,carb:0,  prot:32,  fat:72,   sod:110},
+  // ── 술·안주 ──
+  {n:'소주 1병(360ml)',     cat:'술·안주',  kcal:408, carb:0,   prot:0,   fat:0,    sod:0},
+  {n:'소주 1잔(50ml)',      cat:'술·안주',  kcal:57,  carb:0,   prot:0,   fat:0,    sod:0},
+  {n:'맥주 500ml (캔)',     cat:'술·안주',  kcal:205, carb:16,  prot:2,   fat:0,    sod:14},
+  {n:'막걸리 1병(750ml)',   cat:'술·안주',  kcal:390, carb:46,  prot:5,   fat:0.3,  sod:15},
+  {n:'와인 1잔(150ml)',     cat:'술·안주',  kcal:122, carb:4,   prot:0.1, fat:0,    sod:6},
+  {n:'치킨+맥주 조합',      cat:'술·안주',  kcal:955, carb:41,  prot:57,  fat:45,   sod:1764},
+  {n:'소주+삼겹살 조합',    cat:'술·안주',  kcal:1198,carb:0,   prot:32,  fat:72,   sod:165},
+  {n:'감자전 1인분',        cat:'술·안주',  kcal:320, carb:40,  prot:5,   fat:16,   sod:520},
+  {n:'부침개 1인분',        cat:'술·안주',  kcal:380, carb:45,  prot:9,   fat:18,   sod:750},
+  {n:'마른안주(오징어채)',   cat:'술·안주',  kcal:180, carb:10,  prot:28,  fat:2,    sod:900},
+];
+
+let _selectedFoods = [];
+let _currentCat = '전체';
+let _currentQuery = '';
+
+function searchFood(q){
+  _currentQuery = q;
+  renderFoodResults();
 }
-
-
-function goDiet(){
-  // PC에서 식단 가이드 탭 전용 처리
-  panes.forEach(p=>document.getElementById('pane-'+p).classList.remove('on'));
-  for(let i=0;i<6;i++){
-    const bn=document.getElementById('bn'+i);if(bn)bn.classList.remove('on');
-    const pt=document.getElementById('pt'+i);if(pt)pt.classList.remove('on');
+function filterCat(cat){
+  _currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b=>{
+    b.classList.toggle('on', b.textContent.includes(cat) || (cat==='전체' && b.textContent==='전체'));
+  });
+  renderFoodResults();
+}
+function renderFoodResults(){
+  const el = document.getElementById('foodResults');
+  const q = _currentQuery.trim().toLowerCase();
+  let list = FOOD_DB;
+  if(_currentCat !== '전체') list = list.filter(f=>f.cat===_currentCat);
+  if(q) list = list.filter(f=>f.n.toLowerCase().includes(q) || f.cat.toLowerCase().includes(q));
+  if(!list.length){
+    el.innerHTML='<div class="food-empty">🔍 검색 결과가 없습니다</div>';
+    return;
   }
-  document.getElementById('pane-alc').classList.add('on');
-  const pt=document.getElementById('pt5');if(pt)pt.classList.add('on');
-  switchSub(1);
-  
-  window.scrollTo({top:0,behavior:'smooth'});
+  // 최대 20개
+  const show = list.slice(0,20);
+  el.innerHTML = show.map((f,i)=>{
+    const isSel = _selectedFoods.some(s=>s.n===f.n);
+    return `<div class="food-row${isSel?' selected':''}" onclick="toggleFood(${FOOD_DB.indexOf(f)})">
+      <div class="fr-name">${f.n}</div>
+      <div class="fr-cat">${f.cat}</div>
+      <div class="fr-macro">탄${f.carb}g 단${f.prot}g 지${f.fat}g</div>
+      <div class="fr-kcal">${f.kcal}<span style="font-size:.55rem;color:var(--muted2)">kcal</span></div>
+      <button class="fr-add">${isSel?'✓':'+'}</button>
+    </div>`;
+  }).join('');
+  if(list.length>20){
+    el.innerHTML += `<div style="text-align:center;font-size:.7rem;color:var(--muted);padding:6px">... 외 ${list.length-20}개 더 있음 (검색어로 좁혀보세요)</div>`;
+  }
 }
-function switchSub(idx){
-  document.getElementById('sub-alc').style.display=idx===0?'block':'none';
-  document.getElementById('sub-diet').style.display=idx===1?'block':'none';
-  document.getElementById('st0').classList.toggle('on',idx===0);
-  document.getElementById('st1').classList.toggle('on',idx===1);
+function toggleFood(idx){
+  const f = FOOD_DB[idx];
+  const si = _selectedFoods.findIndex(s=>s.n===f.n);
+  if(si>=0){ _selectedFoods.splice(si,1); }
+  else { _selectedFoods.push({...f}); }
+  renderFoodResults();
+  renderSelected();
 }
+function renderSelected(){
+  const wrap = document.getElementById('foodSelected');
+  if(!_selectedFoods.length){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  const tot = _selectedFoods.reduce((a,f)=>({
+    kcal:a.kcal+f.kcal, carb:a.carb+f.carb, prot:a.prot+f.prot, fat:a.fat+f.fat
+  }), {kcal:0,carb:0,prot:0,fat:0});
+  document.getElementById('selectedList').innerHTML = _selectedFoods.map(f=>
+    `<div class="sel-item"><span class="sel-name">${f.n}</span><span class="sel-k">${f.kcal} kcal</span></div>`
+  ).join('');
+  document.getElementById('selectedTotals').innerHTML = [
+    {v:Math.round(tot.kcal),l:'칼로리',c:'var(--blue)'},
+    {v:Math.round(tot.carb)+'g',l:'탄수화물',c:'var(--orange)'},
+    {v:Math.round(tot.prot)+'g',l:'단백질',c:'var(--green)'},
+    {v:Math.round(tot.fat)+'g',l:'지방',c:'var(--accent)'},
+  ].map(t=>`<div class="tot-chip"><div class="tv" style="color:${t.c}">${t.v}</div><div class="tl">${t.l}</div></div>`).join('');
+}
+function clearSelected(){
+  _selectedFoods=[];
+  renderFoodResults();
+  renderSelected();
+}
+
 function weekStart(){const d=new Date();const day=d.getDay();const diff=d.getDate()-day+(day===0?-6:1);d.setDate(diff);return d.toISOString().split('T')[0];}
 function toast(msg,err=0){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(err?' err':'');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 window.addEventListener('resize',()=>{showNav();drawChart();});
