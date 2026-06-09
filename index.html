@@ -1482,7 +1482,13 @@ FOOD_DB.forEach((f,i)=>{ if(!f._id) f._id = 'base_'+i; });
 // 커스텀 음식 DB (localStorage 저장)
 function _loadCustomDB(){ try{ return JSON.parse(localStorage.getItem('tw_custom_foods'))||[]; }catch{return[];} }
 function _saveCustomDB(arr){ localStorage.setItem('tw_custom_foods', JSON.stringify(arr)); }
-function _allFoodDB(){ return [...FOOD_DB, ..._loadCustomDB()]; }
+function _allFoodDB(){
+  const hidden = _loadHiddenDB();
+  const base = FOOD_DB.filter(f=>!hidden.includes(f._id));
+  return [...base, ..._loadCustomDB()];
+}
+function _loadHiddenDB(){ try{ return JSON.parse(localStorage.getItem('tw_hidden_foods'))||[]; }catch{return[];} }
+function _saveHiddenDB(arr){ localStorage.setItem('tw_hidden_foods', JSON.stringify(arr)); }
 
 let _selectedFoods = [];
 let _currentCat = '전체';
@@ -1522,7 +1528,7 @@ function renderFoodResults(){
       <div class="fr-macro" onclick="toggleFood('${f._id}')" style="cursor:pointer">탄${f.carb}g 단${f.prot}g 지${f.fat}g</div>
       <div class="fr-kcal" onclick="toggleFood('${f._id}')" style="cursor:pointer">${f.kcal}<span style="font-size:.55rem;color:var(--muted2)">kcal</span></div>
       <button class="fr-edit" onclick="openEditFood('${f._id}')" title="수정">✏️</button>
-      ${isCustom?`<button class="fr-del" onclick="deleteCustomFood('${f._id}')" title="삭제">🗑</button>`:''}
+      <button class="fr-del" onclick="deleteFood('${f._id}')" title="삭제">🗑</button>
       <button class="fr-add" onclick="toggleFood('${f._id}')">${isSel?'✓':'+'}</button>
     </div>`;
   }).join('');
@@ -1562,14 +1568,21 @@ function clearSelected(){
   renderSelected();
 }
 
-function deleteCustomFood(id){
-  if(!confirm('이 음식을 삭제하시겠습니까?')) return;
-  const arr = _loadCustomDB().filter(f=>f._id!==id);
-  _saveCustomDB(arr);
+function deleteFood(id){
+  if(!confirm('삭제하시겠습니까? 기본 내장 음식은 새로고침하면 복구됩니다.')) return;
+  // 커스텀 음식이면 커스텀 DB에서 삭제
+  const customArr = _loadCustomDB().filter(f=>f._id!==id);
+  _saveCustomDB(customArr);
+  // 기본 내장 음식이면 숨김 처리 (hidden 목록에 추가)
+  const isBase = FOOD_DB.some(f=>f._id===id);
+  if(isBase){
+    const hidden = _loadHiddenDB();
+    if(!hidden.includes(id)){ hidden.push(id); _saveHiddenDB(hidden); }
+  }
   _selectedFoods = _selectedFoods.filter(s=>s._id!==id);
   renderFoodResults();
   renderSelected();
-  toast('삭제 완료');
+  toast('삭제됨 (새로고침하면 기본 음식은 복구)');
 }
 
 function openAddFood(){
