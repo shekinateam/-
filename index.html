@@ -337,6 +337,10 @@ canvas{width:100%!important;}
 .fr-macro{font-size:.6rem;color:var(--muted2);flex-shrink:0;min-width:90px;text-align:right;}
 .fr-add{width:24px;height:24px;border-radius:50%;background:var(--blue);border:none;color:#fff;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
 .food-row.selected .fr-add{background:var(--green);}
+.fr-edit{background:none;border:none;font-size:.75rem;cursor:pointer;padding:2px 4px;opacity:.5;transition:opacity .2s;flex-shrink:0;}
+.fr-edit:hover{opacity:1;}
+.fr-del{background:none;border:none;font-size:.75rem;cursor:pointer;padding:2px 4px;opacity:.4;transition:opacity .2s;flex-shrink:0;}
+.fr-del:hover{opacity:1;}
 .sel-item{display:flex;justify-content:space-between;align-items:center;font-size:.72rem;padding:3px 0;border-bottom:1px solid var(--border);}
 .sel-item:last-child{border:none;}
 .sel-name{color:var(--muted2);}
@@ -367,6 +371,59 @@ canvas{width:100%!important;}
     </div>
     <button class="login-btn" onclick="tryLogin()">입장</button>
     <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- 🥗 음식 추가/수정 모달 -->
+<div class="alc-popup" id="foodModal">
+  <div class="ap-box" style="max-width:420px">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;margin-bottom:16px" id="foodModalTitle">➕ 음식 추가</div>
+
+    <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px">
+      <div class="inp-g"><label>음식 이름</label>
+        <input type="text" id="fm-name" placeholder="예: 마이비밀 닭가슴살 도시락"
+          style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none">
+      </div>
+      <div class="inp-g"><label>카테고리</label>
+        <select id="fm-cat" style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none">
+          <option>단백질</option><option>밥·면</option><option>채소·과일</option>
+          <option>간식·음료</option><option>도시락·외식</option><option>술·안주</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="inp-g"><label>탄수화물 (g)</label>
+          <input type="number" id="fm-carb" placeholder="0" min="0" step="0.1" oninput="autoCalc()"
+            style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none">
+        </div>
+        <div class="inp-g"><label>단백질 (g)</label>
+          <input type="number" id="fm-prot" placeholder="0" min="0" step="0.1" oninput="autoCalc()"
+            style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none">
+        </div>
+        <div class="inp-g"><label>지방 (g)</label>
+          <input type="number" id="fm-fat" placeholder="0" min="0" step="0.1" oninput="autoCalc()"
+            style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none">
+        </div>
+        <div class="inp-g">
+          <label style="display:flex;justify-content:space-between">
+            <span>칼로리 (kcal)</span>
+            <span style="font-size:.58rem;color:var(--blue);cursor:pointer" onclick="autoCalc()">↺ 자동계산</span>
+          </label>
+          <input type="number" id="fm-kcal" placeholder="자동계산" min="0"
+            style="width:100%;background:var(--card2);border:1px solid rgba(61,139,255,0.4);border-radius:8px;padding:11px 12px;color:var(--blue);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none;font-weight:700">
+        </div>
+      </div>
+      <div class="inp-g"><label>나트륨 (mg, 선택)</label>
+        <input type="number" id="fm-sod" placeholder="0" min="0"
+          style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none">
+      </div>
+    </div>
+
+    <div id="fm-err" style="font-size:.75rem;color:var(--accent);min-height:16px;margin-bottom:8px;text-align:center"></div>
+
+    <div class="ap-btns">
+      <button class="ap-btn-no" onclick="saveFoodModal()" style="background:var(--blue);color:#fff">저장</button>
+      <button class="ap-btn-yes" onclick="closeFoodModal()" style="color:var(--muted2);border-color:var(--border)">취소</button>
+    </div>
   </div>
 </div>
 
@@ -497,7 +554,10 @@ canvas{width:100%!important;}
 
       <!-- ★ 음식 칼로리 DB 검색기 ★ -->
       <div class="card" style="margin-bottom:12px">
-        <div class="card-ttl">🔍 음식 칼로리 검색 — 한국 음식 DB</div>
+        <div class="card-ttl" style="display:flex;justify-content:space-between;align-items:center">
+          <span>🔍 음식 칼로리 검색 — 한국 음식 DB</span>
+          <button onclick="openAddFood()" style="font-size:.68rem;font-weight:700;background:rgba(0,230,118,0.12);border:1px solid rgba(0,230,118,0.3);color:var(--green);border-radius:7px;padding:4px 10px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap">➕ 음식 추가</button>
+        </div>
         <div style="position:relative;margin-bottom:10px">
           <input type="text" id="foodSearch" placeholder="음식 이름 검색... (예: 닭가슴살, 도시락, 라면)"
             style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 40px 12px 14px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none;transition:border-color .2s"
@@ -1389,7 +1449,7 @@ const FOOD_DB = [
   {n:'초콜릿 30g',          cat:'간식·음료',kcal:160, carb:17,  prot:2,   fat:10,   sod:20},
   {n:'아이스크림 1개(100g)',cat:'간식·음료',kcal:200, carb:28,  prot:3,   fat:9,    sod:80},
   // ── 도시락·외식 ──
-  {n:'마이비밀 도시락 (평균)',cat:'도시락·외식',kcal:450,carb:55,prot:25, fat:15,   sod:900},
+  {n:'마이비밀 도시락',       cat:'도시락·외식',kcal:341,carb:53,prot:16.5,fat:7,  sod:800},
   {n:'편의점 도시락 (평균)',cat:'도시락·외식',kcal:520,carb:70, prot:18,  fat:18,   sod:1100},
   {n:'김밥 1줄',            cat:'도시락·외식',kcal:310,carb:55, prot:9,   fat:6,    sod:780},
   {n:'삼각김밥 1개',        cat:'도시락·외식',kcal:175,carb:33, prot:5,   fat:3,    sod:450},
@@ -1416,9 +1476,18 @@ const FOOD_DB = [
   {n:'마른안주(오징어채)',   cat:'술·안주',  kcal:180, carb:10,  prot:28,  fat:2,    sod:900},
 ];
 
+// 기본 DB에 고정 _id 부여
+FOOD_DB.forEach((f,i)=>{ if(!f._id) f._id = 'base_'+i; });
+
+// 커스텀 음식 DB (localStorage 저장)
+function _loadCustomDB(){ try{ return JSON.parse(localStorage.getItem('tw_custom_foods'))||[]; }catch{return[];} }
+function _saveCustomDB(arr){ localStorage.setItem('tw_custom_foods', JSON.stringify(arr)); }
+function _allFoodDB(){ return [...FOOD_DB, ..._loadCustomDB()]; }
+
 let _selectedFoods = [];
 let _currentCat = '전체';
 let _currentQuery = '';
+let _editingFoodId = null; // 수정 중인 음식 id
 
 function searchFood(q){
   _currentQuery = q;
@@ -1434,32 +1503,37 @@ function filterCat(cat){
 function renderFoodResults(){
   const el = document.getElementById('foodResults');
   const q = _currentQuery.trim().toLowerCase();
-  let list = FOOD_DB;
+  let list = _allFoodDB();
   if(_currentCat !== '전체') list = list.filter(f=>f.cat===_currentCat);
   if(q) list = list.filter(f=>f.n.toLowerCase().includes(q) || f.cat.toLowerCase().includes(q));
   if(!list.length){
     el.innerHTML='<div class="food-empty">🔍 검색 결과가 없습니다</div>';
     return;
   }
-  // 최대 20개
+  // 최대 20개 — 수정/삭제 버튼 포함
   const show = list.slice(0,20);
-  el.innerHTML = show.map((f,i)=>{
-    const isSel = _selectedFoods.some(s=>s.n===f.n);
-    return `<div class="food-row${isSel?' selected':''}" onclick="toggleFood(${FOOD_DB.indexOf(f)})">
-      <div class="fr-name">${f.n}</div>
+  el.innerHTML = show.map((f)=>{
+    const realIdx = _allFoodDB().findIndex(x=>x._id===f._id);
+    const isSel = _selectedFoods.some(s=>s._id===f._id);
+    const isCustom = !!f._custom;
+    return `<div class="food-row${isSel?' selected':''}" id="fr-${f._id}">
+      <div class="fr-name" onclick="toggleFood('${f._id}')" style="cursor:pointer">${f.n}</div>
       <div class="fr-cat">${f.cat}</div>
-      <div class="fr-macro">탄${f.carb}g 단${f.prot}g 지${f.fat}g</div>
-      <div class="fr-kcal">${f.kcal}<span style="font-size:.55rem;color:var(--muted2)">kcal</span></div>
-      <button class="fr-add">${isSel?'✓':'+'}</button>
+      <div class="fr-macro" onclick="toggleFood('${f._id}')" style="cursor:pointer">탄${f.carb}g 단${f.prot}g 지${f.fat}g</div>
+      <div class="fr-kcal" onclick="toggleFood('${f._id}')" style="cursor:pointer">${f.kcal}<span style="font-size:.55rem;color:var(--muted2)">kcal</span></div>
+      <button class="fr-edit" onclick="openEditFood('${f._id}')" title="수정">✏️</button>
+      ${isCustom?`<button class="fr-del" onclick="deleteCustomFood('${f._id}')" title="삭제">🗑</button>`:''}
+      <button class="fr-add" onclick="toggleFood('${f._id}')">${isSel?'✓':'+'}</button>
     </div>`;
   }).join('');
   if(list.length>20){
     el.innerHTML += `<div style="text-align:center;font-size:.7rem;color:var(--muted);padding:6px">... 외 ${list.length-20}개 더 있음 (검색어로 좁혀보세요)</div>`;
   }
 }
-function toggleFood(idx){
-  const f = FOOD_DB[idx];
-  const si = _selectedFoods.findIndex(s=>s.n===f.n);
+function toggleFood(id){
+  const f = _allFoodDB().find(x=>x._id===id);
+  if(!f) return;
+  const si = _selectedFoods.findIndex(s=>s._id===id);
   if(si>=0){ _selectedFoods.splice(si,1); }
   else { _selectedFoods.push({...f}); }
   renderFoodResults();
@@ -1486,6 +1560,102 @@ function clearSelected(){
   _selectedFoods=[];
   renderFoodResults();
   renderSelected();
+}
+
+function deleteCustomFood(id){
+  if(!confirm('이 음식을 삭제하시겠습니까?')) return;
+  const arr = _loadCustomDB().filter(f=>f._id!==id);
+  _saveCustomDB(arr);
+  _selectedFoods = _selectedFoods.filter(s=>s._id!==id);
+  renderFoodResults();
+  renderSelected();
+  toast('삭제 완료');
+}
+
+function openAddFood(){
+  _editingFoodId = null;
+  document.getElementById('foodModalTitle').textContent = '➕ 음식 추가';
+  document.getElementById('fm-name').value='';
+  document.getElementById('fm-cat').value='단백질';
+  document.getElementById('fm-kcal').value='';
+  document.getElementById('fm-carb').value='';
+  document.getElementById('fm-prot').value='';
+  document.getElementById('fm-fat').value='';
+  document.getElementById('fm-sod').value='';
+  document.getElementById('fm-err').textContent='';
+  document.getElementById('foodModal').classList.add('show');
+}
+
+function openEditFood(id){
+  const f = _allFoodDB().find(x=>x._id===id);
+  if(!f) return;
+  _editingFoodId = id;
+  document.getElementById('foodModalTitle').textContent = '✏️ 음식 수정';
+  document.getElementById('fm-name').value = f.n;
+  document.getElementById('fm-cat').value  = f.cat;
+  document.getElementById('fm-kcal').value = f.kcal;
+  document.getElementById('fm-carb').value = f.carb;
+  document.getElementById('fm-prot').value = f.prot;
+  document.getElementById('fm-fat').value  = f.fat;
+  document.getElementById('fm-sod').value  = f.sod||0;
+  document.getElementById('fm-err').textContent='';
+  document.getElementById('foodModal').classList.add('show');
+}
+
+function closeFoodModal(){
+  document.getElementById('foodModal').classList.remove('show');
+  _editingFoodId = null;
+}
+
+function saveFoodModal(){
+  const n    = document.getElementById('fm-name').value.trim();
+  const cat  = document.getElementById('fm-cat').value;
+  const kcal = parseFloat(document.getElementById('fm-kcal').value);
+  const carb = parseFloat(document.getElementById('fm-carb').value)||0;
+  const prot = parseFloat(document.getElementById('fm-prot').value)||0;
+  const fat  = parseFloat(document.getElementById('fm-fat').value)||0;
+  const sod  = parseFloat(document.getElementById('fm-sod').value)||0;
+  const err  = document.getElementById('fm-err');
+  if(!n){ err.textContent='음식 이름을 입력해주세요'; return; }
+  if(!kcal||kcal<0){ err.textContent='칼로리를 입력해주세요'; return; }
+  err.textContent='';
+
+  if(_editingFoodId){
+    // 기본 DB 수정 → 커스텀 DB에 override 저장
+    const base = FOOD_DB.find(f=>f._id===_editingFoodId);
+    if(base){
+      // 기본 DB 직접 수정 (런타임)
+      Object.assign(base, {n,cat,kcal,carb,prot,fat,sod});
+    } else {
+      // 커스텀 DB 수정
+      const arr = _loadCustomDB();
+      const i = arr.findIndex(f=>f._id===_editingFoodId);
+      if(i>=0) arr[i] = {...arr[i],n,cat,kcal,carb,prot,fat,sod};
+      _saveCustomDB(arr);
+    }
+    // 선택된 음식에도 반영
+    const si = _selectedFoods.findIndex(s=>s._id===_editingFoodId);
+    if(si>=0) _selectedFoods[si] = {..._selectedFoods[si],n,cat,kcal,carb,prot,fat,sod};
+    toast('✅ 수정 완료');
+  } else {
+    // 새 음식 추가
+    const arr = _loadCustomDB();
+    arr.push({_id:'custom_'+Date.now(),_custom:true,n,cat,kcal,carb,prot,fat,sod});
+    _saveCustomDB(arr);
+    toast('✅ 음식 추가 완료');
+  }
+  closeFoodModal();
+  renderFoodResults();
+  renderSelected();
+}
+
+// 칼로리 자동 계산
+function autoCalc(){
+  const carb = parseFloat(document.getElementById('fm-carb').value)||0;
+  const prot = parseFloat(document.getElementById('fm-prot').value)||0;
+  const fat  = parseFloat(document.getElementById('fm-fat').value)||0;
+  const kcal = Math.round(carb*4 + prot*4 + fat*9);
+  if(kcal>0) document.getElementById('fm-kcal').value = kcal;
 }
 
 function weekStart(){const d=new Date();const day=d.getDay();const diff=d.getDate()-day+(day===0?-6:1);d.setDate(diff);return d.toISOString().split('T')[0];}
