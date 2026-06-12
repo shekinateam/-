@@ -2,1678 +2,566 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>태완 DIET</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026_업무계획_이태완.xlsx - Microsoft Excel</title>
 <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#060810;--card:#0e1018;--card2:#161820;--border:#232535;
-  --accent:#ff3b3b;--orange:#ff8c00;--green:#00e676;--blue:#3d8bff;--purple:#9b59b6;
-  --text:#eef0f8;--muted:#5a5c70;--muted2:#7c7e95;
+  --green:#217346;--green-dark:#155724;--green-light:#c6efce;--green-mid:#e8f5e9;
+  --row-even:#f6fdf6;--border:#d0d0d0;--border-dark:#b0b0b0;
+  --pos:#c00000;--neg:#1f497d;--muted:#9ca3af;
+  --ai-bg:#0f172a;--ai-card:#1e293b;--ai-border:#334155;--ai-accent:#22c55e;
 }
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;min-height:100vh;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 600px 400px at 80% 10%,rgba(255,59,59,0.04),transparent 70%),radial-gradient(ellipse 400px 600px at 10% 80%,rgba(61,139,255,0.04),transparent 70%);pointer-events:none;z-index:0;}
-::-webkit-scrollbar{width:3px;height:3px;}
-::-webkit-scrollbar-track{background:var(--card);}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+html,body{height:100%;overflow:hidden}
+body{font-family:'맑은 고딕','Malgun Gothic','Apple SD Gothic Neo',sans-serif;font-size:12px;background:#f0f0f0;display:flex;flex-direction:column}
 
-/* ===== 로그인 ===== */
-#loginScreen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;}
-.login-box{width:100%;max-width:340px;padding:0 20px;display:flex;flex-direction:column;align-items:center;}
-.login-logo{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:5px;margin-bottom:6px;}
-.login-logo em{color:var(--accent);font-style:normal;}
-.login-sub{font-size:0.7rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:36px;}
-.login-label{font-size:0.7rem;color:var(--muted2);letter-spacing:1px;margin-bottom:8px;align-self:flex-start;}
-.pw-dots{display:flex;gap:10px;justify-content:center;margin-bottom:20px;}
-.pw-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--border);transition:all .2s;}
-.pw-dot.filled{background:var(--accent);border-color:var(--accent);}
-.login-input-wrap{position:relative;width:100%;margin-bottom:14px;}
-.login-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 44px 14px 16px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:1.1rem;outline:none;letter-spacing:4px;transition:border-color .2s;text-align:center;}
-.login-input:focus{border-color:var(--accent);}
-.login-input.shake{animation:shake .4s ease;}
-@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
-.eye-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:4px;}
-.login-btn{width:100%;background:var(--accent);border:none;border-radius:10px;padding:14px;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:10px;}
-.login-btn:hover{background:#ff1f1f;}
-.login-btn:active{transform:scale(0.98);}
-.login-err{font-size:0.75rem;color:var(--accent);text-align:center;min-height:18px;}
+/* ── 타이틀바 ── */
+#tb{height:26px;background:linear-gradient(135deg,#1a5c38,#217346);display:flex;align-items:center;justify-content:space-between;padding:0 10px;user-select:none;flex-shrink:0}
+#tb .t{color:#fff;font-size:11.5px;letter-spacing:.01em}
+#tb .btns{display:flex;gap:5px}
+#tb .btns span{width:11px;height:11px;border-radius:50%;cursor:pointer}
+.bm{background:#ffd60a}.bx{background:#28cd41}.bc{background:#ff453a}
 
-/* ===== 메인 ===== */
-#app{display:none;}
-.wrap{max-width:900px;margin:0 auto;padding:20px 14px 80px;position:relative;z-index:1;}
+/* ── 리본 ── */
+#ribbon{background:#217346;border-bottom:1px solid #155724;display:flex;align-items:center;gap:2px;padding:3px 8px;flex-shrink:0;flex-wrap:wrap}
+.rtab{color:rgba(255,255,255,.85);font-size:11px;padding:3px 9px;border-radius:2px;cursor:pointer;transition:background .15s}
+.rtab:hover,.rtab.on{background:rgba(255,255,255,.18);color:#fff}
+.rsep{width:1px;height:18px;background:rgba(255,255,255,.25);margin:0 4px}
+.rbtn{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.22);border-radius:3px;padding:2px 11px;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px;transition:background .15s;white-space:nowrap}
+.rbtn:hover{background:rgba(255,255,255,.25)}
+.rbtn.on{background:rgba(255,255,255,.32);border-color:rgba(255,255,255,.6)}
+#apistat{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:10px;color:rgba(255,255,255,.75)}
+#dot{width:7px;height:7px;border-radius:50%;background:#6b7280;flex-shrink:0;transition:background .3s}
+#dot.ok{background:#4ade80;box-shadow:0 0 5px #4ade80}
+#dot.err{background:#f87171;box-shadow:0 0 5px #f87171}
+#dot.ld{background:#fbbf24;box-shadow:0 0 5px #fbbf24}
 
-/* 헤더 */
-.hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border);}
-.hdr-l h1{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:4px;line-height:1;}
-.hdr-l h1 em{color:var(--accent);font-style:normal;}
-.hdr-l p{font-size:0.65rem;color:var(--muted2);margin-top:4px;letter-spacing:1px;text-transform:uppercase;}
-.hdr-r{text-align:right;}
-.hdr-r .date{font-size:0.68rem;color:var(--muted2);}
-.hdr-r .wt-now{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;line-height:1.1;}
-.hdr-r .wt-now span{font-size:0.8rem;color:var(--muted2);}
-.logout-btn{display:block;font-size:0.6rem;color:var(--muted);background:none;border:1px solid var(--border);border-radius:6px;padding:2px 8px;cursor:pointer;margin-top:4px;margin-left:auto;}
+/* ── 수식줄 ── */
+#fbar{height:22px;background:#fff;border-bottom:1px solid #ccc;display:flex;align-items:center;padding:0 8px;gap:8px;flex-shrink:0}
+#fcell{width:52px;font-size:11px;font-weight:700;color:#217346;border-right:1px solid #ccc;padding-right:8px;flex-shrink:0}
+#finput{flex:1;border:none;outline:none;font-size:11px;color:#444;background:transparent}
+#fupd{font-size:10px;color:#888;flex-shrink:0}
+.frbtn{background:#217346;color:#fff;border:none;border-radius:2px;padding:1px 9px;font-size:10px;cursor:pointer;flex-shrink:0}
+.frbtn:hover{background:#155724}
 
-/* PC 탭 */
-#pc-tabs{display:none;gap:4px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:18px;}
-.pc-tab{flex:1;padding:10px 6px;border:none;background:transparent;color:var(--muted2);font-family:'Noto Sans KR',sans-serif;font-size:0.78rem;font-weight:500;border-radius:7px;cursor:pointer;transition:all .2s;white-space:nowrap;}
-.pc-tab.on{background:var(--accent);color:#fff;font-weight:700;}
+/* ── 메인 ── */
+#main{flex:1;display:flex;overflow:hidden}
 
-/* 하단 탭바 */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(14,16,24,0.96);border-top:1px solid var(--border);display:flex;z-index:100;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-bottom:env(safe-area-inset-bottom);}
-.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 4px 8px;cursor:pointer;color:var(--muted);font-size:0.58rem;gap:3px;border:none;background:none;transition:color .2s;font-family:'Noto Sans KR',sans-serif;}
-.bnav-item .icon{font-size:1.2rem;line-height:1;}
-.bnav-item.on{color:var(--accent);}
+/* ── 시트 영역 ── */
+#sheet{flex:1;overflow:auto;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:660px}
+th,td{border:1px solid var(--border);font-size:11px;white-space:nowrap;padding:0 5px;height:20px;vertical-align:middle}
+.ch{background:#f2f2f2;text-align:center;font-weight:normal;color:#666;width:22px;border:1px solid var(--border-dark);position:sticky;top:0;z-index:3}
+.rh{background:#f2f2f2;text-align:center;font-weight:normal;color:#666;width:34px;border:1px solid var(--border-dark);position:sticky;left:0;z-index:1}
+/* 행 스타일 */
+.rT td{background:#c6efce!important;font-weight:700;font-size:12px!important;color:#1a4a20!important;height:24px!important}
+.rH td{background:#217346!important;color:#fff!important;font-weight:700;height:22px!important}
+.rD:hover td{background:#edf7ee!important;cursor:default}
+.rD:nth-child(even) td{background:#f6fdf7}
+.rS td{background:#e8f5e9!important;font-weight:700;color:#155724!important;border-top:2px solid #217346!important}
+.rTT td{background:#c6efce!important;font-weight:700;border-top:2px solid #217346!important}
+/* 셀 타입 */
+.num{text-align:right;font-family:'Consolas','Courier New',monospace}
+.pos{color:var(--pos);font-weight:700}
+.neg{color:var(--neg);font-weight:700}
+.mu{color:var(--muted);font-size:10px}
+.ctr{text-align:center}
 
-.pane{display:none;}
-.pane.on{display:block;animation:fi .25s ease;}
-@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* ── AI 패널 ── */
+#aip{width:0;overflow:hidden;background:var(--ai-bg);border-left:2px solid #217346;transition:width .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;flex-shrink:0}
+#aip.open{width:300px}
+#aih{background:#1e293b;padding:9px 12px;color:var(--ai-accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #0f3460;flex-shrink:0}
+#aih small{color:#475569;font-size:10px;font-weight:400}
+#aim{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:7px;scroll-behavior:smooth}
+#aim::-webkit-scrollbar{width:4px}
+#aim::-webkit-scrollbar-track{background:#0f172a}
+#aim::-webkit-scrollbar-thumb{background:#334155;border-radius:2px}
+.mu_{background:#1e293b;color:#d1fae5;border-radius:8px 8px 8px 0;padding:8px 11px;font-size:11px;align-self:flex-start;max-width:93%;border-left:2px solid var(--ai-accent);line-height:1.65;white-space:pre-wrap}
+.mu_u{background:#1e40af;color:#e0e7ff;border-radius:8px 8px 0 8px;padding:8px 11px;font-size:11px;align-self:flex-end;max-width:93%;line-height:1.5}
+.mu_l{color:#475569;font-style:italic;border-color:#334155}
+#aiq{padding:6px 8px;display:flex;flex-wrap:wrap;gap:4px;border-top:1px solid #1e3a5f;background:#1e293b;flex-shrink:0}
+.qb{background:#0f3460;color:#7dd3fc;border:1px solid #1e4a8a;border-radius:3px;padding:2px 8px;font-size:10px;cursor:pointer;transition:background .12s;white-space:nowrap}
+.qb:hover{background:#1e4a8a}
+#air{display:flex;padding:6px 8px;gap:5px;background:#1e293b;flex-shrink:0}
+#ainp{flex:1;background:#0f172a;border:1px solid #334155;border-radius:3px;color:#e2e8f0;padding:4px 9px;font-size:11px;outline:none}
+#ainp:focus{border-color:var(--ai-accent)}
+#aisnd{background:#217346;color:#fff;border:none;border-radius:3px;padding:4px 13px;font-size:11px;font-weight:700;cursor:pointer}
+#aisnd:hover{background:#155724}
 
-/* 카드 */
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;}
-.card-ttl{font-size:0.62rem;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
+/* ── 모달 ── */
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:center}
+.mbg.show{display:flex}
+.mbox{background:#fff;border-radius:8px;padding:22px 26px;width:440px;box-shadow:0 16px 48px rgba(0,0,0,.3)}
+.mbox h3{font-size:14px;color:#155724;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.mbox label{font-size:11px;color:#555;display:block;margin-top:10px;margin-bottom:3px}
+.mbox input{width:100%;border:1px solid #d1d5db;border-radius:4px;padding:6px 10px;font-size:12px;outline:none;transition:border .15s}
+.mbox input:focus{border-color:#217346;box-shadow:0 0 0 2px rgba(33,115,70,.12)}
+.hint{font-size:10px;color:#6b7280;margin-top:5px;line-height:1.55}
+.mbtns{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.mbtns button{padding:6px 20px;border-radius:4px;border:none;cursor:pointer;font-size:12px;font-weight:600}
+.bsv{background:#217346;color:#fff}
+.bsv:hover{background:#155724}
+.bcl{background:#f3f4f6;color:#374151}
 
-/* 목표 게이지 */
-.goal-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:12px;position:relative;overflow:hidden;}
-.goal-card::after{content:'68';position:absolute;right:-6px;top:50%;transform:translateY(-50%) rotate(90deg);font-family:'Bebas Neue',sans-serif;font-size:6rem;color:rgba(255,59,59,0.04);pointer-events:none;}
-.goal-row{display:flex;align-items:flex-end;gap:8px;margin-bottom:14px;}
-.g-start{font-size:1.3rem;font-weight:900;color:var(--muted);}
-.g-arr{font-size:1.2rem;color:var(--accent);margin-bottom:2px;}
-.g-cur{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;line-height:1;color:var(--text);}
-.g-cur small{font-size:.9rem;color:var(--muted2);}
-.g-tgt{margin-left:auto;text-align:right;}
-.g-tgt .num{font-size:1.6rem;font-weight:900;color:var(--accent);}
-.g-tgt .lbl{font-size:0.6rem;color:var(--muted);display:block;}
-.g-bar-bg{height:10px;background:var(--card2);border-radius:5px;overflow:hidden;border:1px solid var(--border);}
-.g-bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--accent),var(--orange));transition:width 1.2s cubic-bezier(.4,0,.2,1);position:relative;}
-.g-bar-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:3px;background:rgba(255,255,255,0.7);border-radius:2px;}
-.g-bar-lbls{display:flex;justify-content:space-between;font-size:0.62rem;color:var(--muted);margin-top:5px;}
-.g-pct{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--orange);letter-spacing:1px;}
-.g-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
-.g-stat{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center;}
-.g-stat .v{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;}
-.g-stat .v.red{color:var(--accent);}
-.g-stat .v.grn{color:var(--green);}
-.g-stat .v.blu{color:var(--blue);}
-.g-stat .l{font-size:0.58rem;color:var(--muted);margin-top:2px;}
+/* ── 탭 ── */
+#tabs{background:#e4e4e4;border-top:1px solid #b8b8b8;display:flex;align-items:flex-end;padding:3px 6px 0;gap:2px;height:24px;flex-shrink:0}
+.tab{background:#c8c8c8;border:1px solid #aaa;border-bottom:none;border-radius:2px 2px 0 0;padding:2px 14px;font-size:10px;cursor:pointer;color:#555;transition:background .1s}
+.tab:hover{background:#d8d8d8}
+.tab.on{background:#fff;color:#155724;font-weight:700}
 
-/* ===== 🍺 3일 회복 배너 ===== */
-.recovery-banner{
-  border-radius:12px;padding:14px 16px;margin-bottom:12px;
-  background:linear-gradient(135deg,rgba(255,0,0,0.12),rgba(255,59,59,0.06));
-  border:1.5px solid rgba(255,59,59,0.5);
-  position:relative;overflow:hidden;display:none;
-}
-.recovery-banner.show{display:block;}
-.recovery-banner::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--accent),transparent);
-  animation:rbscan 2s linear infinite;
-}
-@keyframes rbscan{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-.rb-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.rb-title{font-size:0.85rem;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:6px;}
-.rb-dday{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--orange);letter-spacing:1px;line-height:1;}
-.rb-dday small{font-size:0.7rem;color:var(--muted2);font-family:'Noto Sans KR',sans-serif;}
-.rb-prog-bg{height:8px;background:rgba(255,59,59,0.15);border-radius:4px;overflow:hidden;margin-bottom:8px;}
-.rb-prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--orange));transition:width 1s ease;box-shadow:0 0 8px rgba(255,59,59,0.4);}
-.rb-prog-labels{display:flex;justify-content:space-between;font-size:0.6rem;color:var(--muted);margin-bottom:10px;}
-.rb-facts{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.rb-fact{background:rgba(0,0,0,0.3);border:1px solid rgba(255,59,59,0.2);border-radius:8px;padding:8px 10px;}
-.rb-fact .rf-icon{font-size:1rem;margin-bottom:3px;}
-.rb-fact .rf-title{font-size:0.68rem;font-weight:700;color:var(--text);margin-bottom:2px;}
-.rb-fact .rf-desc{font-size:0.62rem;color:var(--muted2);line-height:1.5;}
-.rb-foot{margin-top:8px;font-size:0.6rem;color:var(--muted);text-align:right;}
+/* ── 상태바 ── */
+#sb{background:#217346;color:rgba(255,255,255,.85);height:18px;display:flex;align-items:center;padding:0 10px;font-size:10px;gap:16px;flex-shrink:0}
+#sb .sbr{margin-left:auto;display:flex;gap:14px}
+#sbpnl{transition:color .3s}
 
-/* 일반 음주 배너 */
-.drink-banner{border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;font-size:0.78rem;font-weight:600;border:1px solid;}
-.drink-banner.safe{background:rgba(0,230,118,0.06);border-color:rgba(0,230,118,0.2);color:var(--green);}
-.drink-banner.warn{background:rgba(255,140,0,0.06);border-color:rgba(255,140,0,0.25);color:var(--orange);}
-.drink-banner.danger{background:rgba(255,59,59,0.08);border-color:rgba(255,59,59,0.3);color:var(--accent);}
-
-/* ===== 🚨 음주 경고 팝업 ===== */
-.alc-popup{
-  position:fixed;inset:0;background:rgba(0,0,0,0.88);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  z-index:9998;display:none;align-items:center;justify-content:center;padding:20px;
-}
-.alc-popup.show{display:flex;}
-.ap-box{
-  background:var(--card);border:2px solid var(--accent);border-radius:20px;
-  padding:28px 22px;max-width:380px;width:100%;text-align:center;
-  box-shadow:0 0 80px rgba(255,59,59,0.25);
-  animation:apIn .3s cubic-bezier(.4,0,.2,1);
-}
-@keyframes apIn{from{opacity:0;transform:scale(.92) translateY(12px)}to{opacity:1;transform:none}}
-.ap-emoji{font-size:3.2rem;margin-bottom:10px;animation:apShake .5s ease .15s both;}
-@keyframes apShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
-.ap-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;color:var(--accent);margin-bottom:6px;}
-.ap-sub{font-size:0.8rem;color:var(--muted2);line-height:1.65;margin-bottom:18px;}
-.ap-sub strong{color:var(--orange);}
-.ap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:16px;}
-.ap-cell{background:rgba(255,59,59,0.08);border:1px solid rgba(255,59,59,0.25);border-radius:9px;padding:10px 6px;}
-.ap-cell .av{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);}
-.ap-cell .al{font-size:0.58rem;color:var(--muted2);margin-top:1px;}
-.ap-fact-box{background:rgba(0,0,0,0.35);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:18px;text-align:left;}
-.ap-fact-box p{font-size:0.74rem;color:var(--muted2);line-height:1.65;}
-.ap-fact-box strong{color:var(--orange);}
-.ap-btns{display:flex;gap:8px;}
-.ap-btn-no{flex:2;background:var(--green);border:none;border-radius:10px;padding:13px;color:#000;font-family:'Noto Sans KR',sans-serif;font-size:0.9rem;font-weight:900;cursor:pointer;transition:all .2s;}
-.ap-btn-no:active{opacity:.8;}
-.ap-btn-yes{flex:1;background:rgba(255,59,59,0.12);border:1px solid rgba(255,59,59,0.35);border-radius:10px;padding:13px;color:var(--accent);font-family:'Noto Sans KR',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all .2s;}
-.ap-btn-yes:active{opacity:.8;}
-
-/* 입력 */
-.inp-row{display:flex;gap:7px;align-items:flex-end;}
-.inp-g{flex:1;}
-.inp-g label{font-size:0.65rem;color:var(--muted2);display:block;margin-bottom:5px;}
-.inp-g input,.inp-g select{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:16px;outline:none;transition:border-color .2s;}
-.inp-g input:focus,.inp-g select:focus{border-color:var(--accent);}
-.inp-g select option{background:var(--card2);}
-.btn{background:var(--accent);border:none;border-radius:8px;padding:12px 16px;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;}
-.btn:active{opacity:.8;}
-.btn.full{width:100%;padding:14px;font-size:.95rem;margin-top:4px;}
-
-/* 체크리스트 */
-.chklist{display:flex;flex-direction:column;gap:7px;}
-.chk-item{display:flex;align-items:center;gap:10px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 13px;cursor:pointer;transition:all .2s;user-select:none;}
-.chk-item.on{border-color:var(--green);background:rgba(0,230,118,0.04);}
-.chk-box{width:20px;height:20px;border:2px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;font-size:0.72rem;color:transparent;}
-.chk-item.on .chk-box{background:var(--green);border-color:var(--green);color:#000;}
-.chk-lbl{font-size:0.85rem;font-weight:500;flex:1;}
-.chk-item.on .chk-lbl{color:var(--muted);text-decoration:line-through;}
-.badge{font-size:0.58rem;padding:2px 7px;border-radius:20px;font-weight:700;}
-.b-g{background:rgba(0,230,118,0.12);color:var(--green);}
-.b-b{background:rgba(61,139,255,0.12);color:var(--blue);}
-.b-r{background:rgba(255,59,59,0.12);color:var(--accent);}
-.b-o{background:rgba(255,140,0,0.12);color:var(--orange);}
-.chk-progress{margin-top:12px;}
-.chk-p-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
-.chk-p-row span{font-size:0.68rem;color:var(--muted2);}
-.chk-p-row strong{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--orange);}
-.p-bar-bg{height:6px;background:var(--card2);border-radius:3px;overflow:hidden;}
-.p-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:3px;transition:width .4s;}
-
-/* 그래프 */
-.chart-wrap{position:relative;height:175px;margin-top:4px;}
-canvas{width:100%!important;}
-
-/* 히스토리 */
-.rec-list{display:flex;flex-direction:column;gap:6px;}
-.rec-item{display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;}
-.rec-item.dr{border-left:3px solid var(--accent);}
-.rec-dt{font-size:0.68rem;color:var(--muted2);width:68px;flex-shrink:0;}
-.rec-wt{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;}
-.rec-diff{font-size:0.68rem;margin-left:2px;}
-.diff-d{color:var(--green);}
-.diff-u{color:var(--accent);}
-.rec-memo{font-size:0.65rem;color:var(--muted);margin-top:2px;}
-.rec-tags{display:flex;gap:3px;margin-left:auto;}
-.tag{font-size:0.58rem;padding:2px 6px;border-radius:10px;font-weight:700;}
-.t-dr{background:rgba(255,59,59,0.12);color:var(--accent);}
-.t-ok{background:rgba(0,230,118,0.1);color:var(--green);}
-.rec-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;padding:4px 6px;border-radius:4px;flex-shrink:0;}
-.rec-del:active{color:var(--accent);}
-
-/* 리포트 */
-.rpt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
-.rpt-item{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;}
-.rpt-item .big{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1;letter-spacing:1px;}
-.rpt-item .sm{font-size:0.62rem;color:var(--muted);margin-top:3px;}
-.rpt-msg{font-size:0.8rem;color:var(--muted2);line-height:1.7;padding:13px;background:var(--card2);border-radius:10px;border:1px solid var(--border);}
-
-/* ===== 팩트 섹션 공통 ===== */
-.section-hero{border-radius:14px;padding:20px;margin-bottom:12px;text-align:center;}
-.section-hero h2{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:3px;margin-bottom:6px;}
-.section-hero p{font-size:0.78rem;color:var(--muted2);line-height:1.6;}
-
-.src-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(61,139,255,0.1);border:1px solid rgba(61,139,255,0.2);border-radius:20px;padding:2px 8px;font-size:0.58rem;color:var(--blue);font-weight:700;margin-top:4px;cursor:pointer;text-decoration:none;}
-.src-badge:hover{background:rgba(61,139,255,0.2);}
-
-.fact-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;}
-.fact-box.danger-low{border-color:rgba(255,140,0,0.25);}
-.fact-box.danger-mid{border-color:rgba(255,59,59,0.3);}
-.fact-box.danger-high{border-color:rgba(255,0,0,0.4);}
-.fact-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
-.fact-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px;}
-.fact-title{font-size:0.88rem;font-weight:700;margin-bottom:2px;}
-.fact-desc{font-size:0.76rem;color:var(--muted2);line-height:1.6;}
-.fact-num{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:1px;margin:6px 0 2px;}
-
-/* ===== 3일 회복 원칙 박스 ===== */
-.recovery-principle{
-  background:linear-gradient(135deg,rgba(255,0,0,0.1),rgba(255,59,59,0.04));
-  border:1.5px solid rgba(255,59,59,0.4);border-radius:12px;padding:16px;margin-bottom:10px;
-}
-.rp-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-.rp-icon{font-size:1.6rem;}
-.rp-title{font-size:0.95rem;font-weight:900;color:var(--accent);}
-.rp-sub{font-size:0.68rem;color:var(--muted2);margin-top:1px;}
-.rp-days{display:flex;gap:8px;margin-bottom:12px;}
-.rp-day{flex:1;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:10px;padding:10px 8px;text-align:center;}
-.rp-day .rd-num{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:1px;}
-.rp-day .rd-lbl{font-size:0.6rem;color:var(--muted);margin-top:2px;}
-.rp-day.d1 .rd-num{color:var(--accent);}
-.rp-day.d2 .rd-num{color:var(--orange);}
-.rp-day.d3 .rd-num{color:var(--green);}
-.rp-items{display:flex;flex-direction:column;gap:6px;}
-.rp-item{display:flex;gap:8px;align-items:flex-start;background:rgba(0,0,0,0.25);border-radius:8px;padding:8px 10px;}
-.rp-item-icon{font-size:0.9rem;flex-shrink:0;margin-top:1px;}
-.rp-item-body{font-size:0.74rem;color:var(--muted2);line-height:1.5;}
-.rp-item-body strong{color:var(--text);}
-.rp-verdict{margin-top:10px;background:rgba(255,59,59,0.08);border:1px solid rgba(255,59,59,0.25);border-radius:8px;padding:10px 12px;font-size:0.78rem;font-weight:700;color:var(--accent);text-align:center;}
-
-/* 타임라인 */
-.timeline{display:flex;flex-direction:column;}
-.tl-item{display:flex;gap:12px;position:relative;}
-.tl-item:not(:last-child) .tl-line{position:absolute;left:17px;top:36px;bottom:0;width:2px;background:var(--border);}
-.tl-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;margin-top:2px;border:2px solid;position:relative;z-index:1;}
-.tl-body{flex:1;padding-bottom:18px;}
-.tl-time{font-size:0.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
-.tl-title{font-size:0.88rem;font-weight:700;margin-bottom:5px;}
-.tl-desc{font-size:0.75rem;color:var(--muted2);line-height:1.55;}
-.tl-tag{display:inline-block;font-size:0.58rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:5px;}
-
-/* 식단 가이드 */
-.diet-rule{display:flex;gap:12px;align-items:flex-start;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;}
-.diet-rule-num{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--accent);line-height:1;flex-shrink:0;width:32px;}
-.diet-rule-body .title{font-size:0.88rem;font-weight:700;margin-bottom:4px;}
-.diet-rule-body .desc{font-size:0.76rem;color:var(--muted2);line-height:1.55;}
-.diet-rule-body .tip{font-size:0.72rem;color:var(--green);margin-top:4px;font-weight:600;}
-
-.food-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
-.food-item{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;}
-.food-item.good{border-color:rgba(0,230,118,0.2);}
-.food-item.bad{border-color:rgba(255,59,59,0.2);}
-.food-item .fi-icon{font-size:1.3rem;margin-bottom:6px;}
-.food-item .fi-name{font-size:0.82rem;font-weight:700;margin-bottom:4px;}
-.food-item .fi-desc{font-size:0.7rem;color:var(--muted2);line-height:1.45;}
-.food-item.good .fi-name{color:var(--green);}
-.food-item.bad .fi-name{color:var(--accent);}
-
-.macro-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:8px 0;}
-.macro-seg{display:flex;align-items:center;justify-content:center;font-size:0.5rem;font-weight:700;color:rgba(255,255,255,0.9);transition:width .6s;}
-
-.tip-box{background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.15);border-radius:10px;padding:13px;margin-bottom:8px;}
-.tip-box .tip-title{font-size:0.78rem;font-weight:700;color:var(--green);margin-bottom:6px;}
-.tip-box .tip-desc{font-size:0.75rem;color:var(--muted2);line-height:1.6;}
-
-.empty{text-align:center;padding:32px;color:var(--muted);font-size:0.8rem;}
-.empty .ei{font-size:1.8rem;margin-bottom:8px;}
-
-/* 토스트 */
-.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--green);color:#000;padding:9px 20px;border-radius:30px;font-size:0.8rem;font-weight:700;z-index:9998;transition:transform .3s cubic-bezier(.4,0,.2,1);white-space:nowrap;pointer-events:none;}
-.toast.show{transform:translateX(-50%) translateY(0);}
-.toast.err{background:var(--accent);color:#fff;}
-
-/* PC */
-@media(min-width:768px){
-  .wrap{padding:24px 24px 30px;}
-  .bottom-nav{display:none!important;}
-  #pc-tabs{display:flex!important;}
-  .pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;}
-  .pc-col-full{grid-column:1/-1;}
-  .card{margin-bottom:0;}
-  .goal-card{margin-bottom:0;}
-  .drink-banner{margin-bottom:0;}
-  .recovery-banner{margin-bottom:0;}
-  .hdr-l h1{font-size:2.8rem;}
-  .chart-wrap{height:220px;}
-  .rpt-grid{grid-template-columns:repeat(4,1fr);}
-  .food-grid{grid-template-columns:repeat(4,1fr);}
-}
-@media(min-width:1100px){.wrap{max-width:1100px;}}
-
-/* 음식 검색 */
-.cat-btn{padding:5px 11px;border-radius:20px;font-size:.68rem;font-weight:600;border:1px solid var(--border);background:none;color:var(--muted2);cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;}
-.cat-btn.on{background:var(--blue);border-color:var(--blue);color:#fff;}
-.food-row{display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--card2);border:1px solid var(--border);border-radius:9px;margin-bottom:5px;cursor:pointer;transition:all .2s;}
-.food-row:hover{border-color:var(--blue);background:rgba(61,139,255,0.06);}
-.food-row.selected{border-color:var(--green);background:rgba(0,230,118,0.05);}
-.fr-name{flex:1;font-size:.82rem;font-weight:600;}
-.fr-cat{font-size:.58rem;color:var(--muted2);background:var(--card);border-radius:4px;padding:1px 5px;flex-shrink:0;}
-.fr-kcal{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--blue);letter-spacing:.5px;flex-shrink:0;min-width:52px;text-align:right;}
-.fr-macro{font-size:.6rem;color:var(--muted2);flex-shrink:0;min-width:90px;text-align:right;}
-.fr-add{width:24px;height:24px;border-radius:50%;background:var(--blue);border:none;color:#fff;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
-.food-row.selected .fr-add{background:var(--green);}
-.fr-edit{background:none;border:none;font-size:.75rem;cursor:pointer;padding:2px 4px;opacity:.5;transition:opacity .2s;flex-shrink:0;}
-.fr-edit:hover{opacity:1;}
-.fr-del{background:none;border:none;font-size:.75rem;cursor:pointer;padding:2px 4px;opacity:.4;transition:opacity .2s;flex-shrink:0;}
-.fr-del:hover{opacity:1;}
-.sel-item{display:flex;justify-content:space-between;align-items:center;font-size:.72rem;padding:3px 0;border-bottom:1px solid var(--border);}
-.sel-item:last-child{border:none;}
-.sel-name{color:var(--muted2);}
-.sel-k{color:var(--blue);font-weight:700;}
-.tot-chip{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px 4px;text-align:center;}
-.tot-chip .tv{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.5px;}
-.tot-chip .tl{font-size:.55rem;color:var(--muted);margin-top:1px;}
-.food-empty{text-align:center;padding:20px;color:var(--muted);font-size:.8rem;}
-
-.sub-tabs{display:flex;gap:3px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:14px;}
-.sub-tab{flex:1;padding:9px 6px;border:none;background:transparent;color:var(--muted2);font-family:'Noto Sans KR',sans-serif;font-size:0.76rem;font-weight:500;border-radius:7px;cursor:pointer;transition:all .2s;}
-.sub-tab.on{background:var(--accent);color:#fff;font-weight:700;}
-@media(min-width:768px){.sub-tabs{display:none;}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{display:inline-block;width:9px;height:9px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
 </style>
 </head>
 <body>
 
-<!-- 로그인 -->
-<div id="loginScreen">
-  <div class="login-box">
-    <div class="login-logo">태완 <em>DIET</em></div>
-    <div class="login-sub">Personal Diet Tracker</div>
-    <div class="login-label">비밀번호 입력</div>
-    <div class="pw-dots"><div class="pw-dot" id="d0"></div><div class="pw-dot" id="d1"></div><div class="pw-dot" id="d2"></div><div class="pw-dot" id="d3"></div></div>
-    <div class="login-input-wrap">
-      <input type="password" id="pwInput" class="login-input" maxlength="4" placeholder="····" inputmode="numeric" pattern="[0-9]*" oninput="onPwInput()" onkeydown="if(event.key==='Enter')tryLogin()">
-      <button class="eye-btn" onclick="toggleEye()">👁</button>
-    </div>
-    <button class="login-btn" onclick="tryLogin()">입장</button>
-    <div class="login-err" id="loginErr"></div>
-  </div>
+<!-- 타이틀바 -->
+<div id="tb">
+  <span class="t">📊 2026_업무계획_이태완.xlsx — Microsoft Excel</span>
+  <div class="btns"><span class="bm"></span><span class="bx"></span><span class="bc"></span></div>
 </div>
 
-<!-- 🥗 음식 추가/수정 모달 -->
-<div class="alc-popup" id="foodModal">
-  <div class="ap-box" style="max-width:420px">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;margin-bottom:16px" id="foodModalTitle">➕ 음식 추가</div>
+<!-- 리본 -->
+<div id="ribbon">
+  <span class="rtab on">홈</span>
+  <span class="rtab">삽입</span>
+  <span class="rtab">페이지 레이아웃</span>
+  <span class="rtab">수식</span>
+  <span class="rtab">데이터</span>
+  <div class="rsep"></div>
+  <button class="rbtn" onclick="openCfg()">⚙️ 설정</button>
+  <button class="rbtn" onclick="fetchAll()">🔄 실시간 조회</button>
+  <button class="rbtn" id="aibtn" onclick="toggleAI()">🤖 AI 분석</button>
+  <div id="apistat"><span id="dot"></span><span id="dottxt">미연결</span></div>
+</div>
 
-    <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px">
-      <div class="inp-g"><label>음식 이름</label>
-        <input type="text" id="fm-name" placeholder="예: 마이비밀 닭가슴살 도시락"
-          style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none">
-      </div>
-      <div class="inp-g"><label>카테고리</label>
-        <select id="fm-cat" style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none">
-          <option>단백질</option><option>밥·면</option><option>채소·과일</option>
-          <option>간식·음료</option><option>도시락·외식</option><option>술·안주</option>
-        </select>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div class="inp-g"><label>탄수화물 (g)</label>
-          <input type="number" id="fm-carb" placeholder="0" min="0" step="0.1" oninput="autoCalc()"
-            style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none">
-        </div>
-        <div class="inp-g"><label>단백질 (g)</label>
-          <input type="number" id="fm-prot" placeholder="0" min="0" step="0.1" oninput="autoCalc()"
-            style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none">
-        </div>
-        <div class="inp-g"><label>지방 (g)</label>
-          <input type="number" id="fm-fat" placeholder="0" min="0" step="0.1" oninput="autoCalc()"
-            style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none">
-        </div>
-        <div class="inp-g">
-          <label style="display:flex;justify-content:space-between">
-            <span>칼로리 (kcal)</span>
-            <span style="font-size:.58rem;color:var(--blue);cursor:pointer" onclick="autoCalc()">↺ 자동계산</span>
-          </label>
-          <input type="number" id="fm-kcal" placeholder="자동계산" min="0"
-            style="width:100%;background:var(--card2);border:1px solid rgba(61,139,255,0.4);border-radius:8px;padding:11px 12px;color:var(--blue);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none;font-weight:700">
-        </div>
-      </div>
-      <div class="inp-g"><label>나트륨 (mg, 선택)</label>
-        <input type="number" id="fm-sod" placeholder="0" min="0"
-          style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none">
-      </div>
+<!-- 수식줄 -->
+<div id="fbar">
+  <span id="fcell">A1</span>
+  <input id="finput" readonly placeholder="셀 값">
+  <button class="frbtn" onclick="fetchAll()">⟳</button>
+  <span id="fupd"></span>
+</div>
+
+<!-- 메인 -->
+<div id="main">
+  <div id="sheet">
+    <table>
+      <thead><tr id="colrow"></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- AI 패널 -->
+  <div id="aip">
+    <div id="aih">🤖 AI 투자 분석 <small>claude-sonnet-4</small></div>
+    <div id="aim">
+      <div class="mu_">안녕하세요!<br>Worker 설정 후 실시간 조회하면<br>보유 종목 기반 분석이 가능합니다.<br><br>아래 버튼으로 빠르게 질문하세요.</div>
     </div>
-
-    <div id="fm-err" style="font-size:.75rem;color:var(--accent);min-height:16px;margin-bottom:8px;text-align:center"></div>
-
-    <div class="ap-btns">
-      <button class="ap-btn-no" onclick="saveFoodModal()" style="background:var(--blue);color:#fff">저장</button>
-      <button class="ap-btn-yes" onclick="closeFoodModal()" style="color:var(--muted2);border-color:var(--border)">취소</button>
+    <div id="aiq">
+      <button class="qb" onclick="q('전체 포트폴리오 분석해줘')">📊 전체분석</button>
+      <button class="qb" onclick="q('리밸런싱 추천해줘')">⚖️ 리밸런싱</button>
+      <button class="qb" onclick="q('매수 매도 시그널 알려줘')">📡 시그널</button>
+      <button class="qb" onclick="q('리스크 점검해줘')">⚠️ 리스크</button>
+      <button class="qb" onclick="q('추가 매수 추천 종목 알려줘')">💰 매수추천</button>
+      <button class="qb" onclick="q('QLD 지금 더 사야 해?')">🇺🇸 QLD</button>
+    </div>
+    <div id="air">
+      <input id="ainp" placeholder="직접 질문...">
+      <button id="aisnd" onclick="sendAI()">전송</button>
     </div>
   </div>
 </div>
 
-<!-- 🚨 음주 경고 팝업 -->
-<div class="alc-popup" id="alcPopup">
-  <div class="ap-box">
-    <div class="ap-emoji">🍺</div>
-    <div class="ap-title">3일 회복 미완료</div>
-    <div class="ap-sub" id="apSub">마지막 음주 후 아직 <strong id="apDaysLeft">?</strong>일 더 지나야 합니다.<br>지방 연소 회복이 72시간 필요합니다.</div>
-    <div class="ap-grid">
-      <div class="ap-cell"><div class="av" id="apElapsed">?</div><div class="al">경과일</div></div>
-      <div class="ap-cell"><div class="av" id="apRemain">?</div><div class="al">남은 회복일</div></div>
-      <div class="ap-cell"><div class="av" style="color:var(--orange)">3</div><div class="al">필요 회복일</div></div>
-    </div>
-    <div class="ap-fact-box">
-      <p>음주 후 지방 산화 억제가 <strong>72시간 지속</strong>됩니다.<br>
-      소주 1병 = <strong>3~4일치 감량 효과 상쇄</strong>.<br>
-      지금 또 마시면 이번 주 감량 노력이 <strong>전부 날아갑니다.</strong></p>
-    </div>
-    <div class="ap-btns">
-      <button class="ap-btn-no" onclick="closeAlcPopup(false)">🙅 안 마신다 (잘했다)</button>
-      <button class="ap-btn-yes" onclick="closeAlcPopup(true)">그래도 마심</button>
-    </div>
+<!-- 시트 탭 -->
+<div id="tabs">
+  <div class="tab on" onclick="sw('port',this)">📈 포트폴리오</div>
+  <div class="tab" onclick="sw('work',this)">📋 6월업무보고</div>
+  <div class="tab" onclick="sw('diet',this)">📊 건강관리현황</div>
+</div>
+
+<!-- 상태바 -->
+<div id="sb">
+  <span id="sbmain">준비</span>
+  <div class="sbr">
+    <span id="sbcnt">종목 0개</span>
+    <span id="sbval">총 평가: —</span>
+    <span id="sbpnl">손익: —</span>
   </div>
 </div>
 
-<!-- 앱 -->
-<div id="app">
-  <div class="wrap">
-    <div class="hdr">
-      <div class="hdr-l"><h1>태완 <em>DIET</em></h1><p>74kg → 68kg Tracker</p></div>
-      <div class="hdr-r">
-        <div class="date" id="todayLbl"></div>
-        <div class="wt-now" id="hdrWt">--<span>kg</span></div>
-        <button class="logout-btn" onclick="logout()">로그아웃</button>
-      </div>
+<!-- 설정 모달 -->
+<div class="mbg" id="cfgM">
+  <div class="mbox">
+    <h3>⚙️ 설정</h3>
+    <label>Cloudflare Worker URL</label>
+    <input id="iw" type="url" placeholder="https://toss-proxy.sky1205v.workers.dev">
+    <p class="hint">토스증권 API 중계 서버 주소입니다. Worker에 TOSS_CLIENT_ID / TOSS_CLIENT_SECRET 환경변수가 설정되어 있어야 합니다.</p>
+    <label>계좌번호 <span style="color:#9ca3af">(비우면 자동 감지)</span></label>
+    <input id="ia" type="text" placeholder="계좌번호 (숫자)">
+    <div class="mbtns">
+      <button class="bcl" onclick="closeCfg()">취소</button>
+      <button class="bsv" onclick="saveCfg()">저장 및 연결</button>
     </div>
-
-    <!-- PC 탭 -->
-    <div id="pc-tabs">
-      <button class="pc-tab on" id="pt0" onclick="go('dash',0)">📊 대시보드</button>
-      <button class="pc-tab" id="pt1" onclick="go('input',1)">💡 정보통</button>
-      <button class="pc-tab" id="pt2" onclick="go('hist',2)">📋 히스토리</button>
-      <button class="pc-tab" id="pt3" onclick="go('rpt',3)">📈 리포트</button>
-      <button class="pc-tab" id="pt4" onclick="go('alc',4)">🍺 술 영향</button>
-      <button class="pc-tab" id="pt5" onclick="goDiet()">🥗 식단 가이드</button>
-    </div>
-
-    <!-- ===== 대시보드 ===== -->
-    <div id="pane-dash" class="pane on">
-
-      <!-- 3일 회복 배너 (음주 후 3일간 표시) -->
-      <div id="recoveryBanner" class="recovery-banner pc-col-full">
-        <div class="rb-top">
-          <div class="rb-title">🚨 음주 후 회복 중 — 지방 연소 억제 지속</div>
-          <div class="rb-dday" id="rbDday">D+?<small>일째</small></div>
-        </div>
-        <div class="rb-prog-bg"><div class="rb-prog-fill" id="rbProgFill" style="width:0%"></div></div>
-        <div class="rb-prog-labels"><span>음주일</span><span id="rbProgText">0/3일</span><span>회복 완료</span></div>
-        <div class="rb-facts">
-          <div class="rb-fact"><div class="rf-icon">🔥</div><div class="rf-title">지방 연소 억제</div><div class="rf-desc">지방 산화 효율 저하 72시간 지속. 식단 지켜도 감량 느림.</div></div>
-          <div class="rb-fact"><div class="rf-icon">😴</div><div class="rf-title">식욕 호르몬 교란</div><div class="rf-desc">그렐린 +28%, 렙틴 -18% 상태. 배불러도 더 먹고 싶음.</div></div>
-          <div class="rb-fact"><div class="rf-icon">💪</div><div class="rf-title">단백질 합성 억제</div><div class="rf-desc">셀릭스·도시락 단백질이 근육으로 가지 못함.</div></div>
-          <div class="rb-fact"><div class="rf-icon">🫃</div><div class="rf-title">복부지방 축적</div><div class="rf-desc">코르티솔 상승으로 내장지방 축적 촉진 중.</div></div>
-        </div>
-        <div class="rb-foot" id="rbFoot"></div>
-      </div>
-
-      <!-- 일반 음주 배너 -->
-      <div id="drinkBanner" class="drink-banner safe pc-col-full">✅ 이번주 음주 0회 — 3일 룰 완벽 유지</div>
-
-      <div class="pc-grid">
-        <div class="goal-card pc-col-full">
-          <div class="card-ttl">목표 진행률</div>
-          <div class="goal-row">
-            <div class="g-start">74<small style="font-size:.75rem;color:var(--muted)">kg</small></div>
-            <div class="g-arr">→</div>
-            <div><div class="g-cur" id="curWtBig">--<small>kg</small></div><div style="font-size:.6rem;color:var(--muted);margin-top:1px">현재 체중</div></div>
-            <div class="g-tgt"><div class="num">68<span style="font-size:.65rem">kg</span></div><span class="lbl">목표</span></div>
-          </div>
-          <div class="g-bar-bg"><div class="g-bar-fill" id="gFill" style="width:0%"></div></div>
-          <div class="g-bar-lbls"><span>74kg</span><span class="g-pct" id="gPct">0%</span><span>68kg</span></div>
-          <div class="g-stats">
-            <div class="g-stat"><div class="v red" id="gRemain">--</div><div class="l">남은 kg</div></div>
-            <div class="g-stat"><div class="v grn" id="gLost">--</div><div class="l">감량 kg</div></div>
-            <div class="g-stat"><div class="v blu" id="gEst">--</div><div class="l">예상 달성</div></div>
-          </div>
-        </div>
-        <div>
-          <div class="card">
-            <div class="card-ttl">오늘 체중 입력</div>
-            <div class="inp-row">
-              <div class="inp-g"><label>체중 (kg)</label><input type="number" id="qWt" placeholder="73.2" step="0.1" min="50" max="120" inputmode="decimal"></div>
-              <div class="inp-g" style="max-width:110px"><label>음주</label><select id="qDr"><option value="0">안 마심 ✅</option><option value="1">마심 🍺</option></select></div>
-              <button class="btn" onclick="qSave()" style="flex-shrink:0;align-self:flex-end">저장</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-ttl">오늘 식단 체크리스트</div>
-            <div class="chklist">
-              <div class="chk-item" id="c0" onclick="ck(0)"><div class="chk-box">✓</div><div class="chk-lbl">점심 도시락</div><span class="badge b-g">12:30</span></div>
-              <div class="chk-item" id="c1" onclick="ck(1)"><div class="chk-box">✓</div><div class="chk-lbl">점심 셀릭스 20g</div><span class="badge b-b">단백질</span></div>
-              <div class="chk-item" id="c2" onclick="ck(2)"><div class="chk-box">✓</div><div class="chk-lbl">저녁 도시락</div><span class="badge b-g">18:30</span></div>
-              <div class="chk-item" id="c3" onclick="ck(3)"><div class="chk-box">✓</div><div class="chk-lbl">저녁 셀릭스 20g</div><span class="badge b-b">단백질</span></div>
-              <div class="chk-item" id="c4" onclick="ck(4)"><div class="chk-box">✓</div><div class="chk-lbl">야식 안 먹음</div><span class="badge b-o">21:30</span></div>
-              <div class="chk-item" id="c5" onclick="ck(5)"><div class="chk-box">✓</div><div class="chk-lbl">음주 후 3일 휴식 룰 지킴</div><span class="badge b-r">음주</span></div>
-            </div>
-            <div class="chk-progress">
-              <div class="chk-p-row"><span>오늘 준수율</span><strong id="ckRate">0 / 6</strong></div>
-              <div class="p-bar-bg"><div class="p-bar-fill" id="ckBar" style="width:0%"></div></div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-ttl">체중 변화 <span style="color:var(--accent);font-size:.58rem;margin-left:6px">● 음주일</span></div>
-          <div class="chart-wrap"><canvas id="wChart"></canvas></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== 💡 다이어트 생생 정보통 ===== -->
-    <div id="pane-input" class="pane">
-
-      <div class="section-hero" style="background:linear-gradient(135deg,rgba(61,139,255,0.08),rgba(0,230,118,0.04));border:1px solid rgba(61,139,255,0.2);margin-bottom:12px;">
-        <h2 style="color:var(--blue)">💡 생생 정보통</h2>
-        <p>음식 칼로리 검색 + 감량 꿀팁 모음</p>
-      </div>
-
-      <!-- ★ 음식 칼로리 DB 검색기 ★ -->
-      <div class="card" style="margin-bottom:12px">
-        <div class="card-ttl" style="display:flex;justify-content:space-between;align-items:center">
-          <span>🔍 음식 칼로리 검색 — 한국 음식 DB</span>
-          <button onclick="openAddFood()" style="font-size:.68rem;font-weight:700;background:rgba(0,230,118,0.12);border:1px solid rgba(0,230,118,0.3);color:var(--green);border-radius:7px;padding:4px 10px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap">➕ 음식 추가</button>
-        </div>
-        <div style="position:relative;margin-bottom:10px">
-          <input type="text" id="foodSearch" placeholder="음식 이름 검색... (예: 닭가슴살, 도시락, 라면)"
-            style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 40px 12px 14px;color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:15px;outline:none;transition:border-color .2s"
-            oninput="searchFood(this.value)" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
-          <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none">🔍</span>
-        </div>
-        <!-- 카테고리 필터 -->
-        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px" id="catBtns">
-          <button class="cat-btn on" onclick="filterCat('전체')">전체</button>
-          <button class="cat-btn" onclick="filterCat('단백질')">💪 단백질</button>
-          <button class="cat-btn" onclick="filterCat('밥·면')">🍚 밥·면</button>
-          <button class="cat-btn" onclick="filterCat('채소·과일')">🥦 채소·과일</button>
-          <button class="cat-btn" onclick="filterCat('간식·음료')">🧃 간식·음료</button>
-          <button class="cat-btn" onclick="filterCat('도시락·외식')">🍱 도시락·외식</button>
-          <button class="cat-btn" onclick="filterCat('술·안주')">🍺 술·안주</button>
-        </div>
-        <!-- 결과 -->
-        <div id="foodResults"></div>
-        <!-- 선택된 음식 합산 -->
-        <div id="foodSelected" style="display:none;margin-top:10px;background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <span style="font-size:.75rem;font-weight:700;color:var(--green)">📊 선택한 음식 합산</span>
-            <button onclick="clearSelected()" style="font-size:.65rem;color:var(--muted);background:none;border:1px solid var(--border);border-radius:5px;padding:2px 8px;cursor:pointer;font-family:'Noto Sans KR',sans-serif">초기화</button>
-          </div>
-          <div id="selectedList" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px"></div>
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px" id="selectedTotals"></div>
-        </div>
-      </div>
-
-      <!-- 꿀팁 1: 체중 정체기 -->
-      <div class="card">
-        <div class="card-ttl">📌 정체기 — 왜 오고 어떻게 돌파하나</div>
-        <div class="fact-box danger-low">
-          <div class="fact-header">
-            <div class="fact-icon">📉</div>
-            <div>
-              <div class="fact-title">정체기는 몸이 고장난 게 아닙니다 — 적응입니다</div>
-              <div class="fact-desc">체중이 줄면 기초대사량(BMR)도 함께 줄어듭니다. 처음 74kg일 때 1,642kcal이던 BMR이 71kg이 되면 약 1,600kcal로 줄어듭니다. 같은 식단을 유지해도 칼로리 적자폭이 좁아지는 것이 정체기의 원인입니다.</div>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px">
-          <div style="display:flex;gap:8px;align-items:flex-start;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
-            <span style="font-size:.9rem;flex-shrink:0">1️⃣</span>
-            <div style="font-size:.76rem;color:var(--muted2);line-height:1.6"><b style="color:var(--text)">2주 정체 시 → 셀릭스 추가 1회</b> — 단백질 섭취 증가로 TEF(열 발생 효과) 높이기. 칼로리 줄이기보다 단백질 늘리는 게 효과적.</div>
-          </div>
-          <div style="display:flex;gap:8px;align-items:flex-start;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
-            <span style="font-size:.9rem;flex-shrink:0">2️⃣</span>
-            <div style="font-size:.76rem;color:var(--muted2);line-height:1.6"><b style="color:var(--text)">리피드(refeed) 하루</b> — 탄수화물을 평소의 1.5배로 늘리는 날 1회. 렙틴 수치를 일시 회복시켜 지방 연소 재가동. 라면 먹는 날이 아니라 밥+고구마+과일 조합으로.</div>
-          </div>
-          <div style="display:flex;gap:8px;align-items:flex-start;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
-            <span style="font-size:.9rem;flex-shrink:0">3️⃣</span>
-            <div style="font-size:.76rem;color:var(--muted2);line-height:1.6"><b style="color:var(--text)">주 단위 평균으로 판단</b> — 일별 체중은 ±1kg 수분 변동이 정상. 월요일 아침 체중을 주 단위로 비교하는 게 실제 진행률 파악에 정확.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 꿀팁 2: 부기 vs 지방 -->
-      <div class="card">
-        <div class="card-ttl">📌 부기 vs 지방 — 구별하는 법</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-          <div style="background:rgba(61,139,255,0.06);border:1px solid rgba(61,139,255,0.2);border-radius:10px;padding:12px">
-            <div style="font-size:.78rem;font-weight:700;color:var(--blue);margin-bottom:8px">💧 부기 (수분)</div>
-            <div style="font-size:.72rem;color:var(--muted2);line-height:1.7">하루 이틀 새 1~2kg 오름<br>아침에 심하고 오후 나아짐<br>손발이 붓거나 눌리면 자국<br>짠 음식·음주·수면 부족 후<br><span style="color:var(--blue);font-weight:600">→ 칼륨·수분으로 빠짐</span></div>
-          </div>
-          <div style="background:rgba(255,59,59,0.05);border:1px solid rgba(255,59,59,0.2);border-radius:10px;padding:12px">
-            <div style="font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:8px">🍕 지방</div>
-            <div style="font-size:.72rem;color:var(--muted2);line-height:1.7">주 단위로 서서히 늘어남<br>아침저녁 비슷하게 유지<br>잡히는 살의 양이 늘어남<br>칼로리 초과가 지속될 때<br><span style="color:var(--accent);font-weight:600">→ 칼로리 적자만이 해결</span></div>
-          </div>
-        </div>
-        <div style="background:var(--card2);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px">
-          <div style="font-size:.78rem;font-weight:700;color:var(--green);margin-bottom:6px">✅ 부기 빼는 실전 방법</div>
-          <div style="font-size:.74rem;color:var(--muted2);line-height:1.7">
-            <b style="color:var(--text)">칼륨 보충</b> — 바나나 1개(칼륨 400mg), 고구마 150g(칼륨 550mg). 나트륨 배출 직접 촉진.<br>
-            <b style="color:var(--text)">물 2L 이상</b> — 역설적이지만 물 많이 마셔야 수분 배출됨. 이뇨 작용 활성화.<br>
-            <b style="color:var(--text)">나트륨 하루 2,000mg 이하</b> — 라면 1개 = 1,800mg. 사실상 라면 한 끼 = 하루 치.
-          </div>
-        </div>
-      </div>
-
-      <!-- 꿀팁 3: 수면과 감량 -->
-      <div class="card">
-        <div class="card-ttl">📌 수면 — 자는 동안도 지방이 탑니다</div>
-        <div class="fact-box" style="border-color:rgba(155,89,182,0.3)">
-          <div class="fact-header">
-            <div class="fact-icon">😴</div>
-            <div>
-              <div class="fact-title">수면 5.5시간 vs 8.5시간 — 지방 손실량 55% 차이</div>
-              <div class="fact-desc">동일한 칼로리 적자에서 수면이 부족한 그룹은 체중 감소의 대부분이 근육 손실이었고, 충분한 수면 그룹은 체중 감소의 대부분이 지방 손실이었습니다. 자는 동안 성장호르몬이 분비돼 지방을 에너지로 씁니다.</div>
-              <div style="display:flex;gap:10px;margin:8px 0">
-                <div style="flex:1;text-align:center;background:rgba(255,59,59,0.08);border-radius:8px;padding:8px">
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--accent)">5.5h</div>
-                  <div style="font-size:.62rem;color:var(--muted2)">지방 손실 25%</div>
-                </div>
-                <div style="flex:1;text-align:center;background:rgba(0,230,118,0.06);border-radius:8px;padding:8px">
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--green)">8.5h</div>
-                  <div style="font-size:.62rem;color:var(--muted2)">지방 손실 80%</div>
-                </div>
-              </div>
-              <a class="src-badge" href="https://pubmed.ncbi.nlm.nih.gov/20921542/" target="_blank">📄 Nedeltcheva et al., 2010 · PubMed</a>
-            </div>
-          </div>
-        </div>
-        <div style="font-size:.74rem;color:var(--muted2);line-height:1.7;background:var(--card2);border-radius:10px;padding:12px">
-          <b style="color:var(--text)">실전:</b> 23시 이전 취침 + 7~8시간 확보가 목표. 수면 1시간이 운동 30분보다 감량에 더 효과적일 수 있습니다. 야식 안 먹고 일찍 자는 것 자체가 칼로리 적자 + 지방 연소 극대화의 조합.
-        </div>
-      </div>
-
-      <!-- 꿀팁 4: 체중계 숫자에 속지 않기 -->
-      <div class="card">
-        <div class="card-ttl">📌 체중계 숫자에 속지 않는 법</div>
-        <div style="display:flex;flex-direction:column;gap:7px">
-          <div style="display:flex;gap:10px;align-items:center;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
-            <span style="font-size:1rem;flex-shrink:0">🍚</span>
-            <div style="font-size:.76rem;color:var(--muted2);line-height:1.5"><b style="color:var(--text)">밥 먹은 다음날 +0.5~1kg</b> — 탄수화물은 글리코겐으로 저장되며 물을 3~4배 함께 잡아둠. 지방이 아니라 수분+글리코겐.</div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:center;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
-            <span style="font-size:1rem;flex-shrink:0">💩</span>
-            <div style="font-size:.76rem;color:var(--muted2);line-height:1.5"><b style="color:var(--text)">배변 전후 최대 1~1.5kg 차이</b> — 같은 날 아침이라도 배변 전후 체중이 다름. 항상 화장실 다녀온 뒤 측정.</div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:center;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
-            <span style="font-size:1rem;flex-shrink:0">🏃</span>
-            <div style="font-size:.76rem;color:var(--muted2);line-height:1.5"><b style="color:var(--text)">운동 다음날 일시 증가 가능</b> — 근육 미세 손상 회복 과정에서 염증·수분이 몰려 +0.5kg 가능. 실제로는 잘 되고 있는 것.</div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:center;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
-            <span style="font-size:1rem;flex-shrink:0">🌙</span>
-            <div style="font-size:.76rem;color:var(--muted2);line-height:1.5"><b style="color:var(--text)">저녁 vs 아침 최대 2kg 차이</b> — 저녁에 먹은 음식·수분이 소화되는 중. 체중은 반드시 아침 기상 직후 공복에 측정.</div>
-          </div>
-          <div style="background:rgba(255,140,0,0.06);border:1px solid rgba(255,140,0,0.2);border-radius:8px;padding:10px 12px;font-size:.76rem;color:var(--orange);font-weight:600">
-            ⚡ 결론: 일별 숫자 말고 이번주 평균 vs 지난주 평균으로 판단. 일희일비 금지.
-          </div>
-        </div>
-      </div>
-
-      <!-- 꿀팁 5: NEAT (운동 없이 칼로리 소모) -->
-      <div class="card">
-        <div class="card-ttl">📌 NEAT — 운동 없이 하루 200kcal 더 태우기</div>
-        <div class="fact-box" style="border-color:rgba(0,230,118,0.25)">
-          <div class="fact-header">
-            <div class="fact-icon">🚶</div>
-            <div>
-              <div class="fact-title">NEAT(비운동성 활동 열발생)가 총 소비의 15~50%</div>
-              <div class="fact-desc">헬스장 운동보다 일상 속 움직임 총량이 감량에 더 큰 영향을 미칩니다. 좌식 직장인과 활동적인 사람의 TDEE 차이 대부분이 NEAT에서 옵니다.</div>
-            </div>
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
-          <div style="background:var(--card2);border:1px solid rgba(0,230,118,0.15);border-radius:8px;padding:10px">
-            <div style="font-size:.68rem;font-weight:700;color:var(--green);margin-bottom:5px">✅ 쉬운 NEAT 높이기</div>
-            <div style="font-size:.7rem;color:var(--muted2);line-height:1.7">점심 식후 10분 걷기<br>엘리베이터 대신 계단<br>전화 통화 시 서서 걷기<br>버스 한 정거장 일찍 하차<br>화장실 멀리 있는 층 이용</div>
-          </div>
-          <div style="background:var(--card2);border:1px solid rgba(61,139,255,0.15);border-radius:8px;padding:10px">
-            <div style="font-size:.68rem;font-weight:700;color:var(--blue);margin-bottom:5px">📊 대략적 칼로리</div>
-            <div style="font-size:.7rem;color:var(--muted2);line-height:1.7">10분 걷기 ≈ 40kcal<br>계단 5층 ≈ 5kcal<br>서서 일하기 1시간 ≈ 50kcal<br>가벼운 집안일 1시간 ≈ 150kcal<br>하루 총합 ≈ 200~300kcal</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 꿀팁 6: 단백질 흡수 타이밍 -->
-      <div class="card">
-        <div class="card-ttl">📌 단백질 흡수 타이밍 — 셀릭스 언제 먹나</div>
-        <div style="display:flex;flex-direction:column;gap:7px">
-          <div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px">
-            <div style="font-size:.78rem;font-weight:700;color:var(--green);margin-bottom:6px">✅ 셀릭스 타이밍 최적화</div>
-            <div style="font-size:.74rem;color:var(--muted2);line-height:1.7">
-              <b style="color:var(--text)">도시락과 함께 or 직후</b> — 식사 단백질과 합쳐서 1회 총 40~50g 확보. 포만감 극대화.<br>
-              <b style="color:var(--text)">공복 시간이 길 때 (오후 3~5시)</b> — 근손실 방지 목적. 이때 셀릭스 1회 추가하면 그렐린 억제 효과도 있음.<br>
-              <b style="color:var(--text)">자기 전 X</b> — 취침 1~2시간 전 단백질은 성장호르몬 분비를 오히려 낮출 수 있어 비추천.
-            </div>
-          </div>
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:.74rem;color:var(--muted2);line-height:1.7">
-            <b style="color:var(--orange)">⚡ 한 끼에 40g 이상은 낭비?</b> — 예전 통설이고 최신 연구에서는 한 끼 40g+ 흡수 가능함이 확인. 걱정 안 해도 됨. 하루 총량 90~100g 채우는 게 중요.
-            <a class="src-badge" href="https://pubmed.ncbi.nlm.nih.gov/37358165/" target="_blank" style="margin-top:6px;display:inline-flex">📄 Trommelen et al., 2023 · IJSNEM</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 꿀팁 7: 감량 속도 현실 체크 -->
-      <div class="card">
-        <div class="card-ttl">📌 감량 속도 현실 체크 — 얼마나 빠른 게 정상인가</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px">
-          <div style="background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:12px;text-align:center">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--green)">0.5kg</div>
-            <div style="font-size:.62rem;color:var(--muted);margin-top:3px">주당 권장</div>
-            <div style="font-size:.62rem;color:var(--green);margin-top:2px">근손실 최소</div>
-          </div>
-          <div style="background:rgba(255,140,0,0.05);border:1px solid rgba(255,140,0,0.2);border-radius:10px;padding:12px;text-align:center">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--orange)">1kg</div>
-            <div style="font-size:.62rem;color:var(--muted);margin-top:3px">최대 권장</div>
-            <div style="font-size:.62rem;color:var(--orange);margin-top:2px">근손실 일부</div>
-          </div>
-          <div style="background:rgba(255,59,59,0.05);border:1px solid rgba(255,59,59,0.2);border-radius:10px;padding:12px;text-align:center">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent)">1.5kg↑</div>
-            <div style="font-size:.62rem;color:var(--muted);margin-top:3px">초과</div>
-            <div style="font-size:.62rem;color:var(--accent);margin-top:2px">근손실·정체기</div>
-          </div>
-        </div>
-        <div style="font-size:.74rem;color:var(--muted2);line-height:1.7;background:var(--card2);border-radius:10px;padding:12px">
-          <b style="color:var(--text)">태완님 기준 (74→68kg, 6kg):</b> 주 0.5kg 감량 시 12주(약 3개월). 서두를 필요 없습니다. 너무 빨리 빼면 근육이 빠지고 정체기가 더 빨리 옵니다. <b style="color:var(--green)">느리게 확실하게가 정답.</b>
-        </div>
-      </div>
-
-      <!-- 꿀팁 8: 공복 혈당 & 인슐린 -->
-      <div class="card">
-        <div class="card-ttl">📌 혈당 스파이크 — 지방 저장 스위치 ON</div>
-        <div style="display:flex;flex-direction:column;gap:7px">
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:.76rem;color:var(--muted2);line-height:1.7">
-            인슐린은 <b style="color:var(--text)">지방 저장 호르몬</b>입니다. 혈당이 급등하면 인슐린이 대량 분비되고 이 상태에서는 지방 연소가 차단됩니다. 식사 방법으로 혈당 스파이크를 줄일 수 있습니다.
-          </div>
-          <div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.15);border-radius:10px;padding:12px">
-            <div style="font-size:.76rem;font-weight:700;color:var(--green);margin-bottom:7px">✅ 혈당 관리 식사 순서 (검증됨)</div>
-            <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600">
-              <span style="background:rgba(0,230,118,0.15);border-radius:6px;padding:4px 10px;color:var(--green)">채소</span>
-              <span style="color:var(--muted)">→</span>
-              <span style="background:rgba(61,139,255,0.12);border-radius:6px;padding:4px 10px;color:var(--blue)">단백질</span>
-              <span style="color:var(--muted)">→</span>
-              <span style="background:rgba(255,140,0,0.12);border-radius:6px;padding:4px 10px;color:var(--orange)">탄수화물</span>
-            </div>
-            <div style="font-size:.7rem;color:var(--muted2);margin-top:8px;line-height:1.6">채소 먼저 → 식이섬유가 장에서 혈당 흡수 속도 낮춤. 단백질 → 인슐린 반응 완만. 탄수 마지막 → 혈당 스파이크 20~40% 감소 효과.</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ===== 히스토리 ===== -->
-    <div id="pane-hist" class="pane">
-      <div class="card">
-        <div class="card-ttl">전체 기록</div>
-        <div class="rec-list" id="recList"><div class="empty"><div class="ei">📋</div>아직 기록이 없습니다</div></div>
-      </div>
-    </div>
-
-    <!-- ===== 리포트 ===== -->
-    <div id="pane-rpt" class="pane">
-      <div class="card">
-        <div class="card-ttl">이번주 리포트</div>
-        <div class="rpt-grid">
-          <div class="rpt-item"><div class="big" id="rAvg" style="color:var(--blue)">--</div><div class="sm">평균 체중</div></div>
-          <div class="rpt-item"><div class="big" id="rChg">--</div><div class="sm">이번주 변화</div></div>
-          <div class="rpt-item"><div class="big" id="rDr" style="color:var(--accent)">--</div><div class="sm">음주 횟수</div></div>
-          <div class="rpt-item"><div class="big" id="rDays" style="color:var(--orange)">--</div><div class="sm">기록일수</div></div>
-        </div>
-        <div class="rpt-msg" id="rMsg">기록을 쌓으면 주간 분석이 나타납니다.</div>
-      </div>
-    </div>
-
-    <!-- ===== 술 영향 ===== -->
-    <div id="pane-alc" class="pane">
-      <div class="sub-tabs" id="subTabs">
-        <button class="sub-tab on" id="st0" onclick="switchSub(0)">🍺 술 영향</button>
-        <button class="sub-tab" id="st1" onclick="switchSub(1)">🥗 식단 가이드</button>
-      </div>
-
-      <!-- 술 영향 서브탭 -->
-      <div id="sub-alc">
-      <div class="section-hero" style="background:linear-gradient(135deg,rgba(255,59,59,0.08),rgba(255,59,59,0.02));border:1px solid rgba(255,59,59,0.2);">
-        <h2 style="color:var(--accent)">⚠ 술이 감량에 미치는 영향</h2>
-        <p>아래 모든 수치는 동료 심사 논문 기반 팩트입니다<br>소주 2병 = 이번주 감량 전부 날림</p>
-      </div>
-
-      <!-- ★★★ 3일 회복 원칙 (새로 추가) ★★★ -->
-      <div class="recovery-principle">
-        <div class="rp-header">
-          <div class="rp-icon">⏳</div>
-          <div>
-            <div class="rp-title">음주 후 최소 3일 휴식 원칙</div>
-            <div class="rp-sub">논문 기반 · 지방 산화 완전 회복까지 72시간 필요</div>
-          </div>
-        </div>
-        <div class="rp-days">
-          <div class="rp-day d1">
-            <div class="rd-num">D+1</div>
-            <div class="rd-lbl">위험 최고조</div>
-          </div>
-          <div class="rp-day d2">
-            <div class="rd-num">D+2</div>
-            <div class="rd-lbl">회복 진행</div>
-          </div>
-          <div class="rp-day d3">
-            <div class="rd-num">D+3</div>
-            <div class="rd-lbl">회복 완료</div>
-          </div>
-        </div>
-        <div class="rp-items">
-          <div class="rp-item">
-            <div class="rp-item-icon">🔥</div>
-            <div class="rp-item-body"><strong>D+1 (음주 다음날):</strong> 지방 산화 억제가 12~24시간 지속. 식단 지켜도 감량 속도 저하. 그렐린 폭등으로 식욕 폭발 위험.</div>
-          </div>
-          <div class="rp-item">
-            <div class="rp-item-icon">😴</div>
-            <div class="rp-item-body"><strong>D+2 (이틀째):</strong> 수면 질 저하 지속. 코르티솔 리듬 교란 상태. 인슐린 민감도 아직 회복 미완. 단백질 합성 여전히 억제.</div>
-          </div>
-          <div class="rp-item">
-            <div class="rp-item-icon">✅</div>
-            <div class="rp-item-body"><strong>D+3 이후:</strong> 지방 산화 정상 궤도 복귀. 호르몬 정상화. 이 시점부터 다음 음주를 허용해도 감량 사이클 유지 가능.</div>
-          </div>
-        </div>
-        <div class="rp-verdict">🚫 3일 안에 또 마시면 = 감량 사이클 완전 붕괴</div>
-      </div>
-
-      <!-- 팩트 1: 지방 연소 -->
-      <div class="card">
-        <div class="card-ttl">📌 팩트 1 — 지방 연소 즉시 차단</div>
-        <div class="fact-box danger-high">
-          <div class="fact-header">
-            <div class="fact-icon">🔥</div>
-            <div>
-              <div class="fact-title">알코올 섭취 시 지방 산화 최대 79% 감소</div>
-              <div class="fact-desc">에탄올은 간에서 지방·탄수화물보다 우선 분해됩니다. 미토콘드리아와 직접 상호작용해 지질 산화를 급격히 억제하며, 동시에 지방 신생합성(de novo lipogenesis)이 증가합니다. 알코올이 체내에 있는 동안 지방 연소는 사실상 멈춥니다.</div>
-              <div class="fact-num" style="color:var(--accent)">79%</div>
-              <div style="font-size:.68rem;color:var(--muted2)">지방 산화 감소율 (음주 중)</div>
-              <a class="src-badge" href="https://www.ncbi.nlm.nih.gov/books/NBK614698/" target="_blank">📄 NCBI · Lu & George, 2024</a>
-              <a class="src-badge" href="https://sunflowersober.com/magazine/quitting-alcohol-and-weight-loss-what-s-real-vs-myth" target="_blank">📄 Sunflower Sober, 2025</a>
-            </div>
-          </div>
-        </div>
-        <div class="fact-box">
-          <div class="fact-desc">알코올 1g = 7kcal의 대사 에너지를 제공하지만 영양학적 가치는 없습니다. 소주 1병(360ml, 알코올 25%) 기준 순수 알코올 약 72g → 약 504kcal. 이 칼로리는 지방·단백질·탄수화물 연소를 밀어내며 우선 처리됩니다.</div>
-          <a class="src-badge" href="https://www.ncbi.nlm.nih.gov/books/NBK614698/" target="_blank">📄 Lieber, 2003 · NCBI</a>
-        </div>
-      </div>
-
-      <!-- 팩트 2: 호르몬 교란 -->
-      <div class="card">
-        <div class="card-ttl">📌 팩트 2 — 식욕 호르몬 완전 교란</div>
-        <div class="fact-box danger-mid">
-          <div class="fact-header">
-            <div class="fact-icon">🧠</div>
-            <div>
-              <div class="fact-title">수면 부족 2일 → 그렐린 28% 상승 / 렙틴 18% 감소</div>
-              <div class="fact-desc">알코올은 REM 수면을 방해합니다. 수면 질이 저하되면 배고픔 호르몬 그렐린이 상승하고 포만 호르몬 렙틴이 하락합니다. 이 상태에서는 배가 불러도 더 먹고 싶은 상태가 됩니다.</div>
-              <div style="display:flex;gap:12px;margin:8px 0;">
-                <div style="flex:1;text-align:center;background:rgba(255,59,59,0.08);border-radius:8px;padding:8px;">
-                  <div class="fact-num" style="color:var(--accent);font-size:1.4rem">+28%</div>
-                  <div style="font-size:.65rem;color:var(--muted2)">그렐린 (식욕↑)</div>
-                </div>
-                <div style="flex:1;text-align:center;background:rgba(61,139,255,0.08);border-radius:8px;padding:8px;">
-                  <div class="fact-num" style="color:var(--blue);font-size:1.4rem">-18%</div>
-                  <div style="font-size:.65rem;color:var(--muted2)">렙틴 (포만↓)</div>
-                </div>
-              </div>
-              <a class="src-badge" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8138234/" target="_blank">📄 Spiegel et al., 2004 · PMC</a>
-              <a class="src-badge" href="https://onlinelibrary.wiley.com/doi/full/10.1002/oby.21321" target="_blank">📄 Broussard et al., 2016 · Obesity</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 팩트 3: 코르티솔 -->
-      <div class="card">
-        <div class="card-ttl">📌 팩트 3 — 코르티솔 상승 → 복부지방 축적</div>
-        <div class="fact-box danger-mid">
-          <div class="fact-header">
-            <div class="fact-icon">🫃</div>
-            <div>
-              <div class="fact-title">수면 부족 시 오후·저녁 코르티솔 이상 상승</div>
-              <div class="fact-desc">알코올로 수면 질이 저하되면 코르티솔(스트레스 호르몬)의 일주기 리듬이 무너집니다. 오후·저녁 코르티솔 상승은 내장 지방(복부지방) 축적을 직접적으로 촉진합니다. 체중계 숫자보다 뱃살이 먼저 쪄 보이는 이유입니다.</div>
-              <a class="src-badge" href="https://www.sciencedirect.com/science/article/abs/pii/S0031938410000417" target="_blank">📄 Omisade et al., 2010 · ScienceDirect</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 팩트 4: 근손실 -->
-      <div class="card">
-        <div class="card-ttl">📌 팩트 4 — 단백질 합성 억제 → 근손실</div>
-        <div class="fact-box danger-low">
-          <div class="fact-header">
-            <div class="fact-icon">💪</div>
-            <div>
-              <div class="fact-title">알코올 → 인슐린 신호 억제 → 부분적 인슐린 저항성</div>
-              <div class="fact-desc">알코올은 인슐린 신호 전달을 억제하고 부분적 인슐린 저항 상태를 유발합니다. 이 상태에서는 단백질(셀릭스·도시락의 단백질)이 근육 합성에 제대로 쓰이지 못합니다. 코르티솔 상승까지 더해지면 근육 분해가 가속됩니다.</div>
-              <a class="src-badge" href="https://www.ncbi.nlm.nih.gov/books/NBK614698/" target="_blank">📄 Tatsumi et al., 2018 · NCBI</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 음주 후 타임라인 -->
-      <div class="card">
-        <div class="card-ttl">⏱ 음주 후 시간대별 신체 반응 (72시간 전체)</div>
-        <div class="timeline">
-          <div class="tl-item"><div class="tl-line"></div><div class="tl-dot" style="background:rgba(255,59,59,0.1);border-color:var(--accent);color:var(--accent)">🍺</div><div class="tl-body"><div class="tl-time" style="color:var(--accent)">0~30분</div><div class="tl-title">지방 연소 즉시 차단</div><div class="tl-desc">간이 알코올 분해 최우선 모드 진입. 지방 산화 79% 감소. 아세테이트 생성으로 지방 신생합성 증가.</div><span class="tl-tag" style="background:rgba(255,59,59,0.12);color:var(--accent)">지방 연소 0%</span></div></div>
-          <div class="tl-item"><div class="tl-line"></div><div class="tl-dot" style="background:rgba(255,140,0,0.1);border-color:var(--orange);color:var(--orange)">📈</div><div class="tl-body"><div class="tl-time" style="color:var(--orange)">1~3시간</div><div class="tl-title">그렐린 폭등 + 저혈당</div><div class="tl-desc">식욕 자극 호르몬 급증. 혈당 롤러코스터. 단 것·기름진 것 강렬하게 당김. 이때 야식·안주 추가 시 칼로리 2배 타격.</div><span class="tl-tag" style="background:rgba(255,140,0,0.12);color:var(--orange)">야식 위험 최고조</span></div></div>
-          <div class="tl-item"><div class="tl-line"></div><div class="tl-dot" style="background:rgba(155,89,182,0.1);border-color:var(--purple);color:var(--purple)">😴</div><div class="tl-body"><div class="tl-time" style="color:var(--purple)">수면 중</div><div class="tl-title">REM 수면 차단 + 성장호르몬 억제</div><div class="tl-desc">알코올이 REM 수면을 방해. 깊은 수면 시 분비되는 성장호르몬(지방 분해·근육 회복) 억제. 코르티솔 패턴 교란.</div><span class="tl-tag" style="background:rgba(155,89,182,0.12);color:var(--purple)">회복 불가</span></div></div>
-          <div class="tl-item"><div class="tl-line"></div><div class="tl-dot" style="background:rgba(255,59,59,0.1);border-color:var(--accent);color:var(--accent)">🌅</div><div class="tl-body"><div class="tl-time" style="color:var(--accent)">D+1 다음날</div><div class="tl-title">그렐린 추가 상승 + 렙틴 추가 하락</div><div class="tl-desc">수면 질 저하로 그렐린 +28%, 렙틴 -18% 상태 지속. 평소보다 20~30% 더 먹게 됨. 식단 무너지기 가장 쉬운 날.</div><span class="tl-tag" style="background:rgba(255,59,59,0.12);color:var(--accent)">식단 붕괴 위험</span></div></div>
-          <div class="tl-item"><div class="tl-line"></div><div class="tl-dot" style="background:rgba(255,140,0,0.1);border-color:var(--orange);color:var(--orange)">📉</div><div class="tl-body"><div class="tl-time" style="color:var(--orange)">D+2 이틀째</div><div class="tl-title">코르티솔 교란 지속 · 인슐린 저항 유지</div><div class="tl-desc">지방 산화 억제 아직 완전 회복 안 됨. 인슐린 민감도 저하 지속. 셀릭스 단백질이 근육으로 제대로 가지 못함. 복부지방 축적 가속 구간.</div><span class="tl-tag" style="background:rgba(255,140,0,0.12);color:var(--orange)">회복 진행 중</span></div></div>
-          <div class="tl-item"><div class="tl-dot" style="background:rgba(0,230,118,0.1);border-color:var(--green);color:var(--green)">✅</div><div class="tl-body"><div class="tl-time" style="color:var(--green)">D+3 사흘째</div><div class="tl-title">지방 산화 정상 복귀 · 호르몬 정상화</div><div class="tl-desc">72시간 경과 후 지방 산화 효율 정상 수준으로 회복. 그렐린·렙틴 밸런스 회복. 인슐린 민감도 정상화. <strong style="color:var(--green)">이 시점부터 다음 음주 허용 가능.</strong></div><span class="tl-tag" style="background:rgba(0,230,118,0.12);color:var(--green)">회복 완료 — 감량 정상 궤도</span></div></div>
-        </div>
-      </div>
-
-      <!-- 다음날 대응 루틴 -->
-      <div class="card">
-        <div class="card-ttl">🌅 술 마신 다음날 — 대응 루틴</div>
-        <div style="background:rgba(255,59,59,0.06);border:1px solid rgba(255,59,59,0.2);border-radius:10px;padding:14px;margin-bottom:12px;">
-          <div style="font-size:.8rem;font-weight:700;color:var(--accent);margin-bottom:8px">⚠️ 왜 다음날이 힘든가</div>
-          <div style="font-size:.76rem;color:var(--muted2);line-height:1.7">알코올이 REM 수면을 방해해 수면 질이 저하됩니다. 식욕 자극 호르몬 그렐린이 평소보다 높은 상태로 아침을 맞습니다. 동시에 포만 호르몬 렙틴은 낮아져 있어 배가 불러도 더 먹고 싶은 상태가 됩니다. 여기에 알코올 이뇨 작용으로 칼륨·수분이 빠져나가 몸이 붓고 무겁습니다.</div>
-        </div>
-        <div style="display:flex;gap:10px;margin-bottom:8px;align-items:flex-start">
-          <div style="width:36px;height:36px;border-radius:50%;background:rgba(61,139,255,0.12);border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0">🌄</div>
-          <div style="flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;">
-            <div style="font-size:.78rem;font-weight:700;color:var(--blue);margin-bottom:6px">기상 직후 — 제일 중요</div>
-            <div style="font-size:.75rem;color:var(--muted2);line-height:1.7">
-              <b style="color:var(--text)">1. 물 500ml 바로 마시기</b> — 알코올 이뇨로 빠진 수분 보충. 그렐린 일시 억제 효과<br>
-              <b style="color:var(--text)">2. 셀릭스 1회 (20g) 바로</b> — 공복 단백질 섭취로 근손실 방지. 포만감 확보<br>
-              <b style="color:var(--text)">3. 칼륨 영양제 챙기기</b> — 음주로 빠진 칼륨 보충. 부종 완화
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;gap:10px;margin-bottom:8px;align-items:flex-start">
-          <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,140,0,0.1);border:2px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0">🍱</div>
-          <div style="flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;">
-            <div style="font-size:.78rem;font-weight:700;color:var(--orange);margin-bottom:6px">점심 전 — 과식 방지 구간</div>
-            <div style="font-size:.75rem;color:var(--muted2);line-height:1.7">
-              <b style="color:var(--text)">물 300ml 먼저</b> — 도시락 먹기 30분 전. 위 공간 채워서 과식 방지<br>
-              <b style="color:var(--text)">도시락 천천히 15분 이상</b> — 식욕이 강한 날이라 빨리 먹으면 더 먹고 싶어짐<br>
-              <b style="color:var(--text)">추가 음식 절대 금지</b> — 그렐린이 높은 상태라 먹으면 더 당김
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;gap:10px;margin-bottom:8px;align-items:flex-start">
-          <div style="width:36px;height:36px;border-radius:50%;background:rgba(0,230,118,0.08);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0">🌙</div>
-          <div style="flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;">
-            <div style="font-size:.78rem;font-weight:700;color:var(--green);margin-bottom:6px">저녁 — 만회 구간</div>
-            <div style="font-size:.75rem;color:var(--muted2);line-height:1.7">
-              <b style="color:var(--text)">저녁 도시락 + 셀릭스 20g 세트</b> — 단백질 확보해서 근손실 방지<br>
-              <b style="color:var(--text)">야식 절대 금지</b> — 음주 다음날 야식은 이중 타격<br>
-              <b style="color:var(--text)">21시 이후 절식</b> — 오늘 하루 잘 버텼으면 내일 체중 정상 복귀 가능
-            </div>
-          </div>
-        </div>
-        <div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:14px;">
-          <div style="font-size:.78rem;font-weight:700;color:var(--green);margin-bottom:8px">✅ 핵심만 요약 — 이것만 지켜도 됨</div>
-          <div style="font-size:.8rem;color:var(--text);line-height:1.9">기상 즉시 물 500ml<br>셀릭스 아침 1회 추가<br>칼륨 영양제 챙기기<br>점심 전 물 300ml<br>오후 단 것 참기<br>저녁 도시락+셀릭스 세트<br>21시 이후 절식</div>
-        </div>
-      </div>
-      </div><!-- /sub-alc -->
-
-      <!-- 식단 가이드 서브탭 -->
-      <div id="sub-diet" style="display:none">
-      <div class="section-hero" style="background:linear-gradient(135deg,rgba(0,230,118,0.06),rgba(61,139,255,0.04));border:1px solid rgba(0,230,118,0.15);">
-        <h2 style="color:var(--green)">🥗 태완님 맞춤 식단 가이드</h2>
-        <p>170cm / 74kg / 33세 남성 기준 직접 계산<br>Mifflin-St Jeor 공식 · 논문 기반 단백질 권장량</p>
-      </div>
-      <div class="card">
-        <div class="card-ttl">📐 태완님 신체 수치 계산 결과</div>
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--orange)">25.6</div><div style="font-size:.62rem;color:var(--muted);margin-top:2px">현재 BMI (과체중)</div></div>
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--green)">23.5</div><div style="font-size:.62rem;color:var(--muted);margin-top:2px">목표 BMI 68kg 달성 시</div></div>
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--blue)">1,642</div><div style="font-size:.62rem;color:var(--muted);margin-top:2px">기초대사량 BMR (kcal)</div></div>
-          <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--blue)">1,970</div><div style="font-size:.62rem;color:var(--muted);margin-top:2px">유지 칼로리 TDEE (kcal)</div></div>
-        </div>
-        <div style="background:rgba(255,59,59,0.05);border:1px solid rgba(255,59,59,0.2);border-radius:10px;padding:13px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:.78rem;font-weight:700;color:var(--text)">하루 목표 칼로리</span><span style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--accent)">1,470 kcal</span></div>
-          <div style="font-size:.72rem;color:var(--muted2);line-height:1.6">TDEE 1,970 - 500kcal 적자 = 1,470kcal. 이 구간 유지 시 주당 약 0.5kg 감량 가능.</div>
-        </div>
-        <a class="src-badge" href="https://pubmed.ncbi.nlm.nih.gov/15883556/" target="_blank" style="margin-top:8px;display:inline-flex">📄 Mifflin et al., 1990 · PubMed</a>
-      </div>
-      <div class="card">
-        <div class="card-ttl">💪 단백질 목표 — 74kg 기준</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
-          <div style="background:var(--card2);border:1px solid rgba(61,139,255,0.2);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--blue)">89g</div><div style="font-size:.6rem;color:var(--muted);margin-top:2px">최소 (×1.2g)</div></div>
-          <div style="background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.25);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--green)">100g</div><div style="font-size:.6rem;color:var(--muted);margin-top:2px">권장 목표</div></div>
-          <div style="background:var(--card2);border:1px solid rgba(61,139,255,0.2);border-radius:10px;padding:12px;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--blue)">111g</div><div style="font-size:.6rem;color:var(--muted);margin-top:2px">최대 (×1.5g)</div></div>
-        </div>
-        <div style="font-size:.74rem;color:var(--muted2);line-height:1.6;margin-bottom:8px">체중 1kg당 1.2~1.5g. 47개 연구 메타분석에서 이 구간 유지 시 근손실 유의미하게 예방.</div>
-        <a class="src-badge" href="https://www.sciencedirect.com/science/article/pii/S0261561421004751" target="_blank">📄 ScienceDirect Meta-analysis, 2023</a>
-      </div>
-      <div class="card">
-        <div class="card-ttl">🎯 태완님 맞춤 5대 식단 원칙</div>
-        <div class="diet-rule"><div class="diet-rule-num">01</div><div class="diet-rule-body"><div class="title">단백질 90g 이상 반드시 채우기</div><div class="desc">도시락(약 20~30g) + 셀릭스 2회(40g) + 달걀 2개(12g) = 약 72~82g. 부족하면 두부나 닭가슴살로 보완.</div><div class="tip">✅ 도시락 + 셀릭스 2회 + 달걀 2개 = 기본 충족</div></div></div>
-        <div class="diet-rule"><div class="diet-rule-num">02</div><div class="diet-rule-body"><div class="title">하루 총 칼로리 1,400~1,600kcal 범위 내</div><div class="desc">TDEE 1,970에서 500~600kcal 빼면 1,400~1,600kcal. 이 구간에서 주 0.5kg 감량 가능.</div><div class="tip">✅ 도시락 2끼 + 셀릭스 2회 = 약 1,200~1,400kcal. 딱 맞는 구간</div></div></div>
-        <div class="diet-rule"><div class="diet-rule-num">03</div><div class="diet-rule-body"><div class="title">식사 전 물 300ml 먼저</div><div class="desc">물은 위 공간을 채워 포만감을 높이고 과식을 방지합니다. 하루 총 2L 이상 목표.</div><div class="tip">✅ 알림 12:00 / 18:00에 이미 설정되어 있음</div></div></div>
-        <div class="diet-rule"><div class="diet-rule-num">04</div><div class="diet-rule-body"><div class="title">천천히 15분 이상 먹기</div><div class="desc">포만감 신호가 뇌에 전달되는 데 약 15~20분 소요. 빨리 먹으면 포만감 오기 전에 과식.</div><div class="tip">✅ 휴대폰 내려놓고 집중해서 천천히</div></div></div>
-        <div class="diet-rule"><div class="diet-rule-num">05</div><div class="diet-rule-body"><div class="title">21시 이후 절식 (야식 금지)</div><div class="desc">야간 인슐린 민감도 저하로 같은 칼로리도 밤에 먹으면 지방으로 더 잘 저장됩니다.</div><div class="tip">✅ 알림 21:30에 경고 설정되어 있음</div></div></div>
-      </div>
-      <div class="card">
-        <div class="card-ttl">✅ 먹어야 할 것 vs ❌ 피해야 할 것</div>
-        <div style="font-size:.72rem;color:var(--green);font-weight:700;margin-bottom:8px">✅ 적극 섭취</div>
-        <div class="food-grid">
-          <div class="food-item good"><div class="fi-icon">🥚</div><div class="fi-name">달걀</div><div class="fi-desc">단백질 6g/개. 포만감 높음. 셀릭스 보완용으로 최적.</div></div>
-          <div class="food-item good"><div class="fi-icon">🍗</div><div class="fi-name">닭가슴살</div><div class="fi-desc">단백질 30g/100g. 지방 낮음. 고단백 식단의 핵심.</div></div>
-          <div class="food-item good"><div class="fi-icon">🫘</div><div class="fi-name">두부</div><div class="fi-desc">단백질 8g/100g. 포만감 높음. 안주 대체로도 활용.</div></div>
-          <div class="food-item good"><div class="fi-icon">🥦</div><div class="fi-name">채소류</div><div class="fi-desc">칼로리 낮고 포만감 높음. 혈당 스파이크 완화.</div></div>
-        </div>
-        <div style="font-size:.72rem;color:var(--accent);font-weight:700;margin:12px 0 8px">❌ 최대한 피하기</div>
-        <div class="food-grid">
-          <div class="food-item bad"><div class="fi-icon">🍜</div><div class="fi-name">라면·면류</div><div class="fi-desc">정제 탄수화물. 혈당 급등→급락→식욕 재폭발.</div></div>
-          <div class="food-item bad"><div class="fi-icon">🍟</div><div class="fi-name">튀김·치킨</div><div class="fi-desc">술 안주로 먹을 때 칼로리 폭발. 지방+탄수 조합이 최악.</div></div>
-          <div class="food-item bad"><div class="fi-icon">🧃</div><div class="fi-name">달달한 음료</div><div class="fi-desc">액상과당이 간에서 직접 지방으로 전환.</div></div>
-          <div class="food-item bad"><div class="fi-icon">🍕</div><div class="fi-name">야식류</div><div class="fi-desc">야간 인슐린 저항성 구간 고칼로리. 감량 직격탄.</div></div>
-        </div>
-      </div>
-      </div><!-- /sub-diet -->
-    </div><!-- /pane-alc -->
-
-  </div><!-- /wrap -->
-</div><!-- /app -->
-
-<div class="toast" id="toast"></div>
-
-<!-- 하단 탭바 (모바일) -->
-<div class="bottom-nav" id="bottomNav" style="display:none">
-  <button class="bnav-item on" id="bn0" onclick="go('dash',0)"><span class="icon">📊</span>대시보드</button>
-  <button class="bnav-item" id="bn1" onclick="go('input',1)"><span class="icon">💡</span>정보통</button>
-  <button class="bnav-item" id="bn2" onclick="go('hist',2)"><span class="icon">📋</span>히스토리</button>
-  <button class="bnav-item" id="bn3" onclick="go('rpt',3)"><span class="icon">📈</span>리포트</button>
-  <button class="bnav-item" id="bn4" onclick="go('alc',4)"><span class="icon">📚</span>정보</button>
+  </div>
 </div>
 
 <script>
-const PW='8928', SESSION_KEY='tw_auth', DATA_KEY='tw_diet_v6', SW=74, TW=68;
-const RECOVERY_DAYS = 3; // 🍺 회복 기간 (일)
+// ═══════════════════════════════════════
+// 상수 / 상태
+// ═══════════════════════════════════════
+const COLS = ['','A','B','C','D','E','F','G','H','I','J','K','L','M','N'];
+let W  = localStorage.getItem('tw_w')    || 'https://toss-proxy.sky1205v.workers.dev';
+let AC = localStorage.getItem('tw_ac')   || '';
+let PF = null; // 포트폴리오 데이터
+let curTab = 'port';
 
-// ─── 로그인 ──────────────────────────────────────────────────
-function onPwInput(){
-  const v=document.getElementById('pwInput').value;
-  for(let i=0;i<4;i++)document.getElementById('d'+i).classList.toggle('filled',i<v.length);
-  document.getElementById('loginErr').textContent='';
-  if(v.length===4)setTimeout(tryLogin,150);
-}
-function toggleEye(){const i=document.getElementById('pwInput');i.type=i.type==='password'?'text':'password';}
-function tryLogin(){
-  const v=document.getElementById('pwInput').value;
-  if(v===PW){
-    sessionStorage.setItem(SESSION_KEY,'ok');
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('app').style.display='block';
-    showNav();init();
-  } else {
-    document.getElementById('loginErr').textContent='비밀번호가 틀렸습니다';
-    const i=document.getElementById('pwInput');i.classList.add('shake');
-    setTimeout(()=>{i.classList.remove('shake');i.value='';for(let j=0;j<4;j++)document.getElementById('d'+j).classList.remove('filled');},400);
-  }
-}
-function logout(){
-  sessionStorage.removeItem(SESSION_KEY);
-  document.getElementById('app').style.display='none';
-  document.getElementById('bottomNav').style.display='none';
-  document.getElementById('loginScreen').style.display='flex';
-  document.getElementById('pwInput').value='';
-  for(let i=0;i<4;i++)document.getElementById('d'+i).classList.remove('filled');
-  document.getElementById('loginErr').textContent='';
-}
-function showNav(){
-  if(window.innerWidth>=768){document.getElementById('bottomNav').style.display='none';}
-  else{document.getElementById('bottomNav').style.display='flex';}
-}
-if(sessionStorage.getItem(SESSION_KEY)==='ok'){
-  document.getElementById('loginScreen').style.display='none';
-  document.getElementById('app').style.display='block';
-  showNav();
-}
+// ═══════════════════════════════════════
+// 초기화
+// ═══════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  buildCols();
+  renderPort(null);
+  updateDot(!!W);
+  document.getElementById('ainp').addEventListener('keydown', e => { if(e.key==='Enter') sendAI(); });
+  document.addEventListener('click', onCellClick);
+  if(W) setTimeout(fetchAll, 500);
+});
 
-// ─── 데이터 ──────────────────────────────────────────────────
-function D(){try{return JSON.parse(localStorage.getItem(DATA_KEY))||{r:[],c:{}};}catch{return{r:[],c:{}};}}
-function S(d){localStorage.setItem(DATA_KEY,JSON.stringify(d));}
-
-// ─── 🍺 3일 회복 시스템 ──────────────────────────────────────
-function dateStr(d){
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-function daysBetween(fromStr, toStr){
-  const a=new Date(fromStr+'T00:00:00');
-  const b=new Date(toStr+'T00:00:00');
-  return Math.round((b-a)/86400000);
-}
-function getLastDrinkDate(){
-  const d=D(); const rs=d.r;
-  // 최신순 탐색
-  for(let i=rs.length-1;i>=0;i--){
-    if(rs[i].drink===1) return rs[i].date;
-  }
-  return null;
-}
-function getRecoveryInfo(){
-  const last=getLastDrinkDate();
-  if(!last) return null;
-  const today=dateStr(new Date());
-  const elapsed=daysBetween(last,today);
-  if(elapsed>=RECOVERY_DAYS) return null; // 이미 회복 완료
-  return {
-    last,
-    elapsed,
-    remaining: RECOVERY_DAYS-elapsed,
-    pct: Math.min(elapsed/RECOVERY_DAYS*100,100)
-  };
-}
-
-// 음주 저장 전 3일 체크
-let _pendingSaveData = null;
-function checkAndSave(date, weight, drink, memo, fromQuick){
-  if(drink===1){
-    const info=getRecoveryInfo();
-    if(info){
-      // 3일 회복 미완료 → 팝업
-      _pendingSaveData={date,weight,drink,memo,fromQuick};
-      const lastD=new Date(info.last+'T00:00:00');
-      document.getElementById('apElapsed').textContent=info.elapsed+'일';
-      document.getElementById('apRemain').textContent=info.remaining+'일';
-      document.getElementById('apDaysLeft').textContent=info.remaining;
-      document.getElementById('alcPopup').classList.add('show');
-      return;
-    }
-  }
-  doSave(date,weight,drink,memo,fromQuick);
-}
-function closeAlcPopup(confirm){
-  document.getElementById('alcPopup').classList.remove('show');
-  if(confirm && _pendingSaveData){
-    const p=_pendingSaveData;
-    doSave(p.date,p.weight,p.drink,p.memo,p.fromQuick);
-  } else {
-    // 안 마신다 → drink=0으로 저장 제안
-    if(_pendingSaveData){
-      toast('🙅 잘 참았습니다! 3일 룰 유지 중');
-    }
-  }
-  _pendingSaveData=null;
-}
-function doSave(date,weight,drink,memo,fromQuick){
-  const d=D();
-  const i=d.r.findIndex(r=>r.date===date);
-  const rec={date,weight,drink,memo:memo||''};
-  if(i>=0)d.r[i]=rec;else d.r.push(rec);
-  d.r.sort((a,b)=>a.date.localeCompare(b.date));
-  S(d);
-  if(fromQuick){document.getElementById('qWt').value='';}
-  toast(drink===1?'🍺 음주 기록됨 — 3일 회복 시작':'✅ 기록 저장 완료!');
-  renderDash();
-}
-
-// 회복 배너 렌더
-function renderRecoveryBanner(){
-  const info=getRecoveryInfo();
-  const banner=document.getElementById('recoveryBanner');
-  if(!info){banner.classList.remove('show');return;}
-  banner.classList.add('show');
-  document.getElementById('rbDday').innerHTML=`D+${info.elapsed}<small>일째</small>`;
-  document.getElementById('rbProgFill').style.width=info.pct+'%';
-  document.getElementById('rbProgText').textContent=`${info.elapsed}/${RECOVERY_DAYS}일`;
-  const recoverDate=new Date(info.last+'T00:00:00');
-  recoverDate.setDate(recoverDate.getDate()+RECOVERY_DAYS);
-  const ld=new Date(info.last+'T00:00:00');
-  document.getElementById('rbFoot').textContent=
-    `음주일: ${ld.getMonth()+1}/${ld.getDate()} · 회복 완료: ${recoverDate.getMonth()+1}/${recoverDate.getDate()} · 남은 회복일 ${info.remaining}일`;
-}
-
-// ─── 탭 ──────────────────────────────────────────────────────
-const panes=['dash','input','hist','rpt','alc'];
-function go(name,idx){
-  panes.forEach(p=>document.getElementById('pane-'+p).classList.remove('on'));
-  for(let i=0;i<6;i++){
-    const bn=document.getElementById('bn'+i);if(bn)bn.classList.remove('on');
-    const pt=document.getElementById('pt'+i);if(pt)pt.classList.remove('on');
-  }
-  document.getElementById('pane-'+name).classList.add('on');
-  const bn=document.getElementById('bn'+idx);if(bn)bn.classList.add('on');
-  const pt=document.getElementById('pt'+idx);if(pt)pt.classList.add('on');
-  if(name==='dash'){renderDash();drawChart();}
-  if(name==='input'){renderFoodResults();}
-  if(name==='hist')renderHist();
-  if(name==='rpt')renderRpt();
-  if(name==='alc'){switchSub(0);}
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function goDiet(){
-  panes.forEach(p=>document.getElementById('pane-'+p).classList.remove('on'));
-  for(let i=0;i<6;i++){
-    const bn=document.getElementById('bn'+i);if(bn)bn.classList.remove('on');
-    const pt=document.getElementById('pt'+i);if(pt)pt.classList.remove('on');
-  }
-  document.getElementById('pane-alc').classList.add('on');
-  const pt=document.getElementById('pt5');if(pt)pt.classList.add('on');
-  switchSub(1);
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function switchSub(idx){
-  document.getElementById('sub-alc').style.display=idx===0?'block':'none';
-  document.getElementById('sub-diet').style.display=idx===1?'block':'none';
-  document.getElementById('st0').classList.toggle('on',idx===0);
-  document.getElementById('st1').classList.toggle('on',idx===1);
-}
-
-// ─── 초기화 ──────────────────────────────────────────────────
-function init(){
-  const now=new Date();
-  document.getElementById('todayLbl').textContent=now.toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
-  loadCk();renderDash();
-  document.getElementById('pt0').classList.add('on');
-}
-window.onload=function(){if(sessionStorage.getItem(SESSION_KEY)==='ok')init();};
-
-// ─── 빠른 저장 (대시보드) ────────────────────────────────────
-function qSave(){
-  const w=parseFloat(document.getElementById('qWt').value);
-  const dr=parseInt(document.getElementById('qDr').value);
-  if(!w||w<50||w>120){toast('체중을 올바르게 입력해주세요',1);return;}
-  const today=dateStr(new Date());
-  checkAndSave(today,w,dr,'',true);
-}
-
-// ─── 기록 저장 (기록 탭 → 삭제됨, 정보통으로 교체) ─────────
-
-// ─── 대시보드 렌더 ──────────────────────────────────────────
-function renderDash(){
-  renderRecoveryBanner(); // 3일 회복 배너 먼저
-  const d=D();const rs=d.r;const latest=rs.length?rs[rs.length-1]:null;const cur=latest?latest.weight:SW;
-  document.getElementById('hdrWt').innerHTML=cur+'<span>kg</span>';
-  document.getElementById('curWtBig').innerHTML=cur+'<small>kg</small>';
-  const lost=Math.max(0,+(SW-cur).toFixed(1));const remain=Math.max(0,+(cur-TW).toFixed(1));
-  const pct=Math.min(100,Math.max(0,Math.round((lost/(SW-TW))*100)));
-  document.getElementById('gFill').style.width=pct+'%';
-  document.getElementById('gPct').textContent=pct+'%';
-  document.getElementById('gLost').textContent=lost+'kg';
-  document.getElementById('gRemain').textContent=remain+'kg';
-  if(rs.length>=2){
-    const first=rs[0];const days=Math.max(1,(new Date(latest.date)-new Date(first.date))/86400000);
-    const rate=(first.weight-latest.weight)/days;
-    if(rate>0){const dl=Math.ceil(remain/rate);const ed=new Date();ed.setDate(ed.getDate()+dl);document.getElementById('gEst').textContent=ed.toLocaleDateString('ko-KR',{month:'short',day:'numeric'});}
-    else document.getElementById('gEst').textContent='유지중';
-  }else document.getElementById('gEst').textContent='기록필요';
-
-  // 음주 배너 — 3일 회복 기준으로 강화
-  const b=document.getElementById('drinkBanner');
-  const info=getRecoveryInfo();
-  if(info){
-    // 3일 회복 중이면 아래 배너는 숨김 (위 recovery 배너가 대신)
-    b.style.display='none';
-  } else {
-    b.style.display='';
-    const ws=weekStart();const wdr=rs.filter(r=>r.date>=ws&&r.drink===1).length;
-    if(wdr===0){b.className='drink-banner safe';b.textContent='✅ 이번주 음주 0회 — 3일 룰 완벽 유지';}
-    else if(wdr===1){b.className='drink-banner warn';b.textContent='⚠️ 이번주 음주 1회 — 회복 완료 후 다음 허용';}
-    else{b.className='drink-banner danger';b.textContent='🚨 이번주 음주 '+wdr+'회 — 3일 룰 초과! 감량 타격 중';}
-  }
-  drawChart();
-}
-
-// ─── 그래프 ──────────────────────────────────────────────────
-function drawChart(){
-  const d=D();const rs=d.r.slice(-14);
-  const cv=document.getElementById('wChart');const ctx=cv.getContext('2d');
-  const W=cv.parentElement.clientWidth;const H=parseInt(getComputedStyle(cv.parentElement).height)||175;
-  const dpr=window.devicePixelRatio||1;
-  cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
-  ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,H);
-  if(rs.length<2){ctx.fillStyle='#5a5c70';ctx.font='12px Noto Sans KR';ctx.textAlign='center';ctx.fillText('2개 이상 기록하면 그래프 표시',W/2,H/2);return;}
-  const pad={t:16,b:32,l:40,r:12};
-  const ws2=rs.map(r=>r.weight);const minW=Math.min(...ws2,TW)-0.5;const maxW=Math.max(...ws2,SW)+0.5;
-  const gW=W-pad.l-pad.r;const gH=H-pad.t-pad.b;
-  const xp=i=>pad.l+(i/(rs.length-1))*gW;const yp=w=>pad.t+(1-(w-minW)/(maxW-minW))*gH;
-  const ty=yp(TW);ctx.strokeStyle='rgba(255,59,59,0.25)';ctx.setLineDash([4,4]);ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(pad.l,ty);ctx.lineTo(W-pad.r,ty);ctx.stroke();
-  ctx.setLineDash([]);ctx.fillStyle='rgba(255,59,59,0.45)';ctx.font='8px Noto Sans KR';ctx.textAlign='left';ctx.fillText('목표 68',pad.l+2,ty-3);
-  const gr=ctx.createLinearGradient(0,pad.t,0,H-pad.b);gr.addColorStop(0,'rgba(61,139,255,0.12)');gr.addColorStop(1,'rgba(61,139,255,0)');
-  ctx.fillStyle=gr;ctx.beginPath();ctx.moveTo(xp(0),yp(rs[0].weight));
-  rs.forEach((r,i)=>{if(i>0)ctx.lineTo(xp(i),yp(r.weight));});
-  ctx.lineTo(xp(rs.length-1),H-pad.b);ctx.lineTo(xp(0),H-pad.b);ctx.closePath();ctx.fill();
-  ctx.strokeStyle='#3d8bff';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.setLineDash([]);
-  ctx.beginPath();rs.forEach((r,i)=>{i===0?ctx.moveTo(xp(i),yp(r.weight)):ctx.lineTo(xp(i),yp(r.weight));});ctx.stroke();
-  rs.forEach((r,i)=>{const x=xp(i),y=yp(r.weight);ctx.beginPath();ctx.arc(x,y,r.drink?6:4,0,Math.PI*2);ctx.fillStyle=r.drink?'#ff3b3b':'#3d8bff';ctx.fill();ctx.strokeStyle='#060810';ctx.lineWidth=2;ctx.stroke();});
-  ctx.fillStyle='#5a5c70';ctx.font='8px Noto Sans KR';ctx.textAlign='center';
-  rs.forEach((r,i)=>{if(i%Math.ceil(rs.length/5)===0||i===rs.length-1){const dt=new Date(r.date);ctx.fillText((dt.getMonth()+1)+'/'+(dt.getDate()),xp(i),H-pad.b+12);}});
-  ctx.textAlign='right';[Math.ceil(minW),Math.round((minW+maxW)/2),Math.floor(maxW)].forEach(w=>{ctx.fillText(w,pad.l-4,yp(w)+4);});
-}
-
-// ─── 체크리스트 ──────────────────────────────────────────────
-function loadCk(){
-  const today=dateStr(new Date());const d=D();
-  const cks=(d.c&&d.c[today])||[];
-  cks.forEach(i=>{const el=document.getElementById('c'+i);if(el)el.classList.add('on');});updCk();
-}
-function ck(i){
-  document.getElementById('c'+i).classList.toggle('on');
-  const today=dateStr(new Date());const d=D();if(!d.c)d.c={};
-  const arr=[];for(let j=0;j<6;j++){if(document.getElementById('c'+j).classList.contains('on'))arr.push(j);}
-  d.c[today]=arr;S(d);updCk();
-}
-function updCk(){
-  let n=0;for(let i=0;i<6;i++){if(document.getElementById('c'+i).classList.contains('on'))n++;}
-  document.getElementById('ckRate').textContent=n+' / 6';
-  document.getElementById('ckBar').style.width=(n/6*100)+'%';
-}
-
-// ─── 히스토리 ────────────────────────────────────────────────
-function renderHist(){
-  const d=D();const rs=[...d.r].reverse();const el=document.getElementById('recList');
-  if(!rs.length){el.innerHTML='<div class="empty"><div class="ei">📋</div>아직 기록이 없습니다</div>';return;}
-  el.innerHTML=rs.map((r,i)=>{
-    const prev=rs[i+1];let dh='';
-    if(prev){const diff=+(r.weight-prev.weight).toFixed(1);dh=diff<=0?`<span class="rec-diff diff-d">▼${Math.abs(diff)}</span>`:`<span class="rec-diff diff-u">▲${diff}</span>`;}
-    const dt=new Date(r.date);const ds=(dt.getMonth()+1)+'/'+dt.getDate()+' ('+'일월화수목금토'[dt.getDay()]+')';
-    return `<div class="rec-item ${r.drink?'dr':''}">
-      <div class="rec-dt">${ds}</div>
-      <div><div><span class="rec-wt">${r.weight}kg</span>${dh}</div>${r.memo?`<div class="rec-memo">${r.memo}</div>`:''}</div>
-      <div class="rec-tags">${r.drink?'<span class="tag t-dr">🍺</span>':'<span class="tag t-ok">✅</span>'}</div>
-      <button class="rec-del" onclick="delRec('${r.date}')">✕</button>
-    </div>`;
-  }).join('');
-}
-function delRec(date){
-  if(!confirm(date+' 기록 삭제?'))return;
-  const d=D();d.r=d.r.filter(r=>r.date!==date);S(d);renderHist();renderDash();toast('삭제 완료');
-}
-
-// ─── 리포트 ──────────────────────────────────────────────────
-function renderRpt(){
-  const d=D();const ws=weekStart();const wr=d.r.filter(r=>r.date>=ws);
-  if(!wr.length){['rAvg','rChg','rDr','rDays'].forEach(id=>document.getElementById(id).textContent='--');document.getElementById('rMsg').textContent='이번주 기록이 없습니다.';return;}
-  const avg=(wr.reduce((s,r)=>s+r.weight,0)/wr.length).toFixed(1);const chg=+(wr[wr.length-1].weight-wr[0].weight).toFixed(1);
-  const drs=wr.filter(r=>r.drink===1).length;
-  document.getElementById('rAvg').textContent=avg+'kg';
-  const ce=document.getElementById('rChg');ce.textContent=(chg<=0?'▼'+Math.abs(chg):'▲'+chg)+'kg';ce.style.color=chg<=0?'var(--green)':'var(--accent)';
-  const de=document.getElementById('rDr');de.textContent=drs+'회';de.style.color=drs===0?'var(--green)':drs===1?'var(--orange)':'var(--accent)';
-  document.getElementById('rDays').textContent=wr.length+'일';
-  let msg='';
-  if(chg<0)msg+=`이번주 ${Math.abs(chg)}kg 감량. `;else if(chg===0)msg+='이번주 체중 변화 없음. ';else msg+=`이번주 ${chg}kg 증가. `;
-  if(drs===0)msg+='음주 없이 완벽한 한 주. ';
-  else if(drs===1){
-    const info=getRecoveryInfo();
-    if(info)msg+=`음주 1회 — 회복 ${info.elapsed}일째. ${info.remaining}일 후 다음 허용. `;
-    else msg+='음주 1회 — 회복 완료. ';
-  }
-  else msg+=`음주 ${drs}회 — 3일 룰 초과. 감량 타격 발생. `;
-  const rem=Math.max(0,parseFloat(avg)-TW);if(rem>0)msg+=`목표까지 ${rem.toFixed(1)}kg 남음.`;
-  document.getElementById('rMsg').textContent=msg;
-}
-
-// ─── 유틸 ────────────────────────────────────────────────────
-// ─── 🔍 음식 칼로리 DB ────────────────────────────────────────
-const FOOD_DB = [
-  // ── 단백질 ──
-  {n:'닭가슴살 100g',       cat:'단백질',   kcal:165, carb:0,   prot:31,  fat:3.6,  sod:74},
-  {n:'닭가슴살 200g',       cat:'단백질',   kcal:330, carb:0,   prot:62,  fat:7,    sod:148},
-  {n:'삶은 달걀 1개',       cat:'단백질',   kcal:78,  carb:0.6, prot:6.3, fat:5.3,  sod:62},
-  {n:'삶은 달걀 2개',       cat:'단백질',   kcal:156, carb:1.2, prot:12.6,fat:10.6, sod:124},
-  {n:'셀릭스 20g (1회)',    cat:'단백질',   kcal:76,  carb:3,   prot:20,  fat:0.5,  sod:95},
-  {n:'셀릭스 40g (2회)',    cat:'단백질',   kcal:152, carb:6,   prot:40,  fat:1,    sod:190},
-  {n:'두부 100g',           cat:'단백질',   kcal:76,  carb:2,   prot:8,   fat:4,    sod:7},
-  {n:'두부 200g',           cat:'단백질',   kcal:152, carb:4,   prot:16,  fat:8,    sod:14},
-  {n:'두유 200ml',          cat:'단백질',   kcal:90,  carb:8,   prot:6,   fat:3,    sod:100},
-  {n:'연어 100g',           cat:'단백질',   kcal:208, carb:0,   prot:20,  fat:13,   sod:59},
-  {n:'참치캔 100g (물)',    cat:'단백질',   kcal:108, carb:0,   prot:25,  fat:0.5,  sod:320},
-  {n:'소고기 불고기 100g',  cat:'단백질',   kcal:211, carb:6,   prot:17,  fat:13,   sod:680},
-  {n:'돼지 삼겹살 100g',   cat:'단백질',   kcal:395, carb:0,   prot:16,  fat:36,   sod:55},
-  {n:'닭볶음탕 100g',       cat:'단백질',   kcal:165, carb:6,   prot:16,  fat:8,    sod:580},
-  {n:'계란후라이 1개',      cat:'단백질',   kcal:90,  carb:0.4, prot:6,   fat:7,    sod:65},
-  {n:'스크램블에그 2개분',  cat:'단백질',   kcal:200, carb:1,   prot:12,  fat:16,   sod:200},
-  {n:'단백질바 1개',        cat:'단백질',   kcal:200, carb:20,  prot:20,  fat:7,    sod:150},
-  {n:'아몬드 20개(25g)',    cat:'단백질',   kcal:146, carb:5,   prot:5,   fat:13,   sod:0},
-  // ── 밥·면 ──
-  {n:'흰쌀밥 200g (1공기)', cat:'밥·면',    kcal:260, carb:57,  prot:4,   fat:0.4,  sod:2},
-  {n:'흰쌀밥 100g (반공기)',cat:'밥·면',    kcal:130, carb:28,  prot:2,   fat:0.2,  sod:1},
-  {n:'현미밥 200g',         cat:'밥·면',    kcal:232, carb:50,  prot:5,   fat:1.4,  sod:4},
-  {n:'잡곡밥 200g',         cat:'밥·면',    kcal:248, carb:52,  prot:5.5, fat:1.5,  sod:3},
-  {n:'오트밀 40g (건)',      cat:'밥·면',    kcal:148, carb:26,  prot:5,   fat:2.5,  sod:2},
-  {n:'신라면 1봉지',        cat:'밥·면',    kcal:500, carb:81,  prot:11,  fat:16,   sod:1790},
-  {n:'진라면 1봉지',        cat:'밥·면',    kcal:485, carb:80,  prot:10,  fat:15,   sod:1820},
-  {n:'짜파게티 1봉지',      cat:'밥·면',    kcal:545, carb:87,  prot:12,  fat:17,   sod:1670},
-  {n:'쫄면 1인분',          cat:'밥·면',    kcal:410, carb:80,  prot:12,  fat:5,    sod:1200},
-  {n:'냉면 1인분',          cat:'밥·면',    kcal:450, carb:85,  prot:14,  fat:4,    sod:1500},
-  {n:'우동 1인분',          cat:'밥·면',    kcal:380, carb:70,  prot:12,  fat:5,    sod:1800},
-  {n:'떡볶이 1인분(200g)',  cat:'밥·면',    kcal:330, carb:65,  prot:7,   fat:5,    sod:1200},
-  {n:'식빵 1장(30g)',       cat:'밥·면',    kcal:79,  carb:15,  prot:2.5, fat:1,    sod:130},
-  {n:'통밀식빵 1장(30g)',   cat:'밥·면',    kcal:72,  carb:13,  prot:3,   fat:1,    sod:140},
-  {n:'고구마 150g',         cat:'밥·면',    kcal:129, carb:30,  prot:2,   fat:0.1,  sod:41},
-  // ── 채소·과일 ──
-  {n:'바나나 1개(중)',       cat:'채소·과일',kcal:89,  carb:23,  prot:1.1, fat:0.3,  sod:1},
-  {n:'사과 1개(중)',         cat:'채소·과일',kcal:95,  carb:25,  prot:0.5, fat:0.3,  sod:2},
-  {n:'방울토마토 10개',     cat:'채소·과일',kcal:30,  carb:6,   prot:1.5, fat:0.3,  sod:10},
-  {n:'오이 1개',            cat:'채소·과일',kcal:16,  carb:3.6, prot:0.7, fat:0.1,  sod:2},
-  {n:'브로콜리 100g',       cat:'채소·과일',kcal:34,  carb:7,   prot:2.8, fat:0.4,  sod:33},
-  {n:'샐러드(드레싱없음) 150g',cat:'채소·과일',kcal:25,carb:4,  prot:2,   fat:0.3,  sod:20},
-  {n:'김치 100g',           cat:'채소·과일',kcal:15,  carb:2.4, prot:1,   fat:0.5,  sod:498},
-  {n:'김치 50g',            cat:'채소·과일',kcal:8,   carb:1.2, prot:0.5, fat:0.3,  sod:249},
-  {n:'시금치나물 100g',     cat:'채소·과일',kcal:28,  carb:4,   prot:3,   fat:0.5,  sod:380},
-  {n:'콩나물무침 100g',     cat:'채소·과일',kcal:35,  carb:3,   prot:3.5, fat:1.2,  sod:430},
-  // ── 간식·음료 ──
-  {n:'아메리카노 (무가당)',  cat:'간식·음료',kcal:5,   carb:0.5, prot:0.3, fat:0.1,  sod:5},
-  {n:'카페라테 (기본)',      cat:'간식·음료',kcal:130, carb:12,  prot:6,   fat:6,    sod:100},
-  {n:'제로콜라 355ml',      cat:'간식·음료',kcal:1,   carb:0,   prot:0,   fat:0,    sod:40},
-  {n:'포카리스웨트 500ml',  cat:'간식·음료',kcal:115, carb:28,  prot:0,   fat:0,    sod:210},
-  {n:'오렌지주스 200ml',    cat:'간식·음료',kcal:88,  carb:21,  prot:1,   fat:0.2,  sod:5},
-  {n:'바나나우유 240ml',    cat:'간식·음료',kcal:150, carb:28,  prot:4,   fat:3,    sod:85},
-  {n:'그릭요거트 100g',     cat:'간식·음료',kcal:59,  carb:3.6, prot:10,  fat:0.4,  sod:36},
-  {n:'과자(포카칩) 60g',   cat:'간식·음료',kcal:315, carb:39,  prot:3,   fat:17,   sod:280},
-  {n:'초콜릿 30g',          cat:'간식·음료',kcal:160, carb:17,  prot:2,   fat:10,   sod:20},
-  {n:'아이스크림 1개(100g)',cat:'간식·음료',kcal:200, carb:28,  prot:3,   fat:9,    sod:80},
-  // ── 도시락·외식 ──
-  {n:'마이비밀 도시락',       cat:'도시락·외식',kcal:341,carb:53,prot:16.5,fat:7,  sod:800},
-  {n:'편의점 도시락 (평균)',cat:'도시락·외식',kcal:520,carb:70, prot:18,  fat:18,   sod:1100},
-  {n:'김밥 1줄',            cat:'도시락·외식',kcal:310,carb:55, prot:9,   fat:6,    sod:780},
-  {n:'삼각김밥 1개',        cat:'도시락·외식',kcal:175,carb:33, prot:5,   fat:3,    sod:450},
-  {n:'치킨 1조각(100g)',    cat:'도시락·외식',kcal:290,carb:10, prot:22,  fat:18,   sod:500},
-  {n:'치킨 반마리',         cat:'도시락·외식',kcal:750,carb:25, prot:55,  fat:45,   sod:1250},
-  {n:'피자 1조각(130g)',    cat:'도시락·외식',kcal:285,carb:34, prot:12,  fat:11,   sod:680},
-  {n:'햄버거 1개(빅맥)',    cat:'도시락·외식',kcal:550,carb:45, prot:26,  fat:29,   sod:940},
-  {n:'된장찌개 1인분',      cat:'도시락·외식',kcal:90, carb:8,  prot:8,   fat:3,    sod:1400},
-  {n:'순두부찌개 1인분',    cat:'도시락·외식',kcal:120,carb:6,  prot:11,  fat:6,    sod:1600},
-  {n:'비빔밥 1인분',        cat:'도시락·외식',kcal:570,carb:90, prot:18,  fat:12,   sod:1100},
-  {n:'짜장면 1인분',        cat:'도시락·외식',kcal:620,carb:100,prot:18,  fat:15,   sod:1700},
-  {n:'짬뽕 1인분',          cat:'도시락·외식',kcal:540,carb:80, prot:22,  fat:14,   sod:2800},
-  {n:'삼겹살 1인분(200g)', cat:'도시락·외식',kcal:790,carb:0,  prot:32,  fat:72,   sod:110},
-  // ── 술·안주 ──
-  {n:'소주 1병(360ml)',     cat:'술·안주',  kcal:408, carb:0,   prot:0,   fat:0,    sod:0},
-  {n:'소주 1잔(50ml)',      cat:'술·안주',  kcal:57,  carb:0,   prot:0,   fat:0,    sod:0},
-  {n:'맥주 500ml (캔)',     cat:'술·안주',  kcal:205, carb:16,  prot:2,   fat:0,    sod:14},
-  {n:'막걸리 1병(750ml)',   cat:'술·안주',  kcal:390, carb:46,  prot:5,   fat:0.3,  sod:15},
-  {n:'와인 1잔(150ml)',     cat:'술·안주',  kcal:122, carb:4,   prot:0.1, fat:0,    sod:6},
-  {n:'치킨+맥주 조합',      cat:'술·안주',  kcal:955, carb:41,  prot:57,  fat:45,   sod:1764},
-  {n:'소주+삼겹살 조합',    cat:'술·안주',  kcal:1198,carb:0,   prot:32,  fat:72,   sod:165},
-  {n:'감자전 1인분',        cat:'술·안주',  kcal:320, carb:40,  prot:5,   fat:16,   sod:520},
-  {n:'부침개 1인분',        cat:'술·안주',  kcal:380, carb:45,  prot:9,   fat:18,   sod:750},
-  {n:'마른안주(오징어채)',   cat:'술·안주',  kcal:180, carb:10,  prot:28,  fat:2,    sod:900},
-];
-
-// 기본 DB에 고정 _id 부여
-FOOD_DB.forEach((f,i)=>{ if(!f._id) f._id = 'base_'+i; });
-
-// 커스텀 음식 DB (localStorage 저장)
-function _loadCustomDB(){ try{ return JSON.parse(localStorage.getItem('tw_custom_foods'))||[]; }catch{return[];} }
-function _saveCustomDB(arr){ localStorage.setItem('tw_custom_foods', JSON.stringify(arr)); }
-function _allFoodDB(){
-  const hidden = _loadHiddenDB();
-  const base = FOOD_DB.filter(f=>!hidden.includes(f._id));
-  return [...base, ..._loadCustomDB()];
-}
-function _loadHiddenDB(){ try{ return JSON.parse(localStorage.getItem('tw_hidden_foods'))||[]; }catch{return[];} }
-function _saveHiddenDB(arr){ localStorage.setItem('tw_hidden_foods', JSON.stringify(arr)); }
-
-let _selectedFoods = [];
-let _currentCat = '전체';
-let _currentQuery = '';
-let _editingFoodId = null; // 수정 중인 음식 id
-
-function searchFood(q){
-  _currentQuery = q;
-  renderFoodResults();
-}
-function filterCat(cat){
-  _currentCat = cat;
-  document.querySelectorAll('.cat-btn').forEach(b=>{
-    b.classList.toggle('on', b.textContent.includes(cat) || (cat==='전체' && b.textContent==='전체'));
+function buildCols(){
+  const tr = document.getElementById('colrow');
+  COLS.forEach(c => {
+    const th = document.createElement('th');
+    th.className='ch'; th.textContent=c; tr.appendChild(th);
   });
-  renderFoodResults();
-}
-function renderFoodResults(){
-  const el = document.getElementById('foodResults');
-  const q = _currentQuery.trim().toLowerCase();
-  let list = _allFoodDB();
-  if(_currentCat !== '전체') list = list.filter(f=>f.cat===_currentCat);
-  if(q) list = list.filter(f=>f.n.toLowerCase().includes(q) || f.cat.toLowerCase().includes(q));
-  if(!list.length){
-    el.innerHTML='<div class="food-empty">🔍 검색 결과가 없습니다</div>';
-    return;
-  }
-  // 최대 20개 — 수정/삭제 버튼 포함
-  const show = list.slice(0,20);
-  el.innerHTML = show.map((f)=>{
-    const realIdx = _allFoodDB().findIndex(x=>x._id===f._id);
-    const isSel = _selectedFoods.some(s=>s._id===f._id);
-    const isCustom = !!f._custom;
-    return `<div class="food-row${isSel?' selected':''}" id="fr-${f._id}">
-      <div class="fr-name" onclick="toggleFood('${f._id}')" style="cursor:pointer">${f.n}</div>
-      <div class="fr-cat">${f.cat}</div>
-      <div class="fr-macro" onclick="toggleFood('${f._id}')" style="cursor:pointer">탄${f.carb}g 단${f.prot}g 지${f.fat}g</div>
-      <div class="fr-kcal" onclick="toggleFood('${f._id}')" style="cursor:pointer">${f.kcal}<span style="font-size:.55rem;color:var(--muted2)">kcal</span></div>
-      <button class="fr-edit" onclick="openEditFood('${f._id}')" title="수정">✏️</button>
-      <button class="fr-del" onclick="deleteFood('${f._id}')" title="삭제">🗑</button>
-      <button class="fr-add" onclick="toggleFood('${f._id}')">${isSel?'✓':'+'}</button>
-    </div>`;
-  }).join('');
-  if(list.length>20){
-    el.innerHTML += `<div style="text-align:center;font-size:.7rem;color:var(--muted);padding:6px">... 외 ${list.length-20}개 더 있음 (검색어로 좁혀보세요)</div>`;
-  }
-}
-function toggleFood(id){
-  const f = _allFoodDB().find(x=>x._id===id);
-  if(!f) return;
-  const si = _selectedFoods.findIndex(s=>s._id===id);
-  if(si>=0){ _selectedFoods.splice(si,1); }
-  else { _selectedFoods.push({...f}); }
-  renderFoodResults();
-  renderSelected();
-}
-function renderSelected(){
-  const wrap = document.getElementById('foodSelected');
-  if(!_selectedFoods.length){ wrap.style.display='none'; return; }
-  wrap.style.display='block';
-  const tot = _selectedFoods.reduce((a,f)=>({
-    kcal:a.kcal+f.kcal, carb:a.carb+f.carb, prot:a.prot+f.prot, fat:a.fat+f.fat
-  }), {kcal:0,carb:0,prot:0,fat:0});
-  document.getElementById('selectedList').innerHTML = _selectedFoods.map(f=>
-    `<div class="sel-item"><span class="sel-name">${f.n}</span><span class="sel-k">${f.kcal} kcal</span></div>`
-  ).join('');
-  document.getElementById('selectedTotals').innerHTML = [
-    {v:Math.round(tot.kcal),l:'칼로리',c:'var(--blue)'},
-    {v:Math.round(tot.carb)+'g',l:'탄수화물',c:'var(--orange)'},
-    {v:Math.round(tot.prot)+'g',l:'단백질',c:'var(--green)'},
-    {v:Math.round(tot.fat)+'g',l:'지방',c:'var(--accent)'},
-  ].map(t=>`<div class="tot-chip"><div class="tv" style="color:${t.c}">${t.v}</div><div class="tl">${t.l}</div></div>`).join('');
-}
-function clearSelected(){
-  _selectedFoods=[];
-  renderFoodResults();
-  renderSelected();
 }
 
-function deleteFood(id){
-  if(!confirm('삭제하시겠습니까? 기본 내장 음식은 새로고침하면 복구됩니다.')) return;
-  // 커스텀 음식이면 커스텀 DB에서 삭제
-  const customArr = _loadCustomDB().filter(f=>f._id!==id);
-  _saveCustomDB(customArr);
-  // 기본 내장 음식이면 숨김 처리 (hidden 목록에 추가)
-  const isBase = FOOD_DB.some(f=>f._id===id);
-  if(isBase){
-    const hidden = _loadHiddenDB();
-    if(!hidden.includes(id)){ hidden.push(id); _saveHiddenDB(hidden); }
-  }
-  _selectedFoods = _selectedFoods.filter(s=>s._id!==id);
-  renderFoodResults();
-  renderSelected();
-  toast('삭제됨 (새로고침하면 기본 음식은 복구)');
+function updateDot(ok){
+  const d=document.getElementById('dot'), t=document.getElementById('dottxt');
+  if(ok){d.className='ok';t.textContent=W?new URL(W).hostname.replace('.workers.dev',''):'연결됨';}
+  else{d.className='';t.textContent='미연결';}
 }
 
-function openAddFood(){
-  _editingFoodId = null;
-  document.getElementById('foodModalTitle').textContent = '➕ 음식 추가';
-  document.getElementById('fm-name').value='';
-  document.getElementById('fm-cat').value='단백질';
-  document.getElementById('fm-kcal').value='';
-  document.getElementById('fm-carb').value='';
-  document.getElementById('fm-prot').value='';
-  document.getElementById('fm-fat').value='';
-  document.getElementById('fm-sod').value='';
-  document.getElementById('fm-err').textContent='';
-  document.getElementById('foodModal').classList.add('show');
-}
-
-function openEditFood(id){
-  const f = _allFoodDB().find(x=>x._id===id);
-  if(!f) return;
-  _editingFoodId = id;
-  document.getElementById('foodModalTitle').textContent = '✏️ 음식 수정';
-  document.getElementById('fm-name').value = f.n;
-  document.getElementById('fm-cat').value  = f.cat;
-  document.getElementById('fm-kcal').value = f.kcal;
-  document.getElementById('fm-carb').value = f.carb;
-  document.getElementById('fm-prot').value = f.prot;
-  document.getElementById('fm-fat').value  = f.fat;
-  document.getElementById('fm-sod').value  = f.sod||0;
-  document.getElementById('fm-err').textContent='';
-  document.getElementById('foodModal').classList.add('show');
-}
-
-function closeFoodModal(){
-  document.getElementById('foodModal').classList.remove('show');
-  _editingFoodId = null;
-}
-
-function saveFoodModal(){
-  const n    = document.getElementById('fm-name').value.trim();
-  const cat  = document.getElementById('fm-cat').value;
-  const kcal = parseFloat(document.getElementById('fm-kcal').value);
-  const carb = parseFloat(document.getElementById('fm-carb').value)||0;
-  const prot = parseFloat(document.getElementById('fm-prot').value)||0;
-  const fat  = parseFloat(document.getElementById('fm-fat').value)||0;
-  const sod  = parseFloat(document.getElementById('fm-sod').value)||0;
-  const err  = document.getElementById('fm-err');
-  if(!n){ err.textContent='음식 이름을 입력해주세요'; return; }
-  if(!kcal||kcal<0){ err.textContent='칼로리를 입력해주세요'; return; }
-  err.textContent='';
-
-  if(_editingFoodId){
-    // 기본 DB 수정 → 커스텀 DB에 override 저장
-    const base = FOOD_DB.find(f=>f._id===_editingFoodId);
-    if(base){
-      // 기본 DB 직접 수정 (런타임)
-      Object.assign(base, {n,cat,kcal,carb,prot,fat,sod});
-    } else {
-      // 커스텀 DB 수정
-      const arr = _loadCustomDB();
-      const i = arr.findIndex(f=>f._id===_editingFoodId);
-      if(i>=0) arr[i] = {...arr[i],n,cat,kcal,carb,prot,fat,sod};
-      _saveCustomDB(arr);
+// ═══════════════════════════════════════
+// API 조회
+// ═══════════════════════════════════════
+async function fetchAll(){
+  if(!W){openCfg();return;}
+  setDotLd(); setSb('⏳ 조회 중...');
+  try{
+    // 계좌 조회
+    const ar = await wfetch('/api/v1/accounts');
+    const accs = ar.accounts||ar.data||ar.items||[];
+    if(!AC && accs.length>0){
+      AC = accs[0].accountNo||accs[0].account_no||accs[0].id||'';
+      localStorage.setItem('tw_ac',AC);
     }
-    // 선택된 음식에도 반영
-    const si = _selectedFoods.findIndex(s=>s._id===_editingFoodId);
-    if(si>=0) _selectedFoods[si] = {..._selectedFoods[si],n,cat,kcal,carb,prot,fat,sod};
-    toast('✅ 수정 완료');
-  } else {
-    // 새 음식 추가
-    const arr = _loadCustomDB();
-    arr.push({_id:'custom_'+Date.now(),_custom:true,n,cat,kcal,carb,prot,fat,sod});
-    _saveCustomDB(arr);
-    toast('✅ 음식 추가 완료');
+    // 보유 종목
+    const hr = await wfetch('/api/v1/account/holdings', AC);
+    const raw = hr.holdings||hr.data||hr.stocks||hr.items||[];
+    const holdings = raw.map(h=>({
+      name:   h.stockName ||h.name       ||h.productName||h.ticker||'—',
+      ticker: h.stockCode ||h.ticker     ||h.code       ||'—',
+      type:   h.stockType ||h.productType||h.type       ||'—',
+      mkt:    h.market    ||h.marketCode ||'—',
+      qty:   +(h.quantity ||h.qty        ||0),
+      avg:   +(h.avgCost  ||h.averagePrice||h.avgPrice  ||0),
+      cur:   +(h.currentPrice||h.curPrice||h.price      ||0),
+      eval:  +(h.evalAmount||h.evaluationAmount         ||0),
+      cost:  +(h.costAmount||h.purchaseAmount           ||0),
+      pnl:   +(h.pnl      ||h.profitLoss||h.unrealizedPnl||0),
+      pnlP:  +(h.pnlRate  ||h.returnRate||h.pnlPct     ||0),
+    }));
+    PF={holdings, acct:AC};
+    renderPort(PF);
+    const now=new Date().toLocaleTimeString('ko-KR');
+    document.getElementById('fupd').textContent=`업데이트: ${now}`;
+    updateDot(true); setSb(`✅ ${holdings.length}개 종목 조회 완료`);
+  }catch(e){
+    console.error(e); setDotErr(); setSb(`❌ ${e.message}`);
+    addErrRow(e.message);
   }
-  closeFoodModal();
-  renderFoodResults();
-  renderSelected();
 }
 
-// 칼로리 자동 계산
-function autoCalc(){
-  const carb = parseFloat(document.getElementById('fm-carb').value)||0;
-  const prot = parseFloat(document.getElementById('fm-prot').value)||0;
-  const fat  = parseFloat(document.getElementById('fm-fat').value)||0;
-  const kcal = Math.round(carb*4 + prot*4 + fat*9);
-  if(kcal>0) document.getElementById('fm-kcal').value = kcal;
+async function wfetch(path, acct=''){
+  const h={'Content-Type':'application/json'};
+  if(acct) h['X-Tossinvest-Account']=acct;
+  const r=await fetch(W+path,{headers:h});
+  if(!r.ok){const t=await r.text();throw new Error(`${path} (${r.status}): ${t}`);}
+  return r.json();
 }
 
-function weekStart(){const d=new Date();const day=d.getDay();const diff=d.getDate()-day+(day===0?-6:1);d.setDate(diff);return d.toISOString().split('T')[0];}
-function toast(msg,err=0){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(err?' err':'');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
-window.addEventListener('resize',()=>{showNav();drawChart();});
+// ═══════════════════════════════════════
+// 포트폴리오 렌더
+// ═══════════════════════════════════════
+function renderPort(data){
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML='';
+  let rn=1;
+
+  const row=(cells,cls='rD')=>{
+    const tr=document.createElement('tr');
+    tr.className=cls;
+    const rh=document.createElement('td');
+    rh.className='rh';rh.textContent=rn++;tr.appendChild(rh);
+    cells.forEach(c=>{
+      const td=document.createElement('td');
+      if(typeof c==='object'&&c){
+        td.textContent=c.v??'';
+        if(c.cls)td.className=c.cls;
+        if(c.cs)td.colSpan=c.cs;
+      }else td.textContent=c??'';
+      tr.appendChild(td);
+    });
+    const need=COLS.length-1-(tr.children.length-1);
+    for(let i=0;i<need;i++)tr.appendChild(document.createElement('td'));
+    tbody.appendChild(tr);
+  };
+
+  const dt=new Date().toLocaleString('ko-KR');
+  row([{v:`태완 포트폴리오 — ${dt}`,cs:14}],'rT');
+  row([],'rD');
+  row(['종목명','유형','티커','보유수량','평균단가','현재가','평가금액','투자금액','손익금액','손익률','비중','시장','메모'],'rH');
+
+  if(!data||!data.holdings||!data.holdings.length){
+    [['QLD','해외ETF','QLD'],['NAVER','국내주식','035420'],['KODEX 200','국내ETF','069500'],['SPYM','해외ETF','SPYM']]
+    .forEach(([name,type,ticker])=>row([name,type,ticker,
+      {v:'—',cls:'num mu'},{v:'—',cls:'num mu'},{v:'—',cls:'num mu'},
+      {v:'—',cls:'num mu'},{v:'—',cls:'num mu'},{v:'—',cls:'num mu'},
+      {v:'—',cls:'num mu'},{v:'—',cls:'num mu'},type.includes('해외')?'US':'KR','—'
+    ]));
+    row([],'rD');
+    row([{v:'⚙️ [설정]에서 Worker URL 입력 후 [실시간 조회] 버튼을 눌러주세요.',cs:14}],'rS');
+    updSb(0,0,0); return;
+  }
+
+  let te=0,tc=0,tp=0;
+  data.holdings.forEach(h=>{te+=h.eval;tc+=h.cost;tp+=h.pnl;});
+
+  data.holdings.forEach(h=>{
+    const pp=h.pnlP||(h.cost>0?h.pnl/h.cost*100:0);
+    const wg=te>0?h.eval/te*100:0;
+    const pc='num '+(pp>=0?'pos':'neg');
+    row([h.name,h.type,h.ticker,
+      {v:n(h.qty,0,''),cls:'num'},{v:n(h.avg,2),cls:'num'},{v:n(h.cur,2),cls:'num'},
+      {v:n(h.eval),cls:'num'},{v:n(h.cost),cls:'num'},
+      {v:n(h.pnl),cls:pc},{v:pp.toFixed(2)+'%',cls:pc},
+      {v:wg.toFixed(1)+'%',cls:'num ctr'},h.mkt,'',
+    ]);
+  });
+
+  row([],'rD');
+  const tpc=tc>0?tp/tc*100:0;
+  const tc2='num '+(tp>=0?'pos':'neg');
+  row(['합  계','','','','','',
+    {v:n(te),cls:'num'},{v:n(tc),cls:'num'},
+    {v:n(tp),cls:tc2},{v:tpc.toFixed(2)+'%',cls:tc2},
+    '100.0%','',''],'rTT');
+
+  updSb(data.holdings.length,te,tp);
+}
+
+// ═══════════════════════════════════════
+// 업무보고 시트
+// ═══════════════════════════════════════
+function renderWork(){
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML='';let rn=1;
+  const row=(cells,cls='rD')=>{
+    const tr=document.createElement('tr');tr.className=cls;
+    const rh=document.createElement('td');rh.className='rh';rh.textContent=rn++;tr.appendChild(rh);
+    cells.forEach(c=>{const td=document.createElement('td');
+      if(typeof c==='object'&&c){td.textContent=c.v??'';if(c.cls)td.className=c.cls;if(c.cs)td.colSpan=c.cs;}
+      else td.textContent=c??'';tr.appendChild(td);});
+    const need=COLS.length-1-(tr.children.length-1);
+    for(let i=0;i<need;i++)tr.appendChild(document.createElement('td'));
+    tbody.appendChild(tr);
+  };
+  row([{v:'2026년 6월 월간 업무 보고서 — 대양씨아이에스(DYCIS)',cs:14}],'rT');
+  row([],'rD');
+  row(['업무항목','구분','담당','상태','진행률','시작일','완료예정','고객사','비고','','','',''],'rH');
+  [
+    ['LG서울역 16F IoT 설치','설치','이태완 대리','진행중',{v:'75%',cls:'num pos'},'2026-06-01','2026-06-20','LG전자','무선장비 회수 병행'],
+    ['토스 신논현 4~5F EHP 에어컨 A/S','A/S','이태완 대리','진행중',{v:'40%',cls:'num'},'2026-06-10','2026-06-15','토스','RS-485 컨트롤러'],
+    ['망고띵 브랜드 카탈로그 제작','기획','이태완 대리','완료',{v:'100%',cls:'num pos'},'2026-05-20','2026-06-01','사내','HTML 페이지'],
+    ['B2B 제안서 자동화 웹앱','개발','이태완 대리','완료',{v:'100%',cls:'num pos'},'2026-05-15','2026-05-30','사내','GitHub Pages'],
+    ['CoSS IoT 스마트회의실 제안서','영업','이태완 대리','완료',{v:'100%',cls:'num pos'},'2026-05-25','2026-06-05','아이오티스페이스','PPTX'],
+    ['6월 고객 방문 일정','영업','이태완 대리','예정',{v:'0%',cls:'num mu'},'2026-06-16','2026-06-30','미정',''],
+  ].forEach(t=>row(t));
+  row([],'rD');
+  row([{v:'※ 진행 중 업무는 매주 금요일 진척률 업데이트 예정',cs:14}],'rS');
+}
+
+// ═══════════════════════════════════════
+// 건강관리 시트
+// ═══════════════════════════════════════
+function renderDiet(){
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML='';let rn=1;
+  const row=(cells,cls='rD')=>{
+    const tr=document.createElement('tr');tr.className=cls;
+    const rh=document.createElement('td');rh.className='rh';rh.textContent=rn++;tr.appendChild(rh);
+    cells.forEach(c=>{const td=document.createElement('td');
+      if(typeof c==='object'&&c){td.textContent=c.v??'';if(c.cls)td.className=c.cls;if(c.cs)td.colSpan=c.cs;}
+      else td.textContent=c??'';tr.appendChild(td);});
+    const need=COLS.length-1-(tr.children.length-1);
+    for(let i=0;i<need;i++)tr.appendChild(document.createElement('td'));
+    tbody.appendChild(tr);
+  };
+  row([{v:'2026년 6월 건강관리 현황 — 이태완',cs:14}],'rT');
+  row([],'rD');
+  row([{v:'▣ 다이어트 목표',cs:14}],'rS');
+  row(['항목','현재값','목표값','달성률','비고','','','','','','','',''],'rH');
+  row(['체중 (kg)',{v:'74.0',cls:'num'},{v:'68.0',cls:'num pos'},{v:'0%',cls:'num mu'},'진행 중']);
+  row(['BMI',{v:'23.8',cls:'num'},{v:'21.8',cls:'num pos'},{v:'0%',cls:'num mu'},'정상범위 목표']);
+  row(['일일 칼로리 목표',{v:'1,800 kcal',cls:'num'},{v:'1,600 kcal',cls:'num pos'},'-','OMAD 식단']);
+  row([],'rD');
+  row([{v:'▣ 운동 & 식단 원칙',cs:14}],'rS');
+  row(['원칙','내용','','','','','','','','','','',''],'rH');
+  [
+    ['식단','OMAD (하루 1식) + 단백질 중심'],
+    ['음주','주 1회 목요일 지정, 초과 금지'],
+    ['운동','규칙적 근력 운동 + 유산소 병행'],
+    ['트래킹','shekinateam.github.io 다이어트 트래커'],
+    ['회복','음주 후 3일 회복 시스템 적용'],
+  ].forEach(([k,v])=>row([k,{v,cs:12}]));
+  row([],'rD');
+  row([{v:'※ 목표 달성 시 자기보상: 원하는 아이템 구매',cs:14}],'rS');
+}
+
+// ═══════════════════════════════════════
+// AI 분석
+// ═══════════════════════════════════════
+function sendAI(){
+  const inp=document.getElementById('ainp');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  inp.value='';
+  q(txt);
+}
+
+function q(prompt){
+  addMsg('u',prompt);
+  const lm=addMsg('a','분석 중...',true);
+
+  let ctx='포트폴리오 데이터 없음 (실시간 조회 전)';
+  if(PF?.holdings?.length){
+    let te=0;PF.holdings.forEach(h=>te+=h.eval);
+    ctx=PF.holdings.map(h=>{
+      const wg=te>0?(h.eval/te*100).toFixed(1):'—';
+      const pp=h.pnlP||(h.cost>0?h.pnl/h.cost*100:0);
+      return `${h.name}(${h.ticker}): ${h.qty}주, 평균${n(h.avg,2)} 현재${n(h.cur,2)}, 평가${n(h.eval)}, 손익${pp.toFixed(2)}%, 비중${wg}%`;
+    }).join('\n');
+  }
+
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:1000,
+      system:`당신은 태완님(33세, 대양씨아이에스 영업대리)의 전담 투자 분석가입니다.
+현재 포트폴리오:
+${ctx}
+
+분석 규칙:
+- 한국 투자자 기준 (KRX + 미국 혼합)
+- 수익=빨강/손실=파랑 표현 (한국식)
+- 직설적이고 구체적, 핵심만 350자 이내
+- QLD(나스닥2배레버리지), NAVER, KODEX200, SPYM(S&P500) 주요 보유
+- 불확실한 내용 반드시 "불확실" 명시
+- 존댓말 사용`,
+      messages:[{role:'user',content:prompt}],
+    }),
+  }).then(r=>r.json()).then(d=>{
+    const t=d.content?.map(c=>c.text||'').join('')||'응답 없음';
+    lm.textContent=t; lm.classList.remove('mu_l');
+  }).catch(e=>{
+    lm.textContent=`❌ AI 오류: ${e.message}`; lm.classList.remove('mu_l');
+  });
+}
+
+function addMsg(role,text,ld=false){
+  const box=document.getElementById('aim');
+  const div=document.createElement('div');
+  div.className=role==='u'?'mu_u':`mu_${ld?'l':''}`;
+  if(role==='a'&&!ld)div.className='mu_';
+  div.textContent=text;
+  box.appendChild(div);
+  box.scrollTop=box.scrollHeight;
+  return div;
+}
+
+// ═══════════════════════════════════════
+// UI 헬퍼
+// ═══════════════════════════════════════
+function n(v,dec=0,suf='원'){
+  if(v===undefined||v===null||isNaN(v))return '—';
+  return Number(v).toLocaleString('ko-KR',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;
+}
+function setSb(msg){document.getElementById('sbmain').textContent=msg;}
+function setDotLd(){const d=document.getElementById('dot'),t=document.getElementById('dottxt');d.className='ld';t.textContent='조회 중...';}
+function setDotErr(){const d=document.getElementById('dot'),t=document.getElementById('dottxt');d.className='err';t.textContent='오류';}
+function updSb(cnt,ev,pnl){
+  document.getElementById('sbcnt').textContent=`종목 ${cnt}개`;
+  document.getElementById('sbval').textContent=`총 평가: ${n(ev)}`;
+  const el=document.getElementById('sbpnl');
+  el.textContent=`손익: ${n(pnl)}`;
+  el.style.color=pnl>=0?'#fca5a5':'#93c5fd';
+}
+function addErrRow(msg){
+  const tb=document.getElementById('tbody');
+  const tr=document.createElement('tr');tr.className='rS';
+  tr.innerHTML=`<td class="rh">!</td><td colspan="14" style="color:#dc2626">❌ ${msg}</td>`;
+  tb.appendChild(tr);
+}
+function toggleAI(){
+  document.getElementById('aip').classList.toggle('open');
+  document.getElementById('aibtn').classList.toggle('on');
+}
+function sw(name,el){
+  curTab=name;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  if(name==='port') renderPort(PF);
+  else if(name==='work') renderWork();
+  else renderDiet();
+}
+function onCellClick(e){
+  const td=e.target.closest('td');
+  if(!td||td.classList.contains('rh')||td.classList.contains('ch'))return;
+  const tr=td.parentElement;
+  const ri=Array.from(tr.parentElement.children).indexOf(tr)+1;
+  const ci=Array.from(tr.children).indexOf(td);
+  if(ci>0){
+    document.getElementById('fcell').textContent=(COLS[ci]||'?')+ri;
+    document.getElementById('finput').value=td.textContent.trim();
+  }
+}
+
+// ═══════════════════════════════════════
+// 설정 모달
+// ═══════════════════════════════════════
+function openCfg(){
+  document.getElementById('iw').value=W;
+  document.getElementById('ia').value=AC;
+  document.getElementById('cfgM').classList.add('show');
+}
+function closeCfg(){document.getElementById('cfgM').classList.remove('show');}
+function saveCfg(){
+  const w=document.getElementById('iw').value.trim().replace(/\/$/,'');
+  const a=document.getElementById('ia').value.trim();
+  if(!w){alert('Worker URL을 입력해주세요.');return;}
+  W=w; AC=a;
+  localStorage.setItem('tw_w',W);
+  localStorage.setItem('tw_ac',AC);
+  closeCfg(); updateDot(true); fetchAll();
+}
 </script>
 </body>
 </html>
